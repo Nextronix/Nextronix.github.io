@@ -30,19 +30,6 @@
   
   
   <entry>
-    <title>数据结构实验</title>
-    <link href="/2024/02/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C/"/>
-    <url>/2024/02/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C/</url>
-    
-    <content type="html"><![CDATA[<blockquote><h1 id="数据结构实验-test"><a href="#数据结构实验-test" class="headerlink" title="数据结构实验 test"></a>数据结构实验 test</h1><p>[TOC]</p></blockquote><h2 id="一、实验一"><a href="#一、实验一" class="headerlink" title="一、实验一"></a><a href="http://htmlpreview.github.io/?https://github.com/yanhuigang173/markdown-xtxi/blob/main/typora/uiyjyi.html">一、实验一</a></h2><h3 id="顺序表"><a href="#顺序表" class="headerlink" title="顺序表"></a>顺序表</h3><ul><li><p>编程实现顺序表的以下基本操作：建立顺序表，修改顺序表，插入顺序表，删除顺序表。</p></li><li><p>采用顺序表结构编程实现：两个集合的运算：交集&#x2F;并集&#x2F;差集。</p></li></ul><h2 id="二、实验二"><a href="#二、实验二" class="headerlink" title="二、实验二"></a><a href="http://htmlpreview.github.io/?https://github.com/yanhuigang173/markdown-xtxi/blob/main/typora/uiyjer.html">二、实验二</a></h2><h3 id="链式表"><a href="#链式表" class="headerlink" title="链式表"></a>链式表</h3><ul><li><p>掌握线性表的链式存储结构；</p></li><li><p>掌握单链表及其基本操作的实现。</p></li></ul><h2 id="三、实验三"><a href="#三、实验三" class="headerlink" title="三、实验三"></a><a href="http://htmlpreview.github.io/?https://github.com/yanhuigang173/markdown-xtxi/blob/main/typora/uiyjsj.html">三、实验三</a></h2><ul><li>掌握栈的顺序存储结构、链式存储结构及其基本操作；</li><li>掌握队列的顺序存储结构、链式存储结构及其基本操作。</li></ul><h2 id="四、实验四"><a href="#四、实验四" class="headerlink" title="四、实验四"></a><a href="lmjp">四、实验四</a></h2><ul><li><p>掌握二叉树的二叉链表存储方式及二叉树的特征；</p></li><li><p>验证二叉树在二叉链表存储结构下遍历操作的实现；</p></li><li><p>掌握哈夫曼树的构造方法和哈夫曼编码的方法。</p></li></ul><h2 id="五、实验五"><a href="#五、实验五" class="headerlink" title="五、实验五"></a><a href="lmjp">五、实验五</a></h2><h3 id="图的操作（6学时）"><a href="#图的操作（6学时）" class="headerlink" title="图的操作（6学时）"></a>图的操作（6学时）</h3><ul><li><p>采用邻接矩阵&#x2F;邻接表建立图；</p></li><li><p>采用深度优先&#x2F;广度优先搜索方式遍历图；</p></li><li><p>编程实现Dijkstra最短路径算法。暂无</p></li></ul>]]></content>
-    
-    
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>数据结构-实验三</title>
     <link href="/2024/02/05/%E5%AE%9E%E9%AA%8C%E4%B8%89/"/>
     <url>/2024/02/05/%E5%AE%9E%E9%AA%8C%E4%B8%89/</url>
@@ -61,6 +48,19 @@
     <url>/2024/02/05/%E5%AE%9E%E9%AA%8C%E5%9B%9B%20%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%93%8D%E4%BD%9C%EF%BC%888%E5%AD%A6%E6%97%B6%EF%BC%89/</url>
     
     <content type="html"><![CDATA[<h1 id="实验四-二叉树的操作"><a href="#实验四-二叉树的操作" class="headerlink" title="实验四 二叉树的操作"></a>实验四 二叉树的操作</h1><h1 id="（8学时）"><a href="#（8学时）" class="headerlink" title="（8学时）"></a>（8学时）</h1><ol><li><strong>实验性质</strong>：</li></ol><p>综合性实验</p><p>2．要求：</p><p>（1）掌握二叉树的二叉链表存储方式及二叉树的特征；</p><p>（2）验证二叉树在二叉链表存储结构下遍历操作的实现；</p><p>（3）掌握哈夫曼树的构造方法和哈夫曼编码的方法。</p><p>3.实验目的</p><p>通过该实验，可以熟练掌握二叉树的存储方式、遍历操作实现及构造赫夫曼树和哈夫曼编码的方法。</p><p>4.实验内容</p><p>（1）采用二叉链表结构建立二叉树；</p><p>（2）编程实现二叉树的先序、中序、后序和层序遍历；</p><p>（3）编程实现：求二叉树的高度和叶子结点个数；</p><p>（4）应用实现：哈夫曼编码。</p><p>5.验收&#x2F;测试用例</p><ul><li>构造二叉链表表示下列表达式(算法5.3)，红色十字为根节点</li></ul><blockquote><p>中序遍历 ：a-b*c&#x2F;(d+e*f)+g*(h+i)</p></blockquote><ul><li>实现上述二叉链表的先序、中序、后序遍历，输入相应的先序序列、中序序列、后序序列。</li></ul><p>例如： 输入</p><blockquote><p> +-a##*b##&#x2F;c##+d##*e##f##*g##+h##i##</p></blockquote><p>输出</p><p>“先序序列： +-a*b&#x2F;c+d*ef*g+hi”</p><ul><li><p>编程实现，输出上述二叉树的高度和叶子结点个数；</p></li><li><p>设有正文AADBAACACCDACACAADBBCD，编程统计字符集A,B,C,D的出现,次数。设计一套Huffman编码，使得上述正文的编码最短，并且计算它的带权路径长度。</p><p>A(9次）B（3次）C（6次）D（4次）</p><h3 id="二叉树结构"><a href="#二叉树结构" class="headerlink" title="二叉树结构"></a>二叉树结构</h3></li></ul><pre><code class=" mermaid">graph TD    plus(&quot;+&quot;) --&gt; minus(&quot;-&quot;)    minus --&gt; a(&quot;a&quot;)    minus --&gt; multiply(&quot;*&quot;)    multiply --&gt; b(&quot;b&quot;)    multiply --&gt; divide(&quot;/&quot;)    divide --&gt; c(&quot;c&quot;)    plus --&gt; multiply2(&quot;*&quot;)    multiply2 --&gt; g(&quot;g&quot;)    multiply2 --&gt; plus2(&quot;+&quot;)    plus2 --&gt; h(&quot;h&quot;)    plus2 --&gt; i(&quot;i&quot;)    divide --&gt; plus3(&quot;+&quot;)    plus3 --&gt; d(&quot;d&quot;)    plus3 --&gt; multiply3(&quot;*&quot;)    multiply3 --&gt; e(&quot;e&quot;)    multiply3 --&gt; f(&quot;f&quot;)</code></pre><h3 id="哈夫曼树结构"><a href="#哈夫曼树结构" class="headerlink" title="哈夫曼树结构"></a>哈夫曼树结构</h3><pre><code class=" mermaid">graph TD  22((&quot;22&quot;)) --&gt;|0| A((&quot;A&quot;))  22((&quot;22&quot;)) ---&gt;|1| 13((&quot;13&quot;))  13 --&gt;|0| C((&quot;C&quot;))  13 ---&gt;|1| 7((&quot;7&quot;))  7 --&gt;|0| B((&quot;B&quot;))  7 ---&gt;|1| D((&quot;D&quot;))</code></pre>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>数据结构实验</title>
+    <link href="/2024/02/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C/"/>
+    <url>/2024/02/05/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AE%9E%E9%AA%8C/</url>
+    
+    <content type="html"><![CDATA[<blockquote><h1 id="数据结构实验-test"><a href="#数据结构实验-test" class="headerlink" title="数据结构实验 test"></a>数据结构实验 test</h1><p>[TOC]</p></blockquote><h2 id="一、实验一"><a href="#一、实验一" class="headerlink" title="一、实验一"></a><a href="http://htmlpreview.github.io/?https://github.com/yanhuigang173/markdown-xtxi/blob/main/typora/uiyjyi.html">一、实验一</a></h2><h3 id="顺序表"><a href="#顺序表" class="headerlink" title="顺序表"></a>顺序表</h3><ul><li><p>编程实现顺序表的以下基本操作：建立顺序表，修改顺序表，插入顺序表，删除顺序表。</p></li><li><p>采用顺序表结构编程实现：两个集合的运算：交集&#x2F;并集&#x2F;差集。</p></li></ul><h2 id="二、实验二"><a href="#二、实验二" class="headerlink" title="二、实验二"></a><a href="http://htmlpreview.github.io/?https://github.com/yanhuigang173/markdown-xtxi/blob/main/typora/uiyjer.html">二、实验二</a></h2><h3 id="链式表"><a href="#链式表" class="headerlink" title="链式表"></a>链式表</h3><ul><li><p>掌握线性表的链式存储结构；</p></li><li><p>掌握单链表及其基本操作的实现。</p></li></ul><h2 id="三、实验三"><a href="#三、实验三" class="headerlink" title="三、实验三"></a><a href="http://htmlpreview.github.io/?https://github.com/yanhuigang173/markdown-xtxi/blob/main/typora/uiyjsj.html">三、实验三</a></h2><ul><li>掌握栈的顺序存储结构、链式存储结构及其基本操作；</li><li>掌握队列的顺序存储结构、链式存储结构及其基本操作。</li></ul><h2 id="四、实验四"><a href="#四、实验四" class="headerlink" title="四、实验四"></a><a href="lmjp">四、实验四</a></h2><ul><li><p>掌握二叉树的二叉链表存储方式及二叉树的特征；</p></li><li><p>验证二叉树在二叉链表存储结构下遍历操作的实现；</p></li><li><p>掌握哈夫曼树的构造方法和哈夫曼编码的方法。</p></li></ul><h2 id="五、实验五"><a href="#五、实验五" class="headerlink" title="五、实验五"></a><a href="lmjp">五、实验五</a></h2><h3 id="图的操作（6学时）"><a href="#图的操作（6学时）" class="headerlink" title="图的操作（6学时）"></a>图的操作（6学时）</h3><ul><li><p>采用邻接矩阵&#x2F;邻接表建立图；</p></li><li><p>采用深度优先&#x2F;广度优先搜索方式遍历图；</p></li><li><p>编程实现Dijkstra最短路径算法。暂无</p></li></ul>]]></content>
     
     
     
