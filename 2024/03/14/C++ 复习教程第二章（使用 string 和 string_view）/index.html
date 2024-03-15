@@ -1,0 +1,979 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yanhuigang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第2章 —— 使用 string 和 string_view  你编写的每个应用程序都会使用某种类型的字符串。使用老式 C 语言时，没有太多选择，只能使用普通的以 null 结尾的字符数组来表示字符串。遗憾的是，这种表示方式会导致很多问题，例如会导致安全攻击的缓冲区溢出。C++标准库包含了一个安全易用的 substring 类，这个类没有这些缺点；    2.1动态字符串 在将字符串当成一等对象支">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 复习教程第一章（使用 string 和 string_view）">
+<meta property="og:url" content="http://example.com/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%88%E4%BD%BF%E7%94%A8%20string%20%E5%92%8C%20string_view%EF%BC%89/index.html">
+<meta property="og:site_name" content="yanhuigang&#39;s blog">
+<meta property="og:description" content="第2章 —— 使用 string 和 string_view  你编写的每个应用程序都会使用某种类型的字符串。使用老式 C 语言时，没有太多选择，只能使用普通的以 null 结尾的字符数组来表示字符串。遗憾的是，这种表示方式会导致很多问题，例如会导致安全攻击的缓冲区溢出。C++标准库包含了一个安全易用的 substring 类，这个类没有这些缺点；    2.1动态字符串 在将字符串当成一等对象支">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
+<meta property="article:modified_time" content="2024-03-15T12:20:19.321Z">
+<meta property="article:author" content="yanhuigang">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>C++ 复习教程第一章（使用 string 和 string_view） - yanhuigang&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yanhuigang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 复习教程第一章（使用 string 和 string_view）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-14 18:18" pubdate>
+          2024年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          7.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          63 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 复习教程第一章（使用 string 和 string_view）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="第2章-——-使用-string-和-string-view"><a href="#第2章-——-使用-string-和-string-view" class="headerlink" title="第2章 —— 使用 string 和 string_view"></a>第2章 —— 使用 string 和 string_view</h2><hr>
+<blockquote>
+<p>你编写的每个应用程序都会使用某种类型的字符串。<strong>使用老式 C 语言时，没有太多选择，只能使用普通的以 null 结尾的字符数组来表示字符串。遗憾的是，这种表示方式会导致很多问题，例如会导致安全攻击的缓冲区溢出。C++标准库包含了一个安全易用的 substring 类，这个类没有这些缺点；</strong>  </p>
+</blockquote>
+<h3 id="2-1动态字符串"><a href="#2-1动态字符串" class="headerlink" title="2.1动态字符串"></a>2.1动态字符串</h3><blockquote>
+<p>在将字符串当成一等对象支持的语言中，字符串有很多有吸引人的特性，例如可扩展至任意大小，或能提取或替换子字符串。<strong>在其他语言（如 C 语言）中，字符串几乎就像后加入的功能；C 语言中并没有真正好用的 string数据类型，只有固定的字节数组。“字符串库”只不过是一组非常原始的函数，甚至没有边界检查的功能。C++ 提供了 string 类型作为一等数据类型。</strong></p>
+</blockquote>
+<hr>
+<h4 id="1-1C风格的字符串"><a href="#1-1C风格的字符串" class="headerlink" title="1.1C风格的字符串"></a>1.1C风格的字符串</h4><blockquote>
+<ul>
+<li><p>在 C 语言中，字符串表示为字符的数组。<strong>字符串中的最后一个字符是 null 字符（’\0’）</strong>, 这样，操作字符串的代码就知道字符串在哪里<strong>结束</strong>。</p>
+</li>
+<li><p><strong>官方将这个 null 字符定义为 NUL, 这个拼写中只有一个 L, 而不是两个 L，NUL和 NULL 指针是两回事。</strong></p>
+</li>
+<li><p>尽管 C++提供了更好的字符串抽象，但<strong>理解 C 语言中使用的字符串技术非常重要</strong>，因为在 C++程序设计中仍可能使用这些技术。<strong>最常见的一种情况是 C++程序调用某个第三方库中（作为操作系统接口的一部分）用 C 语言编写的接口。</strong>  </p>
+</li>
+<li><p>目前，程序员最容易犯的错误是忘记为 <strong>‘\0’</strong> 分配空间。例如，<strong>字符串 “hello” 看上去有 5 个字符长，但是实际在内存上需要 6 个字符空间才能保存这个字符串的值</strong>。</p>
+</li>
+<li><p><strong>C++ 中包含一些来自 C 语言的字符串操作函数，它们被定义在 <cstring> 中定义，通常，这些函数不直接操作内存分配。</strong>例如，strcpy() 函数有两个字符串参数。这个函数将第二个字符串赋值到第一个字符串，而不考虑第二个字符串能否恰当地填入第一个字符串中。<strong>下面代码试图在 strcpy() 函数之上构建一个包装器，这个包装器能够分配正确数量的内存并返回结果，而不是接受一个已经分配好的字符串。这个函数通过 strlen() 函数获取字符串的长度。</strong>调用者则负责释放 copyString() 分配的空间：</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">char</span>* <span class="hljs-title">copyString</span><span class="hljs-params">(cnost <span class="hljs-type">char</span>* str)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">char</span>* result = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[<span class="hljs-built_in">strlen</span>(str)];	<span class="hljs-comment">// BUG !!! OFF BY ONE !</span><br> <span class="hljs-built_in">strcpy</span>(result, str);<br> <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p><strong>cpoyString() 函数的代码这样写是不正确的。</strong>strlen() 函数返回字符串长度，而不是保存这个字符串所需的内存量。对于字符串 “hello”，strlen() 返回的是 5，而不是 6。<strong>为字符串分配内存的正确方式是在实际字符所需空间 +1。一开始看到到处都要加 1 可能会感到有点奇怪，但这是其工作方式，所以在使用 C 风格的字符串时要注意记住这一点。</strong>正确的实现代码如下：</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">char</span>* <span class="hljs-title">copyString</span><span class="hljs-params">(cnost <span class="hljs-type">char</span>* str)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">char</span>* result = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[<span class="hljs-built_in">strlen</span>(str) + <span class="hljs-number">1</span>];<br> <span class="hljs-built_in">strcpy</span>(result, str);<br> <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p><strong>要记住 strlen() 只返回字符串中实际字符数目的一种方式是：考虑如果为一个由几个其他字符串构成的字符串分配空间，应该怎么做。</strong>例如，如果函数接收 3 个字符串参数，并返回一个由这 3 个字符串串联而成的字符串，那么这个返回的字符串应该有多大？<strong>为精确分配足够空间，空间的大小应该是 3 个字符串的长度相加，然后加上 1 留给尾部的 ‘\0’ 字符。</strong>如果 strlen() 的字符串长度包含 strcpy() 和 strcat() 函数执行这个操作。strcat()中的 cat 表示串联：</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">char</span>* <span class="hljs-title">appendStrings</span><span class="hljs-params">(<span class="hljs-type">const</span> <span class="hljs-type">char</span>* str1, <span class="hljs-type">const</span> <span class="hljs-type">char</span>* str2, cosnt <span class="hljs-type">char</span>* str3)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-type">char</span>* result = <span class="hljs-keyword">new</span> str[<span class="hljs-built_in">strlen</span>(str1) + <span class="hljs-built_in">strlen</span>(str2) + <span class="hljs-built_in">strlen</span>(str3) + <span class="hljs-number">1</span>];<br> <span class="hljs-built_in">strcopy</span>(result, str1);<br> <span class="hljs-built_in">strcat</span>(result, str2);<br> <span class="hljs-built_in">strcat</span>(reslut, str3);<br><br> <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>C 和 C++中的 sizeof() 操作符可用于获得给定数据类型或变量的大小。例如，sizeof(char)返回 1, 因为字符的大小是 1 字节。<strong>但在 C 风格的字符串中，sizeof() 和 strlen() 是不同的，绝对不要通过 sizeof() 获得字符串的大小。它根据 C 风格的字符串的存储方式来返回不同大小。如果 C 风格的字符串存储为 char[]，则 sizeof() 返回字符串使用的实际内存，包括’\0’字符。</strong>例如：</p>
+<blockquote>
+<p><strong>存储为 char[] 下的 C 风格字符串：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">char</span> text1[] = <span class="hljs-string">&quot;abcdef&quot;</span>;<br><span class="hljs-type">size_t</span> s1 = <span class="hljs-built_in">sizeof</span>(text1);		<span class="hljs-comment">// is 7</span><br><span class="hljs-type">size_t</span> s2 = <span class="hljs-built_in">strlen</span>(text1);		<span class="hljs-comment">// is 6</span><br><span class="hljs-type">size_t</span> s0 = <span class="hljs-built_in">sizeof</span>(&amp;text1);		<span class="hljs-comment">// is situation as sizeof(text2) below</span><br><br><span class="hljs-comment">// 这里返回的是这个数组的长度</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">优点：</span><br><span class="hljs-comment">	占用的内存大小是在编译时确定的，sizeof() 可以直接获取数组的大小。</span><br><span class="hljs-comment">	适用于需要修改字符串内容的场景，因为数组是可修改的。</span><br><span class="hljs-comment">缺点：</span><br><span class="hljs-comment">	占用的内存空间较大，因为数组的大小包括了字符串内容和额外的 null 终止符。</span><br><span class="hljs-comment">	不适用于常量字符串，因为数组的内容可修改</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+
+<p><em><em>存储为 char</em> 下的 C 风格字符串：</em>*</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">char</span>* text2 = <span class="hljs-string">&quot;abcdef&quot;</span>;<br><span class="hljs-type">size_t</span> s3 = <span class="hljs-built_in">sizeof</span>(text2);		<span class="hljs-comment">// is platform-dependent</span><br><span class="hljs-type">size_t</span> s4 = <span class="hljs-built_in">strlen</span>(text2);		<span class="hljs-comment">// is 6</span><br><br><span class="hljs-comment">// 在 32 位模式下编译时，s3 的值为 4；</span><br><span class="hljs-comment">// 在 64 位模式下编译时，s4 的值位 8；</span><br><span class="hljs-comment">// 原因是因为这返回的是 指针 const char* 的大小</span><br><br>std::cout &lt;&lt; (text1 == text2) &lt;&lt; <span class="hljs-string">&quot;    &quot;</span> &lt;&lt; (std::<span class="hljs-built_in">strcmp</span>(text2, text1) == <span class="hljs-number">0</span>) &lt;&lt; std::endl;	<span class="hljs-comment">// 返回 0</span><br><br><span class="hljs-comment">// 这说明这完全不一样的两种东西</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">优点：</span><br><span class="hljs-comment">	占用的内存大小是在编译时确定，sizeof() 得到的是指针大小，不受字符串内容影响。</span><br><span class="hljs-comment">	适用于常量字符串，因为字符串内容是不可修改的。</span><br><span class="hljs-comment">	占用的内存空间相对较小，因为只有指针的大小。</span><br><span class="hljs-comment">缺点：</span><br><span class="hljs-comment">	不适用于需要修改字符串内容的场景，因为字符串是常量。</span><br><span class="hljs-comment">*/</span><br><br><span class="hljs-type">char</span>* ptr = <span class="hljs-keyword">new</span> <span class="hljs-type">char</span>[<span class="hljs-number">7</span>];<br><span class="hljs-built_in">strcpy_s</span>(ptr, <span class="hljs-number">7</span>, <span class="hljs-string">&quot;abcdef&quot;</span>);<br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p><strong>警告：</strong></p>
+<blockquote>
+<p><strong>在 Microsoft Visual Studio 中使用 C 风格的字符串函数时，编译器可能会给出安全相关的警告甚至错误，说明这些函数已经被废弃了</strong>。<strong>使用其他 C 标准库函数可以避免这些警告</strong>，例如 <strong>strcpy_s()<strong>和 <strong>strcat_s()</strong>, 这些函数是</strong>“安全 C 库”(ISO&#x2F;IEC TR24731)标准</strong>的一部分。然而，<strong>最好的解决方案是切换到 C++的 string 类，本章后面的”C++ std::string 类” 小节会讨论这个类</strong>；</p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="1-2字符串字面量-string-literal"><a href="#1-2字符串字面量-string-literal" class="headerlink" title="1.2字符串字面量*(string literal)*"></a>1.2字符串字面量*(string literal)*</h4><hr>
+<h5 id="1-字面量池和不同类型定义方式"><a href="#1-字面量池和不同类型定义方式" class="headerlink" title="1.字面量池和不同类型定义方式"></a>1.<strong>字面量池和不同类型定义方式</strong></h5><blockquote>
+<ul>
+<li><strong>注意，C++ 程序中编写的字符串要用引号包围。</strong>例如，下面的代码输出字符串 “hello”，这段代码中包含这个字符串本身，而不是一个包含这个字符串的变量：</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++">std::cout &lt;&lt; <span class="hljs-string">&quot;hello&quot;</span> &lt;&lt; std::endl;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>与字符串字面量关联的真正内存位于内存的只读部分。通过这种方式，编辑器可重用等价字面量的引用，从而优化内存的使用。</strong>也就是说，即使一个程序使用了 500 次 “hello” 字符串字面量，编译器也只在内存中创建一个 “hello” 实例。**这种技术被称为字面量池 *(literal pooling)***；</li>
+<li>字符串字面量可赋值给变量，但因为字符串字面量位于内存的只读部分，且使用了字面量池，所以这样做会产生风险——也就是说，<strong>字符串的字面量类型为 “n 个 const char 的数组”</strong>，但是显然为了兼容较老的不支持 const 的代码，<em><em>大部分编译器不会强制程序将字符串字面量赋值给 const char</em> 类型的变量</em>*。但是，如果试图修改字符串，一般情况下，这种行为是没有定义的，会使得程序崩溃；但也可能能够使得程序继续执行，却又一些很莫名其妙的副作用；可能不加通告地忽略修改行为；可能修改行为是有效的，这完全取决于编译器。</li>
+<li><strong>下面的行为是未定义的：</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">char</span>* ptr = <span class="hljs-string">&quot;hello&quot;</span>; 	<span class="hljs-comment">// Assign the string literal to a variable.</span><br>ptr[<span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;a&#x27;</span>; 			<span class="hljs-comment">// Undefined behavior!</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>但是，更好的代码习惯是更好的：</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">char</span>* ptr = <span class="hljs-string">&quot;hello&quot;</span>; 	<span class="hljs-comment">// Assign the string literal to a variable.</span><br>ptr[<span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;a&#x27;</span>; 				<span class="hljs-comment">// Error! Attempts to write to read-only memory</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>此外，使用 array 方式存储能够实现修改，也就是说，这时的 C 风格字符串并不在字面量池中，而是可以进行修改的：</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">char</span> arr[] = <span class="hljs-string">&quot;hello&quot;</span>; <span class="hljs-comment">// Compiler takes care of creating appropriate sized</span><br>					<span class="hljs-comment">// character array arr.</span><br>arr[<span class="hljs-number">1</span>] = <span class="hljs-string">&#x27;a&#x27;</span>; 		  <span class="hljs-comment">// The contents can be modified.</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+</blockquote>
+<h5 id="2-原始字符串字面量-raw-string-literal"><a href="#2-原始字符串字面量-raw-string-literal" class="headerlink" title="2.原始字符串字面量 (raw string literal)"></a>2.<strong>原始字符串字面量</strong> <em>(raw string literal)</em></h5><blockquote>
+<ul>
+<li><strong>原始字符串字面量是可横跨多行代码的字符串字面量，不需要转义嵌入的双引号</strong>，像 <strong>‘\t’</strong> 和 <strong>‘\n’</strong> 这种转义序列不按照转义序列的方式处理，<strong>而是按照普通文本的方式处理</strong>。转义字符在第 1 章讨论过了。如果像下面这样编写普通的字符串字面量，那么会收到一个编译器错误，因为字符串包含了未转义的双引号：</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">&quot;Hello &quot;</span>World<span class="hljs-string">&quot;!&quot;</span>;	<span class="hljs-comment">// Error!</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>对于普通字符串，必须转义双引号，如下所示：</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">&quot;Hello \&quot;World\&quot;!&quot;</span>;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>对于原始字符串字面量，就不需要转义双引号了:</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 格式：</span><br><span class="hljs-comment">// R&quot;(......)&quot;</span><br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">R&quot;(Hello &quot;World&quot;!)&quot;</span>;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>换行转义：</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">&quot;Line 1\nLine 2&quot;</span>;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>原始字符串字面量换行，直接 Enter 换行，与之前效果一样：</strong></li>
+</ul>
+<blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs python">const char* <span class="hljs-built_in">str</span> = <span class="hljs-string">R&quot;(Line 1</span><br><span class="hljs-string">Line2)&quot;</span>;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><p><strong>注意：</strong></p>
+<blockquote>
+<p>原始字符串字面量会忽略掉转义序列，但是与转义序列情况中 <strong>“a”b”c”</strong> 一样的错误情况，原始字符串也会出现如下情况，不能在字符串中嵌入 <strong>)”</strong>，示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">R&quot;(Embedded )&quot;</span> characters)<span class="hljs-string">&quot;; 	// Error!</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>如果要需要嵌入 )”，则需要使用拓展的原始字符串字面量语法：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 格式：</span><br><span class="hljs-comment">// R&quot;d-char-sequence(r-char-sequence)d-char-sequence)-&quot;</span><br><span class="hljs-comment">// d-char-sequence 可以是任意小于 16 个字符的分割符序列</span><br><span class="hljs-comment">// r-char-sequence 是要输出的字符串代码</span><br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">R&quot;-(Embedded)&quot; character)-&quot;</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">R&quot;10101(Embedded)&quot; character)10101&quot;</span>;<br><span class="hljs-comment">// Embedded)&quot; character 两行代码输出一致</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>在操作数据库查询字符串、正则表达式和文件路径时，原始字符串字面量可以令程序编写更加方便。第 19 章将会讨论正则表达式；</strong></p>
+</blockquote>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="1-3C-std-string-类"><a href="#1-3C-std-string-类" class="headerlink" title="1.3C++ std::string 类"></a>1.3C++ std::string 类</h4><blockquote>
+<p><strong>C++ 提供了一个得到极大改善的字符串概念，并作为标准库的一部分提供这个字符串的实现。在 C++ 中，std::string 是一个类，（实际上是 basic_string 模板类的一个实例），这个类支持 <cstring> 中提供的许多功能，还能自动管理内存分配。string 类在 std 名称空间的 <string> 头文件中定义，之前已经多次使用到 string 类了，下面深入学习：</strong></p>
+</blockquote>
+<h5 id="1-C-风格的字符串有什么问题"><a href="#1-C-风格的字符串有什么问题" class="headerlink" title="1.C 风格的字符串有什么问题"></a>1.C 风格的字符串有什么问题</h5><blockquote>
+<p><strong>为理解 C++ string 类的必要性，需要考虑 C 风格字符串的优势和劣势：</strong></p>
+<p><strong>优势：</strong></p>
+<ul>
+<li>很简单，<strong>底层使用基本的字符类型和数组结构</strong>，注意，C 数组是与指针强相关的，可以将 C 数组看作为指向数组第一个元素的指针，它具有数组指针的双重性；</li>
+<li>轻量级，如果使用得当只会占用所需内存；</li>
+<li>很低级，因此可以按操作原始内存方式轻松操作和赋值字符串；</li>
+<li>能够很好地被 C 语言程序员理解——为什么还要学习新事物？</li>
+</ul>
+<p><strong>劣势：</strong></p>
+<ul>
+<li>为模拟一等字符串数据类型，需要付出很多努力；</li>
+<li>使用难度大，而且很容易产生难以找到的内存 bug；</li>
+<li>没有利用 C++ 的面向对象的特性；</li>
+<li>要求程序员了解底层的表达方式；</li>
+</ul>
+<p>尤其注意，事实上，C 风格字符串的优点同样注定地导致了它的缺点；</p>
+<p>上面的列表实际很精心被提出来的，从而能够让我们思考应该有更好的方式。如后面所述，C++ 的 string 类解决了字符串的所有问题，并且证明了 <strong>C 字符串相比一等数据类型的那些优势事实上是极其不恰当</strong>的。</p>
+</blockquote>
+<h5 id="2-使用-string-类"><a href="#2-使用-string-类" class="headerlink" title="2.使用 string 类"></a>2.使用 string 类</h5><blockquote>
+<p>尽管 string 是一个类，但是几乎总可以将 string 当成内建类型使用，事实上，把 string 想象为简单类型更容易发挥它的特性。通过运算符重载的神奇作用，C++ 的 string 使用起来比 C 字符串简单容易很多。例如，给 string 重定义 + 运算符，以表示“字符串串联”。示例如下，将得到 1234：</p>
+<p>+重载</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-function">string <span class="hljs-title">A</span><span class="hljs-params">(<span class="hljs-string">&quot;12&quot;</span> <span class="hljs-string">&quot;21&quot;</span>)</span></span>;<br>&gt;<span class="hljs-comment">// string 的传入&quot;&quot;,中间如果是空白符，则连接在一起，例：(&quot;12&quot; &quot;21&quot;)会连接在一起相当于 &quot;1221&quot;</span><br>&gt;<span class="hljs-function">string <span class="hljs-title">B</span><span class="hljs-params">(<span class="hljs-string">&quot;34&quot;</span>)</span></span>;<br>&gt;string C;<br>&gt;C = A + B;<br></code></pre></td></tr></table></figure>
+
+<p>+&#x3D;重载</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-function">string <span class="hljs-title">A</span><span class="hljs-params">(<span class="hljs-string">&quot;12&quot;</span>)</span></span>;<br>&gt;<span class="hljs-function">string <span class="hljs-title">B</span><span class="hljs-params">(<span class="hljs-string">&quot;34&quot;</span>)</span></span>;<br>&gt;A += B;<br></code></pre></td></tr></table></figure>
+
+<p>此外，C 风格的字符串不能很好地执行 &#x3D;&#x3D; 比较：</p>
+<p>假如有以下两个字符串：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-type">char</span>* a = <span class="hljs-string">&quot;12&quot;</span>;<br>&gt;<span class="hljs-type">char</span> b[] = <span class="hljs-string">&quot;12&quot;</span>;<br><br>&gt;<span class="hljs-comment">// 按照如下方式比较总得到的结果是 false，因为它比较的是指针的值，而不是字符串的内容</span><br>&gt;<span class="hljs-keyword">if</span> (a == b)<br><br>&gt;<span class="hljs-comment">// 要比较 C 字符串要使用如下代码：</span><br>&gt;<span class="hljs-keyword">if</span> (<span class="hljs-built_in">strcmp</span>(a, b) == <span class="hljs-number">0</span>)<br></code></pre></td></tr></table></figure>
+
+<p>此外，C 字符串也无法通过 &lt;、 &gt;、 &lt;&#x3D;、 &gt;&#x3D; 的比较，因此仍需要通过 strcmp()  根据字符串字典的顺序返回 -1、0、1 的值进行判断，这样将会使得代码很笨拙而且很容易出错；</p>
+<p>而在 C++ 中这些比较运算符，operate&#x3D;&#x3D;、opertae!&#x3D; 和 operate&lt; 等都被重载了，这些运算符可以操作真正的字符串字符，这样只需要通过运算符就可以完成基本操作，单独的字符可以通过运算符 operate[] 访问示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;std::string myString = <span class="hljs-string">&quot;hello&quot;</span>;<br>&gt;myString += <span class="hljs-string">&quot;, there&quot;</span>;<br>&gt;std::string myOtherString = mystring;<br>&gt;<span class="hljs-keyword">if</span> (myString == myOtherString)<br>&gt;&#123;<br>myOtherString[<span class="hljs-number">0</span>] = <span class="hljs-string">&#x27;H&#x27;</span>;<br>&gt;&#125;<br><br>&gt;std::cout &lt;&lt; myString &lt;&lt; std::endl;<br>&gt;std::cout &lt;&lt; myOtherString &lt;&lt; std::endl;<br><br>&gt;<span class="hljs-comment">// 以上代码输出：</span><br>&gt;hello, there <br>&gt;Hello, there<br></code></pre></td></tr></table></figure>
+
+<p>注意，从上述代码中，我们还 能够看出，<strong>string 类能够自动处理内存需求被再次分配和调整大小，因此不会出现内存溢出的情况，这使得对字符串的处理变得更安全方便</strong>；所有的这些 string 类对象都创建为堆栈变量。尽管 string 类可定需要完成大量分配内存和调整大小的工作，但是 string 类的析构函数会在 string 对象离开作用域的时候清理内存；</p>
+<p><strong>另外需要注意的是，运算符总能以预期的方式方式工作。</strong>例如， &#x3D; 运算符复制字符串（这种复制不是复制指针，因此改变被复制指针不会对复制者有任何影响），这是最有可能预期的操作。如果习惯使用基于数组的字符串，那么这种方式可能会带来全新的体验，也可能令你感到迷惑，不用担心，一旦学会信任 string 类总能做出正确的行为，那么代码就会变得很简单了；</p>
+<p>为达到兼容目的，<strong>还可以应用 string 类中的 c_str() 方法返回 C 风格字符串的 const 字符指针。不过，一旦 string 执行任何内存重分配或 string 对象被销毁了，那么这个 cosnt 指针就永久失效了</strong>。因此，当使用这个操作时需要谨慎明白这种指针丢失风险；所以，应当在使用结果之前调用这个方法，以便它能够准确地反映 string 的当前内容，并且永远不要从函数中返回在基于堆栈的 string 上调用 c_str() 的结果。</p>
+<p>此外，<em><em>还有一个 data() 方法，在 C++14 以及更早的版本中，始终与 c_str() 一样返回 const char</em> 。从 C++ 17 开始，在非 const 字符上调用时， data() 方法将返回 char</em>**；</p>
+<p>除此以外，可以查看这本书的附录 B，查看可在 string 类对象上执行的所受对象操作；</p>
+</blockquote>
+<h5 id="3-std-string-字面量"><a href="#3-std-string-字面量" class="headerlink" title="3.std::string 字面量"></a>3.std::string 字面量</h5><blockquote>
+<p><strong>源代码中的字符串字面量通常被解释为 const char</strong>*。<strong>使用用户定义的标准字面量 s 可以把字符串字面量解释为 std::string</strong>，例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">auto</span> string1 = <span class="hljs-string">&quot;Hello World&quot;</span>;<br><span class="hljs-keyword">auto</span> stirng2 = <span class="hljs-string">&quot;Hello World&quot;</span>s;<br><br><span class="hljs-comment">// 用户定义的标准字面量 s 需要 using namespace std::string_literals;</span><br><span class="hljs-comment">// 或者需要 using namespace std;</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="4-高级数值转换"><a href="#4-高级数值转换" class="headerlink" title="4.高级数值转换"></a>4.高级数值转换</h5><blockquote>
+<p><strong>std 名称空间包含很多辅助函数，以便完成数值和字符串之间的转换。下面的函数可用于将数值转换为字符串。所有的这些函数都负责内存分配，它们会创建一个新的 string 对象并返回。</strong></p>
+<ul>
+<li><strong>string to_string(int val);</strong></li>
+<li><strong>string to_string(unsigned val);</strong></li>
+<li><strong>stirng to_string(long val);</strong></li>
+<li><strong>string to_string(unsigned long val);</strong></li>
+<li><strong>string to_string(long long val);</strong></li>
+<li><strong>string to_string(unsigned long long val);</strong></li>
+<li><strong>string to_string(float val);</strong></li>
+<li><strong>string to_string(double val);</strong></li>
+<li><strong>string to_string(long double val);</strong></li>
+</ul>
+<p>这些函数的使用简单直观，例如，下面示例中将 long double 值转化为字符串:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">long</span> <span class="hljs-type">double</span> d = <span class="hljs-number">3.14L</span>;<br>string s = <span class="hljs-built_in">to_string</span>(d);<br></code></pre></td></tr></table></figure>
+
+<p>下面同样是定义在 std 名称空间中的函数，其中，<strong>str 表示将要进行转换的字符串；idx 是一个指针，这个指针将接收第一个未完成转换的字符的索引；base 表示转换过程中使用的进制</strong>。idx 可以是空指针，如果是空指针则被忽略。</p>
+<p>如果不能执行任何转换，这些函数将抛出 invalid_argument 异常；</p>
+<p>如果转换的值超出返回类型的范围，则抛出 out_of_range 异常；</p>
+<ul>
+<li><p><em><em>int stoi(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 10);</em>*</p>
+</li>
+<li><p><em><em>long stoi(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 10);</em>*</p>
+</li>
+<li><p><em><em>unsigned long stol(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>long long stoll(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>unsigned long long stoull(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>float stof(const string&amp; str, size_t</em> idx &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>double stod(const string&amp; str, size_t</em> idx &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>long double stold(const string&amp; str, size_t</em> idx &#x3D; 0);</em>*</p>
+<p><strong>上面的使用时要加 std:，下面的不需要。</strong></p>
+</li>
+<li><p><em><em>int strtoi(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 10);</em>*</p>
+</li>
+<li><p><em><em>long strtoi(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 10);</em>*</p>
+</li>
+<li><p><em><em>unsigned long strtol(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>long long strtoll(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>unsigned long long strtoull(const string&amp; str, size_t</em> idx &#x3D; 0, int base &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>float strtof(const string&amp; str, size_t</em> idx &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>double strtod(const string&amp; str, size_t</em> idx &#x3D; 0);</em>*</p>
+</li>
+<li><p><em><em>long double strtold(const string&amp; str, size_t</em> idx &#x3D; 0);</em>*</p>
+</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">const</span> std::string toParse = <span class="hljs-string">&quot;	123USB&quot;</span>;<br><span class="hljs-type">size_t</span> index = <span class="hljs-number">0</span>;<br><span class="hljs-type">int</span> value = std::<span class="hljs-built_in">stoi</span>(toParse, &amp;index);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;Parsed value: &quot;</span> &lt;&lt; value &lt;&lt; std::endl;<br>std::cout &lt;&lt; <span class="hljs-string">&quot;First non-parsed character: &quot;</span> &lt;&lt; <span class="hljs-string">&quot;&#x27;&#x27;&quot;</span> &lt;&lt; toParse[index] &lt;&lt; <span class="hljs-string">&quot;&#x27;&quot;</span> &lt;&lt;std::endl;<br></code></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C++">Parsed value: <span class="hljs-number">123</span><br>First non-parsed character: <span class="hljs-string">&#x27;U&#x27;</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="5-低级数值转换"><a href="#5-低级数值转换" class="headerlink" title="5.低级数值转换"></a>5.低级数值转换</h5><blockquote>
+<p>使用思路就是：用 s.data() 获取起始指针，利用 s.data() + s.size() 或者 s.data() + s.strlen() 获取终止指针，然后都是将值传递给相应需要的需要得到的变量中；</p>
+</blockquote>
+<blockquote>
+<p><strong>C++17 也提供了许多低级数值转换函数，这些都在 <charconv> 头文件中定义。这些函数不执行内存分配，而使用由调用者分配的缓存区。另外，对它们进行优化，以实现高性能，并独立于本地化(有关本地化的内容，详见第 19 章)。最终结果是，与其他更高级的数值转换函数相比，这些函数的运行速度要快几个数量级。如果性能要求高，需要进行独立于本地化的转换，则应当使用这些函数；例如，在数值数据与人类可读格式(如 JSON、XML 等)之间进行序列化&#x2F;反序列化；</strong></p>
+<p>要将<strong>整数转化为字符</strong>使用下面一组函数，这里，<strong>IntegerT</strong> 可以是<strong>任意有符号或无符号的整数类型或字符类型</strong>，<strong>结果的类型</strong>是 <strong>to_chars_result</strong> ：</p>
+<p><em><em>to_chars_result to_chars(char</em> first, char</em> last,IntegerT value, int base &#x3D; 10);**</p>
+<p><strong>to_chars_result 类型定义如下：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">to_chars_result</span><br>&#123;<br>	<span class="hljs-type">char</span>* ptr;<br>	errc ec;<br>&#125;<br><br><span class="hljs-comment">// 如果转换成功，那么 ptr 成员等于写入字符的下一位置(one-past-the-end)的指针；</span><br><span class="hljs-comment">// 如果转换失败，即： ec == errc::value_too_large，则 ptr 成员等于 last;</span><br></code></pre></td></tr></table></figure>
+
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;string&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;charconv&gt;</span></span><br><br><span class="hljs-keyword">using</span> std::cout;<br><span class="hljs-keyword">using</span> std::endl;<br><span class="hljs-keyword">using</span> std::string;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-function">string <span class="hljs-title">out</span><span class="hljs-params">(<span class="hljs-number">10</span>, <span class="hljs-string">&#x27; &#x27;</span>)</span></span>;<br> <span class="hljs-keyword">auto</span> result = std::<span class="hljs-built_in">to_chars</span>(out.<span class="hljs-built_in">data</span>(), out.<span class="hljs-built_in">data</span>() + out.<span class="hljs-built_in">size</span>(), <span class="hljs-number">12345</span>);<br> <span class="hljs-keyword">if</span> (result.ec == std::<span class="hljs-built_in">errc</span>()) <br> &#123;<br>     cout &lt;&lt; <span class="hljs-string">&quot;Converted value: &quot;</span> &lt;&lt; out &lt;&lt; endl;<br> &#125;<br> <span class="hljs-keyword">else</span> &#123;<br>     std::cerr &lt;&lt; <span class="hljs-string">&quot;Conversion error&quot;</span> &lt;&lt; std::endl;<br> &#125;<br><br> <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">// 使用结构化绑定可以将其写为：</span><br><span class="hljs-function">std::string <span class="hljs-title">out</span><span class="hljs-params">(<span class="hljs-number">10</span>, <span class="hljs-string">&#x27;&#x27;);</span></span></span><br><span class="hljs-string"><span class="hljs-params"><span class="hljs-function">auto [ptr, ec] = std::to_chars(out.data(), out.data() + out.size(), 12345);</span></span></span><br><span class="hljs-string"><span class="hljs-params"><span class="hljs-function">if (result.ec == std::cerr()) &#123;...&#125;</span></span></span><br></code></pre></td></tr></table></figure>
+
+<p><strong>类似的，以下为浮点型的转换函数：</strong></p>
+<p><em><em>to_chars_result to_chars(char</em> first, char</em> last, FloatT value);**</p>
+<p><em><em>to_chars_result to_chars(char</em> first, char</em> last, FloatT value, chars_format fomat);**</p>
+<p><em><em>to_chars_result to_chars(char</em> first, char</em> last, FloatT value, chars_format fomat, int precision);**</p>
+<p>这里，FloatT 可以是 float、double 或 long double。可使用 chars_format 标志的组合来指定格式：</p>
+<p><strong>chars_format 类型定义如下：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">enum class</span> <span class="hljs-title class_">chars_format</span><br>&#123;<br>	scientific;						<span class="hljs-comment">// Style: (-)d.ddde±dd</span><br> 	fixed;							<span class="hljs-comment">// Style: (-)ddd.dd</span><br> 	hex;							<span class="hljs-comment">// Style: (-)h.hhhp±d (Note: no 0x)</span><br> 	general = fixed | scientific	  <span class="hljs-comment">// See the following staff</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>默认格式是 chars_format::general, 这将导致 to_chars()将浮点值转换为 (-)ddd.ddd 形式的十进制表示形式，或(.)d.ddde土dd 形式的十进制指数表示形式，得到最短的表示形式，小数点前至少有一位数字(如果存在)。如果指定了格式，但未指定精度，将为给定格式自动确定最简短的表示形式，最大精度为 6 个数字</strong>；</p>
+<p><strong>对于相反的转换，即将字符序列转换为数值，可使用下面的一组函数：</strong></p>
+<p><em><em>from_chars_result from_chars(const char</em> first, const char</em> last, IntegerT&amp; value, int base &#x3D; 10);**</p>
+<p><em><em>from_chars_result from_chars(const char</em> first, const char</em> last. FloatT&amp; value, chars_format format &#x3D; chars_format::general);**</p>
+<p><strong>from_chars_result 类型定义：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">struct</span> <span class="hljs-title class_">from_chars_result</span> <br>&#123;<br>	<span class="hljs-type">const</span> <span class="hljs-type">char</span>* ptr;<br>	errc ec;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>结果类型的 ptr 成员是指向未转换的第一个字符的指针；如果所有字符都成功转换，则它等于 last。如果所有字符都未转换，则 ptr 等于 first, 错误代码的值将为 errc::invalid_argument。如果解析后的值过大，无法由给定类型表示，则错误代码的值将是 errc::result_out_range。注意，from_chars()不会忽略任何前导空白。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">// 手动移动指针到第一个非空白字符</span><br><span class="hljs-keyword">while</span> (std::<span class="hljs-built_in">isspace</span>(*str)) <br>&#123;<br> ++str;<br>&#125;<br><span class="hljs-comment">// 使用这种方法来移到要使用的数字前</span><br><br><span class="hljs-comment">// 示例如何使用：</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;charconv&gt;</span></span><br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br> <span class="hljs-type">const</span> <span class="hljs-type">char</span>* str = <span class="hljs-string">&quot;123.456&quot;</span>;<br> <span class="hljs-type">double</span> value;<br><br> <span class="hljs-comment">// 使用 std::from_chars 进行字符串到浮点数的转换</span><br> <span class="hljs-keyword">auto</span> result = std::<span class="hljs-built_in">from_chars</span>(str, str + std::<span class="hljs-built_in">strlen</span>(str), value);<br><br> <span class="hljs-keyword">if</span> (result.ec == std::<span class="hljs-built_in">errc</span>()) <br> &#123;<br>     <span class="hljs-comment">// 转换成功</span><br>     std::cout &lt;&lt; <span class="hljs-string">&quot;Converted value: &quot;</span> &lt;&lt; value &lt;&lt; std::endl;<br> &#125; <br> <span class="hljs-keyword">else</span> <br> &#123;<br>     <span class="hljs-comment">// 转换失败</span><br>     std::cerr &lt;&lt; <span class="hljs-string">&quot;Conversion error&quot;</span> &lt;&lt; std::endl;<br> &#125;<br><br> <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="1-4std-string-view-类"><a href="#1-4std-string-view-类" class="headerlink" title="1.4std::string_view 类"></a>1.4std::string_view 类</h4><blockquote>
+<p>在 C++17 之前，为了接收只读字符串而选择怎样的形参类型始终是个问题：</p>
+<ul>
+<li><p>如果选择 <code>const char*</code>，那么用户在使用 std::string 的话，就必须调用其上的 c_str() 或 data() 来获取 const char *，更糟糕的是，函数将失去 std::string 的良好面向对象性和良好的辅助方法。</p>
+</li>
+<li><p>我们这样想的话为什么不使用 <code>const string&amp;</code> ？这种情况，需要始终使用 std::string。比如，如果传递一个字符串字面量，编译器将不加通告地创建一个临时字符串对象（其中包含字符串字面量的副本），并将该对象传递给函数，因此会增加一些开销。</p>
+</li>
+<li><p>在 C++ 中，<strong>字符串字面量（如 <code>&quot;hello&quot;</code>）是以字符数组的形式存在的</strong>，<strong>类型为 <code>const char[N]</code><strong>，其中 N 是字符串的长度。当将字符串字面量传递给接受 <code>const std::string&amp;</code> 的函数时，由于函数参数是引用，编译器会尝试将字符串字面量</strong>隐式地转换</strong>为 <code>std::string</code> 对象。</p>
+<p><strong>为了进行这种转换，<code>std::string</code> 类型有一个接受 <code>const char*</code> 的构造函数。因此，编译器会创建一个临时的 <code>std::string</code> 对象，将字符串字面量的内容复制到该对象中，然后将这个临时对象传递给函数。</strong></p>
+<p>这种隐式的转换可能会引入一些性能开销，因为它涉及到内存分配和复制操作。如果函数只是需要读取字符串而不修改它，使用 <code>const std::string&amp;</code> 可能会显得不够高效。</p>
+</li>
+<li><p>因此，人们有时会为此编写函数的 const char* 和 const string&amp; 两个函数接收版本，这显然不够优雅。</p>
+</li>
+<li><p><strong>在 C++17 中，通过引入 std::string_view 类解决了所有这些问题，std::string_view 类 std::basic_string_view类模板的实例化，在 <string_view> 头文件中定义。string_view 基本上就是 const string&amp; 的简单替代品，但不会产生开销。它从不复制字符串，string_view 支持与 std::string 类似的接口。一个例外是缺少 c_str(), 但 data() 是可用的。另外，string_view 确实添加了 remove_prefix(size_t) 和 remove_suffix(size_t) 方法；前者将起始指针前移给定的偏移量来收缩字符串，后者则将结尾指针倒退给定的偏移量来收缩字符串。</strong></p>
+</li>
+<li><p><strong>具体操作上就是用 std::string_view() 构造函数 替代 const std::string&amp; 样式的传参方式，来减小开支，因为<code>std::string_view()</code> 构造函数并不会引起额外的动态内存分配或拷贝，因为它只是一个视图，不拥有字符串的所有权。这个构造函数创建了一个空的 <code>std::string_view</code> 对象，但并不分配内存或复制字符串。</strong></p>
+</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">std::string_view myString = <span class="hljs-string">&quot;Hello, World!&quot;</span>;<br><span class="hljs-comment">// 移除末尾的前7个字符</span><br>myString.<span class="hljs-built_in">remove_suffix</span>(<span class="hljs-number">7</span>);<br>std::cout &lt;&lt; <span class="hljs-string">&quot;After removing suffix: &quot;</span> &lt;&lt; myString &lt;&lt; std::endl;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>注意，<strong>无法连接一个 string 和一个 string_view 类型</strong>，下面的代码将无法编译：</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++">string str = <span class="hljs-string">&quot;Hello&quot;</span>; <br>string_view sv = <span class="hljs-string">&quot; world&quot;</span>; <br><span class="hljs-keyword">auto</span> result = str + sv;<br><br><span class="hljs-comment">// 最后一行改为：</span><br><span class="hljs-keyword">auto</span> result = str + sv.<span class="hljs-built_in">data</span>();<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>如果知道如何使用 std::string, 那么使用 string_view 将变得十分简单，如下面的代码片段所示。extractExtension() 函数提取给定文件名的扩展名并返回：</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function">string_view <span class="hljs-title">extractExtension</span><span class="hljs-params">(string_view fileName)</span></span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-keyword">return</span> fileName.<span class="hljs-built_in">substr</span>(fileName.<span class="hljs-built_in">rfind</span>(<span class="hljs-string">&#x27;.&#x27;</span>));<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>该函数可用于所有不同类型的字符串：</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">string fileName = <span class="hljs-string">R&quot;(c:\temp\my file.ext)&quot;</span>;<br>cout &lt;&lt; <span class="hljs-string">&quot;C++ string: &quot;</span> &lt;&lt; <span class="hljs-built_in">extractExtension</span>(fileName) &lt;&lt; endl;<br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* cString = <span class="hljs-string">R&quot;(c:\temp\my file.ext)&quot;</span>;<br>cout « <span class="hljs-string">&quot;C string: &quot;</span> &lt;&lt; <span class="hljs-built_in">extractExtension</span>(cString) &lt;&lt; endl;<br>cout « <span class="hljs-string">&quot;Literal: &quot;</span> « <span class="hljs-built_in">extractExtension</span>(<span class="hljs-string">R&quot;(c:\temp\my file.ext)&quot;</span>) &lt;&lt; endl;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li><strong>注意，通常按值传递 string_views, 因为它们的复制成本极低</strong>。</li>
+<li><strong>复制成本极低原因：它们只包含指向字符串的指针以及字符串的长度。</strong>  </li>
+<li>在对 extractExtension() 的所有这些调用中，并非进行单次复制。<strong>extractExtension() 函数的 fileName 参数只是指针和长度</strong>，该函数的返回类型也是如此。这都十分高效。</li>
+</ul>
+<p><strong>string_view 构造函数的使用：</strong></p>
+<ul>
+<li>它可以接收任意原始缓存区和长度，这可用于从字符串缓冲区(并非以 NUL 终止) 构建 string_view。如果确实有一个以 NUL 终止的字符串缓冲区，但是如果已经知道了字符串长度，构造函数不必再统计字符串数目</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">size_t</span> length = <span class="hljs-number">3</span>;<br><span class="hljs-type">const</span> <span class="hljs-type">char</span>* cString = <span class="hljs-string">R&quot;(c:\temp\my file.ext)&quot;</span>;<br>cout &lt;&lt; std::<span class="hljs-built_in">string_view</span>(cString, length) &lt;&lt; endl;<br>cout &lt;&lt; std::<span class="hljs-built_in">string</span>(cString, length) &lt;&lt; endl;<br><br><span class="hljs-comment">// 使用 string_view 更高效</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+<ul>
+<li>总结起来就是，string_view 比 string 强的地方就是，它不用再进行隐式的 string 类型构造，因为 C 风格字符串和 string 字面量 会进行隐式转换，复制构造，这里会有开销差距。</li>
+<li>我上面说了，既然没有隐式构造，那么我们的返回值是 string_view 那么就不能被当作 string 参量看待也就是我接下来举出的例子说明的事情：</li>
+</ul>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">handleExtension</span><span class="hljs-params">(<span class="hljs-type">const</span> string&amp; extension)</span></span>&#123;...&#125;<br><br><span class="hljs-comment">// 没有隐式转换存在，不能使用以下方式调用函数：</span><br><span class="hljs-built_in">handleExtension</span>(<span class="hljs-built_in">extractExtension</span>(<span class="hljs-string">&quot;my file.ext&quot;</span>));<br><br><span class="hljs-comment">// 可选用以下方法：</span><br><span class="hljs-comment">// 1.显式转换	explitcit ctor</span><br><span class="hljs-built_in">handleExtension</span>(<span class="hljs-built_in">string</span>(<span class="hljs-built_in">extractExtension</span>(<span class="hljs-string">&quot;my file.ext&quot;</span>)));<br><span class="hljs-comment">// 2.data() 方法</span><br><span class="hljs-built_in">handleExtension</span>(<span class="hljs-built_in">extractExtension</span>(<span class="hljs-string">&quot;my file.ext&quot;</span>).<span class="hljs-built_in">data</span>());<br><br><span class="hljs-comment">/* 注意，即使原本的传入参数应该为 const string&amp; 类型，但是 C 风格的字符串会首先隐式地调用 string 构造函数，然后再调用 const string&amp; 构造函数，以完成代码 */</span><br><span class="hljs-built_in">handleExtension</span>(C-String);<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p><em><em>注意：在每当使用只读字符串作为参数时，可以使用 std::string_view 代替 const char</em> 或 const string&amp;。</em>*</p>
+<p><strong>std::string_view 字面量：</strong></p>
+<ul>
+<li><p>可使用标准的用户定义的字面量 sv，将字符串字面量解释为 std::string_view，例如：</p>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">auto</span> sv = <span class="hljs-string">&quot;My string_view&quot;</span>sv;<br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>标准的用户定义的字面量 sv 需要 using namespace std::string_view_literals; 或 using namespace std;</p>
+</li>
+</ul>
+</blockquote>
+<p><strong>总结：</strong></p>
+<blockquote>
+<p>自动调用隐式构造函数的情况：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">char</span>* ---&gt; string_view			可行<br>string ---&gt; string_view			可行<br>string_view ---&gt; string_view	可行<br><br><span class="hljs-type">char</span>* ---&gt; string				可行<br>string ---&gt; string				可行<br>string_view ---&gt; string			不可行<br><br>...---&gt; <span class="hljs-type">char</span>*					都不可行<br><span class="hljs-comment">// 以上的左侧是实际参数，右边是函数期待的参数，可行代表可以运行，不可行代表不接受</span><br></code></pre></td></tr></table></figure>
+
+<p>字面量在不告知的情况下，是 const char* 类型或者说是 const char[] 类型；</p>
+</blockquote>
+<hr>
+<h4 id="1-5非标准字符串"><a href="#1-5非标准字符串" class="headerlink" title="1.5非标准字符串"></a>1.5非标准字符串</h4><blockquote>
+<p><strong>许多 C++程序员都不使用 C++风格的字符串，这有几个原因。</strong>一些程序员只是不知道有 string 类型，因为它并不总是 C++ 规范的一部分。其他程序员发现，C++ string 没有提供他们需要的行为，所以开发了自己的字符串类型。也许最常见的原因是，开发框架和操作系统有自己的表达字符串的方式，例如 Micros。仕 MFC 中的CString 类。它常用于向后兼容或解决遗留的问题。在 C++ 中启动新项目时，提前确定团队如何表示字符串是非常重要的。务必注意以下几点：</p>
+<ol>
+<li>不应当选取 C 风格的字符串表示。</li>
+<li>可对自己所用框架中的可用字符串进行标准化，如 MFC、QT 内置的字符串功能。</li>
+<li>如果为字符串使用 std::string，应当使用 std::string_view 将只读字符串作为参数传递给函数；否则，看一下框架是否支持类似于它的类。</li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="2-2本章小结"><a href="#2-2本章小结" class="headerlink" title="2.2本章小结"></a>2.2本章小结</h3><blockquote>
+<p>一句话，用 string，传只读字符串用 string_view。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ 复习教程第一章（使用 string 和 string_view）</div>
+      <div>http://example.com/2024/03/14/C++ 复习教程第二章（使用 string 和 string_view）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yanhuigang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E4%B8%93%E4%B8%9A%E7%9A%84%20C++%20%E7%A8%8B%E5%BA%8F%EF%BC%89/" title="C++ 复习教程第三章（设计专业的 C++ 程序）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ 复习教程第三章（设计专业的 C++ 程序）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%88%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%89/" title="C++ 复习教程第七章（内存管理）">
+                        <span class="hidden-mobile">C++ 复习教程第七章（内存管理）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

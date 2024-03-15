@@ -1,0 +1,839 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yanhuigang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第4章 —— 设计专业的 C++ 程序 4.1程序设计概述 设计文档的常见布局基本类似，包括两个主要部分： (1) 将总的程序分为子系统，包括子系统之间的界面和依赖关系、子系统之间的数据流、每个子系统的输入输出和通用线程模型。 (2) 每个子系统的详情，包括类的细分、类的层次结构、数据结构、算法、具体的线程模型和错误处理的细节。 就是 UML 图，这里就不仔细说了。   4.2程序设计的重要性 总">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 复习教程第三章（设计专业的 C++ 程序）">
+<meta property="og:url" content="http://example.com/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E4%B8%93%E4%B8%9A%E7%9A%84%20C++%20%E7%A8%8B%E5%BA%8F%EF%BC%89/index.html">
+<meta property="og:site_name" content="yanhuigang&#39;s blog">
+<meta property="og:description" content="第4章 —— 设计专业的 C++ 程序 4.1程序设计概述 设计文档的常见布局基本类似，包括两个主要部分： (1) 将总的程序分为子系统，包括子系统之间的界面和依赖关系、子系统之间的数据流、每个子系统的输入输出和通用线程模型。 (2) 每个子系统的详情，包括类的细分、类的层次结构、数据结构、算法、具体的线程模型和错误处理的细节。 就是 UML 图，这里就不仔细说了。   4.2程序设计的重要性 总">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/7mJ5GWPqA8NdDuQ.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/qbDRgpxnCzajXHt.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/rjV8JxOfXuDvcnk.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/fO4uYkTSscHUZzA.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/gpsT2wZOGFe3tRl.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/5S8QorDW7spEtPF.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/ti56uaqJngcwSpR.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/J9yieATowx4p3mg.png">
+<meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
+<meta property="article:modified_time" content="2024-03-15T12:21:07.767Z">
+<meta property="article:author" content="yanhuigang">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/02/09/7mJ5GWPqA8NdDuQ.png">
+  
+  
+  
+  <title>C++ 复习教程第三章（设计专业的 C++ 程序） - yanhuigang&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yanhuigang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 复习教程第三章（设计专业的 C++ 程序）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-14 18:18" pubdate>
+          2024年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          34 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 复习教程第三章（设计专业的 C++ 程序）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="第4章-——-设计专业的-C-程序"><a href="#第4章-——-设计专业的-C-程序" class="headerlink" title="第4章 —— 设计专业的 C++ 程序"></a>第4章 —— 设计专业的 C++ 程序</h2><hr>
+<h3 id="4-1程序设计概述"><a href="#4-1程序设计概述" class="headerlink" title="4.1程序设计概述"></a>4.1程序设计概述</h3><blockquote>
+<p>设计文档的常见布局基本类似，包括两个主要部分：</p>
+<p>(1) 将总的程序分为子系统，包括子系统之间的界面和依赖关系、子系统之间的数据流、每个子系统的输入输出和通用线程模型。</p>
+<p>(2) 每个子系统的详情，包括类的细分、类的层次结构、数据结构、算法、具体的线程模型和错误处理的细节。</p>
+<p>就是 UML 图，这里就不仔细说了。</p>
+</blockquote>
+<hr>
+<h3 id="4-2程序设计的重要性"><a href="#4-2程序设计的重要性" class="headerlink" title="4.2程序设计的重要性"></a>4.2程序设计的重要性</h3><blockquote>
+<p>总结，UML。</p>
+</blockquote>
+<hr>
+<h3 id="4-3C-设计的特点"><a href="#4-3C-设计的特点" class="headerlink" title="4.3C++ 设计的特点"></a>4.3C++ 设计的特点</h3><blockquote>
+<p>在使用 C++进行设计时，需要考虑 C++语言的一些性质：</p>
+<ul>
+<li><p>C++具有庞大的功能集。它几乎是 C 语言的完整超集，此外还有类、对象、运算符重载、异常、模板和其他功能。由于该语言非常庞大，使设计成为一项令人生畏的任务。</p>
+</li>
+<li><p>C++是一门面向对象语言。这意味着设计应该包含类层次结构、类接口和对象交互。这种设计类型与传统的 C 和其他过程式语言的设计竞全不同。第 5 章重点介绍 C++面向对象设计。</p>
+</li>
+<li><p>C++有许多设计通用的、可重用代码的工具。除了基本的类和继承之外，还可以使用其他语言工具进行高效的设计，如模板和运算符重载。第 6 章将详细讨论可重用代码的设计技术。</p>
+</li>
+<li><p>C++提供了一个有用的标准库，包含字符串类、I&#x2F;O 工具、许多常见的数据结构和算法。所有这些都便于 C++代码的编写。</p>
+</li>
+<li><p>C++语言提供了许多设计模式或解决问题的通用方法。</p>
+</li>
+</ul>
+<p><strong>因此，优秀的设计难能可贵，获取这样的设计需要实践。不要期望一夜之间成长为专家，掌握 C++设计比C++编码更难。</strong>  </p>
+</blockquote>
+<hr>
+<h3 id="4-4C-设计的两个原则"><a href="#4-4C-设计的两个原则" class="headerlink" title="4.4C++ 设计的两个原则"></a>4.4C++ 设计的两个原则</h3><blockquote>
+<ul>
+<li><strong>抽象，接口化</strong></li>
+<li><strong>重用，方法化</strong></li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="4-1抽象"><a href="#4-1抽象" class="headerlink" title="4.1抽象"></a>4.1抽象</h4><blockquote>
+<p>忽略本质，只在意接口、输入、输出，只看结果；</p>
+<p>接口并不决定底层实现，改变实现并不需要改变接口；</p>
+<p>象棋棋盘示例:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++">&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">ChessBoard</span><br>&gt;&#123;<br><span class="hljs-keyword">public</span>:<br><span class="hljs-comment">// This example omits constructors, destructor, and assignment operator.</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setPieceAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, ChessPiece* piece)</span></span>;<br><span class="hljs-function">ChessPiece* <span class="hljs-title">getPieceAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-keyword">private</span>:<br><span class="hljs-comment">// This example omits data members.</span><br>&gt;&#125;;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="4-2重用"><a href="#4-2重用" class="headerlink" title="4.2重用"></a>4.2重用</h4><blockquote>
+<p>对已存在代码的使用；</p>
+<p>去除特殊化，泛化代码；</p>
+<p>任何棋类棋盘示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs c++">&gt;<span class="hljs-keyword">template</span> &lt;<span class="hljs-keyword">typename</span> PieceType&gt;<br>&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">GameBoard</span><br>&gt;&#123;<br><span class="hljs-keyword">public</span>:<br><span class="hljs-comment">// This example omits constructors, destructor, and assignment operator.</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setPieceAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, PieceType* piece)</span></span>;<br><span class="hljs-function">PieceType* <span class="hljs-title">getPieceAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br><span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">isEmpty</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span> <span class="hljs-type">const</span></span>;<br><span class="hljs-keyword">private</span>:<br><span class="hljs-comment">// This example omits data members.</span><br>&gt;&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>例如，假定要设计一个国际象棋程序：使用一个 EirorLogger 对象将不同组件发生的所有错误都按顺序写入一个日志文件。当试着设计 EirorLogger 类时，你意识到只想在一个程序中有一个ErrorLogger 实例。还要使程序的多个组件都能使用这个 ErrorLogger 实例，即所有组件都想要使用同一个 ErrorLogger 服务。<strong>实现此类服务机制的一个标准策略是使用注入依赖(dendency injection)<strong>。</strong>使用注入依赖时，为每个服务创建一个接口，并将组件需要的接口注入组件。因此，此时良好的设计应当使用“依赖注入”模式</strong>。<strong>你必须熟悉这些模式和技术，根据特定设计问题选择正确的解决方案。在 C++ 中，还可以使用更多技术和模式。详细讲述设计模式和技术超出了本书的范围，如果读者对此感兴趣，可以参阅附录 B 给出的建议。</strong></p>
+</blockquote>
+<hr>
+<h3 id="4-5重用代码"><a href="#4-5重用代码" class="headerlink" title="4.5重用代码"></a>4.5重用代码</h3><blockquote>
+<p>注意：重用代码并不意味着复制和粘贴已有的代码，但实际含义刚好相反：重用代码，但不重复代码；</p>
+</blockquote>
+<hr>
+<h4 id="5-1关于术语的说明"><a href="#5-1关于术语的说明" class="headerlink" title="5.1关于术语的说明"></a>5.1关于术语的说明</h4><blockquote>
+<p>在分析代码重用优缺点前，有必要指出所涉及的术语，并将重用代码分类。有三种可以重用的代码：</p>
+<ul>
+<li><strong>过去编写的代码；</strong></li>
+<li><strong>同事编写的代码；</strong></li>
+<li><strong>当前组织或公司以外的第三方编写的代码；</strong></li>
+</ul>
+<p>所使用的代码可通过以下几种方法来构建：</p>
+<ul>
+<li><strong>独立的函数或类</strong>，当重用自己或同事的代码时，通常会遇到这种类型；</li>
+<li><strong>库，库是用于完成特定任务(例如解析 XML)或者针对特定领域(如密码系统)的代码集合</strong>。在库中经常可以找到其他许多功能，如线程和同步支持、网络和图像。</li>
+<li><strong>框架(Framework)，框架是代码的集合，围绕框架设计程序</strong>。例如，微软基础类(Microsoft Foundation Classes, MFC)提供了在 Microsoft Windows 中创建用户界面应用程序的框架。框架通常指定了程序的结构。</li>
+</ul>
+<p><strong>注意：</strong></p>
+<p>​	<strong>程序使用库，但会适应框架。库提供了特定功能，而框架是程序设计和结构的基础。</strong></p>
+<p><strong>应用程序编码接口(API)是另一个经常出现的术语。API 是库或为特定目的而提供的接口。例如，程序员会经常提到套接字 API，这是指套接字联网库的公开接口，而不是库本身</strong>。</p>
+<p><strong>注意：</strong></p>
+<p>​	<strong>尽管人们将库以及 API 互换使用，但是两者不是等价的。库指的是“实现”，而 API 指的是 “库的公开接口”。</strong></p>
+<p>为简洁起见，本章剩余部分用术语“库”表示任何可重用的代码，它事实上可能是库、框架或是同时编写的随机函数集合。</p>
+</blockquote>
+<hr>
+<h4 id="5-2决定是否重用代码"><a href="#5-2决定是否重用代码" class="headerlink" title="5.2决定是否重用代码"></a>5.2决定是否重用代码</h4><blockquote>
+<p><strong>重用代码的优点：</strong></p>
+<ul>
+<li><strong>节省时间和成本；</strong></li>
+<li><strong>不需要额外的设计；</strong></li>
+<li><strong>不需要调试；</strong></li>
+<li><strong>代码安全性更高；</strong></li>
+<li><strong>库会持续改进；</strong></li>
+</ul>
+<p><strong>重用代码的缺点：</strong></p>
+<ul>
+<li><strong>需要花费时间了解接口和正确使用方法；</strong></li>
+<li><strong>代码功能未必完全吻合；</strong></li>
+<li><strong>代码支持问题可能遇到问题；</strong></li>
+<li><strong>代码使用许可问题；</strong></li>
+<li><strong>跨平台可移植性问题；</strong></li>
+<li><strong>对代码质量与安全性的信任问题；</strong></li>
+<li><strong>版本更新可能会出现致命问题；</strong></li>
+<li><strong>使用纯粹二进制库时，将编辑器升级为新版本会导致问题；</strong></li>
+</ul>
+<p><strong>熟悉了重用代码的术语和优缺点后，就可以决定是否重用代码。</strong>通常，这个决定是显而易见的。例如，如果想要用 C++ 在 Microsoft Windows 上编写图形用户界面(GUI), 应该使用 MFC(Microsoft Foundation Class)或Qt 等框架。你可能不知道如何在 Windows 上编写创建 GUI 的底层代码，更重要的是不想浪费时间去学习。在此情况下使用框架可以节省数年的时间。</p>
+<p>然而，有时情况并不明显。例如，如果不熟悉某个库或框架，并且只需要其中某个简单的数据结构，那就不值得花时间去学习整个框架来重用某个只需要花费数天就能编写出来的组件。</p>
+<p>总之，这个决定是根据特定的需求做出的选择。通常是在自己编写代码所花时间和查找库并了解如何使用库来解决问题所使用时间之间的权衡。应该针对具体情况，仔细考虑前面列出的优缺点，并判断哪些因素是最重要的。最后，可随时改变想法，如果正确处理了抽象，这并不需要太多的工作量。</p>
+</blockquote>
+<hr>
+<h4 id="5-3重用代码的策略"><a href="#5-3重用代码的策略" class="headerlink" title="5.3重用代码的策略"></a>5.3重用代码的策略</h4><blockquote>
+<p>当使用库、框架以及同事或自己的代码时，应该记住一些指导方针：</p>
+<ol>
+<li><strong>理解功能和限制限制因素</strong><ul>
+<li>花点时间熟悉代码，对于理解其功能和限制因素而言都很重要。可从文档、公开的接口或 API 开始，理想情况下，这样做足以理解代码的使用方式。然而，如果库未将接口和实现明确分离，可能还要研究源代码。此外，还可与其他使用过这些代码或能解释这些代码的程序员交流。</li>
+</ul>
+</li>
+<li><strong>理解性能</strong><ul>
+<li>了解库或其他代码提供的性能保障很重要。即使某个程序对性能不敏感，也应该确保使用的代码在具体的使用中性能不会太糟。</li>
+</ul>
+</li>
+<li><strong>大 O 表示法</strong><ul>
+<li>程序员经常使用大0 表示法（Big-0 Notation）讨论并记录算法和库的性能。  <strong>注意：大 O 表示法仅适用于速度依赖于输入的算法，不适用于没有输入或者运行时间随机的算法。实际上,大多数算法的运行时间都取决于输入，因此这个限制并不重要。</strong></li>
+</ul>
+</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/02/09/7mJ5GWPqA8NdDuQ.png" srcset="/img/loading.gif" lazyload alt="image-20240209135140519"></p>
+<ol start="4">
+<li><p><strong>理解性能的几点提示</strong></p>
+<ul>
+<li>略，见书。</li>
+<li>总结一句就是，你不测试就永远不知道这个库到底性能高不高。</li>
+</ul>
+</li>
+<li><p><strong>理解平台限制</strong></p>
+<ul>
+<li>在开始使用库代码之前，一定要理解运行库的平台。这看上去是显而易见的，但即使是那些号称跨平台的库，在不同的平台上也会有微妙差别；此外，平台不仅包括不同的操作系统，还包括同一操作系统的不同版本。  不要以为库一定会向前或先后兼容；</li>
+</ul>
+</li>
+<li><p><strong>理解许可证和支持</strong>  </p>
+<ul>
+<li>使用第三方的库常会带来复杂的许可证问题。为使用第三方供应商提供的库，有时必须支付许可证费用。还可能有其他的许可限制，包括出口限制。此外，开放源代码库有时会要求与其有关的任何代码都公开源代码；</li>
+</ul>
+</li>
+<li><p><strong>了解在哪里寻求帮助</strong>  </p>
+<ul>
+<li><p>首先参考库自带的文档。如果库被广泛使用，如标准库或 MFC, 就应该能找到与此主题相关的优秀书籍。实际上，本书的第 1A21 章都讲述标准库。如果某个特定问题在手册或产品文档中没有提及，可搜索 Web。在选择的搜索引擎中输入问题来寻找讨论这个库的 Web 页面。例如，当查找短语 “introduction to C++ Standard Library” 时，会找到与 C++和标准</p>
+<p>库有关的数百个站点。此外，许多站点包含关于特定主题的新闻组或论坛，可注册并寻找答案。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>原型</strong></p>
+<ul>
+<li>当首次使用某个新库或框架时，最好编写一个快速原型。测试代码是熟悉库功能的最好方法。应该考虑在程序设计之前测试库，这样就可以熟悉库的功能和限制。这种实际检验还可判断库的性能特征。即使原型应用程序与最终应用程序没有任何相似之处，花费在原型上的时间也不会浪费。不要觉得编写实际应用程序的原型很难，可编写一个虚拟程序来测试想使用的库功能，这样做是为了让自己熟悉库。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="5-4绑定第三方应用程序"><a href="#5-4绑定第三方应用程序" class="headerlink" title="5.4绑定第三方应用程序"></a>5.4绑定第三方应用程序</h4><blockquote>
+<p>项目可能包含多个应用程序。或许需要 Web 服务器前端来支持新的电子商务基础设施。可将第三方应用程序(例如 Web 服务器)与软件绑定。<strong>这种方法将代码重用发挥到了极致，因为重用了整个应用程序</strong>。当然，使用库的那些忠告和指导方针也适用于绑定第三方应用程序，应该特别注意自己的决定所涉及的法律和许可证问题。</p>
+<p><strong>注意：</strong></p>
+<p>​	<strong>将第三方应用程序与分发的软件绑定之前，应当请教专门处理知识产权问题的法律专家。</strong></p>
+</blockquote>
+<hr>
+<h4 id="5-5开放源代码库"><a href="#5-5开放源代码库" class="headerlink" title="5.5开放源代码库"></a>5.5开放源代码库</h4><blockquote>
+<p>开放源代码库是一种日益流行的可重用代码类型。<strong>开放源代码(open-source)通常意味着任何人都可以查看源代码。</strong>关于分发软件时包含源代码，有正式的定义和法规，但最重要的是，任何人(包括你)都能查看开放源代码软件的源代码。注意开放源代码不仅适用于库，实际上最著名的开放源代码产品可能是 Android 操作系统。Linux 操作系统是另一个著名的开放源代码操作系统。Google Chrome 和 Mozilla Firefbx 是两个开放源代码的著名 Web 浏览器。  </p>
+</blockquote>
+<hr>
+<h4 id="5-6C-标准库"><a href="#5-6C-标准库" class="headerlink" title="5.6C++ 标准库"></a>5.6C++ 标准库</h4><blockquote>
+<p><strong>C++程序员使用的最重要的库就是 C++标准库。</strong>  </p>
+<p><strong>C++ 提供了比 C 更好的字符串以及 I&#x2F;O 支持。尽管 C 风格的字符串和 I&#x2F;O 例程在 C++中仍然有效，但应该避免使用它们，而是使用 C++字符串(详见第 2章)和 I&#x2F;O 流(详见第 13 章)。</strong>  </p>
+<p><strong>设计标准库时优先考虑的是功能、性能和正交性(orthogonality)。使用标准库可获得巨大好处。可回顾在链表或平衡二叉树实现中跟踪指针错误，或者调试不能正确排序的排序算法，如果能够正确使用标准库，几乎不需要再编写这类代码。第 16 21 章将提供有关标准库功能的信息；</strong></p>
+</blockquote>
+<hr>
+<h3 id="4-6设计一个国际象棋程序"><a href="#4-6设计一个国际象棋程序" class="headerlink" title="4.6设计一个国际象棋程序"></a>4.6设计一个国际象棋程序</h3><blockquote>
+<p>本节通过一个简单的国际象棋程序系统介绍 C++程序的设计方法。为提供完整示例，某些步骤用到了后面几章讲述的概念。为了解设计过程的概况，可现在就阅读这个示例，也可以在学完后面章节后返回头来学习；</p>
+</blockquote>
+<hr>
+<h4 id="6-1需求"><a href="#6-1需求" class="headerlink" title="6.1需求"></a>6.1需求</h4><blockquote>
+<p><strong>在开始设计前，应该弄清楚对于程序功能和性能的需求。理想情况下，这些需求应该是以需求规范(requirements specification)形式给出的文档。</strong>国际象棋程序的需求应该包含下列类型的规范，当然实际的需求规范应该比下面的内容更详细，条目更多：  </p>
+<ul>
+<li>程序支持标准的国际象棋规则。  </li>
+<li>程序提供基于文本的界面。  <ul>
+<li>程序以纯文本形式提供棋盘和棋子。  </li>
+<li>玩家通过输入代表位置的数字在棋盘上移动棋子。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="6-2设计步骤"><a href="#6-2设计步骤" class="headerlink" title="6.2设计步骤"></a>6.2设计步骤</h4><blockquote>
+<ol>
+<li>将程序分割为子系统；</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/02/09/qbDRgpxnCzajXHt.png" srcset="/img/loading.gif" lazyload alt="image-20240209140908334"></p>
+<p><img src="https://s2.loli.net/2024/02/09/rjV8JxOfXuDvcnk.png" srcset="/img/loading.gif" lazyload alt="image-20240209141005292"></p>
+<ol start="2">
+<li><p>选择线程模型；</p>
+</li>
+<li><p>指定每个子系统的类层次结构；</p>
+</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/02/09/fO4uYkTSscHUZzA.png" srcset="/img/loading.gif" lazyload alt="image-20240209141103026"></p>
+<p><img src="https://s2.loli.net/2024/02/09/gpsT2wZOGFe3tRl.png" srcset="/img/loading.gif" lazyload alt="image-20240209141119716"></p>
+<ol start="4">
+<li>指定每个子系统的类、数据结构、算法和模式；</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/02/09/5S8QorDW7spEtPF.png" srcset="/img/loading.gif" lazyload alt="image-20240209141142275"></p>
+<p><img src="https://s2.loli.net/2024/02/09/ti56uaqJngcwSpR.png" srcset="/img/loading.gif" lazyload alt="image-20240209141207029"></p>
+<ol start="5">
+<li>为每个子系统指定错误处理；</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/02/09/J9yieATowx4p3mg.png" srcset="/img/loading.gif" lazyload alt="image-20240209141229352"></p>
+</blockquote>
+<hr>
+<h3 id="4-7本章小结"><a href="#4-7本章小结" class="headerlink" title="4.7本章小结"></a>4.7本章小结</h3><blockquote>
+<p>本章介绍了专业的 C++设计方法。软件设计是任何编程项目中重要的第一步。你还学习了使得设计变得困难的一些 C++特性，包括 C++关注的面向对象、庞大的功能集和标准库、编写通用代码的工具。这些信息可让程序员更好地处理 C++设计；</p>
+<p>本章介绍了两个设计主题：抽象和重用。抽象（或将接口与实现分离）的概念贯穿全书，所有的设计工作都应该以此为指导方针。重用的概念（无论是代码还是设计）在实际项目和本书中经常会出现。C++设计应该包含代码的重用（以库或框架的形式）以及思想和设计的重用（以技术和模式的形式）。 应该尽可能编写可重用的代码。此外还要记住权衡重用的优缺点和重用代码的特定方针，包括理解功能和限制、性能、许可证、支持模式、平台限制、原型和帮助资源。你还学习了性能分析和大 O 表示法。现在你已经理解了设计的重要性和基本的设计主题，并做好了学习本书第 Ⅱ 部分其余章节的准备。第 5 章将讲述在设计中使用 C++面向对象特性的策略；</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ 复习教程第三章（设计专业的 C++ 程序）</div>
+      <div>http://example.com/2024/03/14/C++ 复习教程第三章（设计专业的 C++ 程序）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yanhuigang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%8C%E7%AB%A0%EF%BC%88%E4%BD%BF%E7%94%A8%20string%20%E5%92%8C%20string_view%EF%BC%89/" title="C++ 复习教程第一章（使用 string 和 string_view）">
+                        <span class="hidden-mobile">C++ 复习教程第一章（使用 string 和 string_view）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

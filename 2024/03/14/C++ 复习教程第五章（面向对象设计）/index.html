@@ -1,0 +1,819 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yanhuigang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第5章 —— 面向对象设计 本章讨论对象之间的不同关系，包括创建面向对象程序时可能遇到的陷阱，还将学习抽象原则如何与对象联系起来； 思考过程式编程或面向对象编程时，要记住的重要一点是：面向对象编程只是以不同的方式看待程序；   5.1过程化的思考方式 过程语言(例如 C) 将代码分割为小块，每个小块(理论上)完成单一的任务。如果在 C 中没有过程，所有代码都会集中在 main() 中。代码将会难以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 复习教程第五章（面向对象设计）">
+<meta property="og:url" content="http://example.com/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%88%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%EF%BC%89/index.html">
+<meta property="og:site_name" content="yanhuigang&#39;s blog">
+<meta property="og:description" content="第5章 —— 面向对象设计 本章讨论对象之间的不同关系，包括创建面向对象程序时可能遇到的陷阱，还将学习抽象原则如何与对象联系起来； 思考过程式编程或面向对象编程时，要记住的重要一点是：面向对象编程只是以不同的方式看待程序；   5.1过程化的思考方式 过程语言(例如 C) 将代码分割为小块，每个小块(理论上)完成单一的任务。如果在 C 中没有过程，所有代码都会集中在 main() 中。代码将会难以">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/ZjrdzEie8GoLB7A.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/18/UfmhM759GdNRJby.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/18/giRbqMPjYKXTlZS.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/18/92n1mzrV6N3PUhv.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/18/cgRlI9OmYr3K5Tb.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/18/fSncVWwZ2PKdCTY.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/18/sWDZKbBpfygvmqE.png">
+<meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
+<meta property="article:modified_time" content="2024-03-15T12:21:27.690Z">
+<meta property="article:author" content="yanhuigang">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/02/09/ZjrdzEie8GoLB7A.png">
+  
+  
+  
+  <title>C++ 复习教程第五章（面向对象设计） - yanhuigang&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yanhuigang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 复习教程第五章（面向对象设计）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-14 18:18" pubdate>
+          2024年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          5.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          49 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 复习教程第五章（面向对象设计）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="第5章-——-面向对象设计"><a href="#第5章-——-面向对象设计" class="headerlink" title="第5章 —— 面向对象设计"></a>第5章 —— 面向对象设计</h2><blockquote>
+<p>本章讨论对象之间的不同关系，包括创建面向对象程序时可能遇到的陷阱，还将学习抽象原则如何与对象联系起来；</p>
+<p>思考过程式编程或面向对象编程时，要记住的重要一点是：面向对象编程只是以不同的方式看待程序；</p>
+</blockquote>
+<hr>
+<h3 id="5-1过程化的思考方式"><a href="#5-1过程化的思考方式" class="headerlink" title="5.1过程化的思考方式"></a>5.1过程化的思考方式</h3><blockquote>
+<p>过程语言(例如 C) 将代码分割为小块，每个小块(理论上)完成单一的任务。如果在 C 中没有过程，所有代码都会集中在 main() 中。代码将会难以阅读，同事会恼火，这还是最轻的；</p>
+<p>过程式编程思想，在大型应用程序中很难满足线性序列事件发生的条件，此外，过程思想对数据的表示没有任何说明。</p>
+</blockquote>
+<hr>
+<h3 id="5-2面向对象思想"><a href="#5-2面向对象思想" class="headerlink" title="5.2面向对象思想"></a>5.2面向对象思想</h3><blockquote>
+<p>与基于“程序做什么”的面向过程的编程不同，面向对象思想提出了另一种看待问题的方法：“模拟哪些实际的对象？”</p>
+</blockquote>
+<hr>
+<h4 id="2-1类"><a href="#2-1类" class="headerlink" title="2.1类"></a>2.1类</h4><blockquote>
+<p>类，将对象及其定义区分开来；</p>
+<p>类，用来封装定义对象分类的信息；</p>
+<p>类，通过特征将类实例化；</p>
+<p>类与对象 &lt;–类比–&gt; 类型与对象</p>
+</blockquote>
+<hr>
+<h4 id="2-2组件"><a href="#2-2组件" class="headerlink" title="2.2组件"></a>2.2组件</h4><blockquote>
+<p>本质上，组件与类相似，但是组件更小，更具体；</p>
+</blockquote>
+<hr>
+<h4 id="2-3属性"><a href="#2-3属性" class="headerlink" title="2.3属性"></a>2.3属性</h4><blockquote>
+<p>属性，将一个对象与其他对象区分开来；</p>
+<p>类的属性，由所有的类成员共享，而类的所有对象都有对象属性，但具有自身特定的值；</p>
+</blockquote>
+<hr>
+<h4 id="2-4行为"><a href="#2-4行为" class="headerlink" title="2.4行为"></a>2.4行为</h4><blockquote>
+<p>行为，回答 “对象做什么？” 和 “能对对象作什么？”；</p>
+<p>因此，许多功能性的代码从过程转移到类，通过建立某些行为的对象并定义对象的交互方式，OPP 以更丰富的机制将代码和代码的操作的数据联系起来。类的行为由类的方法实现；</p>
+</blockquote>
+<hr>
+<h4 id="2-5综合考虑"><a href="#2-5综合考虑" class="headerlink" title="2.5综合考虑"></a>2.5综合考虑</h4><blockquote>
+<p><img src="https://s2.loli.net/2024/02/09/ZjrdzEie8GoLB7A.png" srcset="/img/loading.gif" lazyload alt="image-20240209150140169"></p>
+<p>不扯淡，学会 UML 就明白了；</p>
+</blockquote>
+<hr>
+<h3 id="5-3生活在对象世界里"><a href="#5-3生活在对象世界里" class="headerlink" title="5.3生活在对象世界里"></a>5.3生活在对象世界里</h3><blockquote>
+<p>彻底采用 OPP 范式 和 仅仅使用对象代表数据和功能的良好封装都不是佳境；</p>
+<p>理想方法往往介于这两者之间；</p>
+</blockquote>
+<hr>
+<h4 id="3-1过度使用对象"><a href="#3-1过度使用对象" class="headerlink" title="3.1过度使用对象"></a>3.1过度使用对象</h4><blockquote>
+<p>事无巨细地都转化为对象，这是要警惕的，因为完全没必要；</p>
+</blockquote>
+<hr>
+<h4 id="3-2过于通用的对象"><a href="#3-2过于通用的对象" class="headerlink" title="3.2过于通用的对象"></a>3.2过于通用的对象</h4><blockquote>
+<p>能包含太多种类对象的类，也是完全没有必要的，因为它自身几乎不含有任何信息，如 data、Media等；</p>
+</blockquote>
+<hr>
+<h3 id="5-4对象之间的关系"><a href="#5-4对象之间的关系" class="headerlink" title="5.4对象之间的关系"></a>5.4对象之间的关系</h3><blockquote>
+<p>不同类具有共同的特征，至少看起来彼此有联系；</p>
+<p>面向对象的语言提供了许多机制来处理对象之间的这种关系；</p>
+<p>其中，主要有两种关系：“有一个(has a)” 和 “是一个(is a)”；</p>
+</blockquote>
+<hr>
+<h4 id="4-1“有一个”关系"><a href="#4-1“有一个”关系" class="headerlink" title="4.1“有一个”关系"></a>4.1“有一个”关系</h4><blockquote>
+<p>“有一个”关系或聚合关系的模式是：A有一个B，或者A 包含一个B。在此类关系种，可以认为某个对象是另一个对象的一部分。</p>
+</blockquote>
+<hr>
+<h4 id="4-2“是一个”关系-继承"><a href="#4-2“是一个”关系-继承" class="headerlink" title="4.2“是一个”关系(继承)"></a>4.2“是一个”关系(继承)</h4><blockquote>
+<p>“是一个”关系是面向对象编程中非常常见的的基本概念，因此有许多名称，包括派生(deriving)、子类(subclass)、扩展(extending)和继承(inheriting)。类模拟了现实世界包含具有属性和行为的对象这一事实，继承模拟了这些对象通常以层次方式来组织这一事实。“是一个”正说明了这种层次关系。</p>
+<p>基本上，继承的模式是：A是一个B，或者A实际上与B非常相似——这可能比较棘手。</p>
+<p>A是B(的一种)，但是反过来B却不都是A；</p>
+<p>当类之间具有“是一个”关系时，目标之一就是将通用功能放入基类(base class)，其他类可扩展基类。如果所有子类都有相似或完全相同的代码，就应该考虑将一些代码或全部代码放入基类。这样，可以在一个地方完成所需的改动，将来的子类可“免费”获取这些共享的功能。</p>
+<ol>
+<li><p><strong>继承技术</strong></p>
+<p>前面的示例非正式地讲述了继承中使用的一些技术。当生成子类时，程序员有多种方法将某个类与其父类(parent class)、基类或者超类(superclass)区分开来。可使用多种方法生成子类，生成子类实际上就是完成语句 A is a B that…的过程。</p>
+<p><strong>添加功能：</strong></p>
+<p><strong>派生类可在基类的基础上添加功能。</strong></p>
+<p><strong>替换功能：</strong></p>
+<p><strong>派生类可完全替代或重写父类的行为。当然，如果对基类的所有功能都进行替换，就可能意味着采用继承的方式根本就不正确，除非基类是一个抽象基类。抽象基类会强制每个子类实现未在抽象基类中实现的所有方法。无法为抽象基类创建实例，第 10 章将介绍抽象类。此处，略。</strong></p>
+<p><strong>添加属性：</strong></p>
+<p><strong>除了从基类继承属性以外，派生类还可添加新属性。</strong></p>
+<p><strong>替换属性：</strong></p>
+<p><strong>与重写方法类似，C++ 提供了重写属性的方法。然而，这样做通常是不合适的，因为这会隐藏基类的属性，例如，基类可谓具有特定名称的属性指定一个值，而派生类可给该属性指定另一个值。有关“隐藏”的内容，详见第 9 章。不要把替换属性的概念与子类具有不同属性值的概念混淆。</strong></p>
+</li>
+<li><p><strong>多态性和代码重用</strong></p>
+<p>多态性(Polymorphism)指具有标准属性和方法的对象可互换使用。类定义就像对象和与之交互的代码之间的契约。根据定义，一个对象必须支持其类的属性和行为；</p>
+<p>这个概念可以推广到基类。即，当 A 是 B 时，那么 A 对象必然支持 B 类的属性和行为；</p>
+<p>多态性是面向对象编程的两点，因为多态性真正利用了继承所提供的功能。即，当 A 是 B 时，那么当遍历 B 执行某个特定操作，即使因为归属于不同的 A 但是都是 B，所以这一特定操作即使被重写，依旧会执行相应的特定改写后动作。这就是亮点——代码只告诉让 B 执行某个特定操作，但是不需要知道是哪种 A，即可根据自己的特定改写后代码执行此操作，不必告诉需要如何执行此操作；</p>
+<p>除多态性外，使用继承还有一个原因，通常是为了复用，为了避免做重复的工作，而使得两个独立的类之间产生关联；</p>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="4-3“有一个”-与-“是一个”-的区别"><a href="#4-3“有一个”-与-“是一个”-的区别" class="headerlink" title="4.3“有一个” 与 “是一个” 的区别"></a>4.3“有一个” 与 “是一个” 的区别</h4><blockquote>
+<p>在现实中，“是一个” 与 “有一个” 两者是很好区分的，但是在代码中，有时候却显得不是那么明显；</p>
+<ul>
+<li><p>比如，在考虑一个标准哈希表时，每个键(数字)对应有一个值(量)，且当为一个已有值的键添加第二个值的时候，第一个值就会消失。</p>
+</li>
+<li><p>因此，不难想象，如果创建一个类似哈希表但允许一个键有多个值的数据结构的用法(比如，保险公司一个家庭可能有多个名称对应同一个 ID)。这种数据结构非常类似于哈希表，因此可用某种方式使用哈希表功能。哈希表的键只能由一个值，但是这个值可以是任意类型的。除字符串外，这个值还可以是一个包含多键值的集合(例如，数组或列表)。当像已有 ID 添加新成员时，可将其添加入集合中。(示例见课本 p88)</p>
+</li>
+<li><p>使用集合而不是字符串有些繁琐，需要大量重复代码。因此，最好再一个单独的类中封装多值功能，可将这个类叫做 MultiHush 。MultiHush 类的运行与 Hashtable 类似，只是背后将每个值存储为字符串的集合，而不是单个字符串。很明显，MultiHush 与 Hashtable 有某种联系，因为它依然可以使用哈希表存储数据。不明显的是，这是“是一个” 关系 还是 “有一个” 关系？</p>
+</li>
+<li><p>先考虑 “是一个” 关系，假定 MultiHush 是 Hashtable 的派生类，它必须重写在表中添加任何项的行为，从而既可创建集合添加新元素又可检索已有集合并添加新元素。此外，还必须重写检索值的行为。例如，可将给定键的所有值集中到一个字符串中。这好像是一种相当合理的设计。即使<strong>派生类重写了基类的所有方法</strong>，也<strong>仍可在派生类中使用原始行为</strong>，从而使用基类的行为。  </p>
+</li>
+<li><p>再考虑 “有一个” 关系，MultiHush 属于自己的类，但是包含了 Hushtable 对象，这个类的接口可能与 Hashtable 非常相似，但并不需要相同。在幕后，当用户向 MultiHash 添加项时，会将这个项封装到一个集合并送入 Hashtable 对象。</p>
+</li>
+</ul>
+<p><img src="https://s2.loli.net/2024/02/18/UfmhM759GdNRJby.png" srcset="/img/loading.gif" lazyload alt="image-20240218121232851"></p>
+<ul>
+<li>那么，哪个方案是正确的？没有明确的答案，笔者的一个朋友认为这是“有一个”关系，他编写了一个MultiHash 类供产品使用。主要原因是允许修改公开的接口，而不必考虑维护哈希表的功能。例如，将图 5.7 中的 get 方法改成 getAlL 以清楚表明将获取 MultiHash 中某个特定键的所有值。此外，在“有一个”关系中，不需要担心哈希表的功能会渗透。例如，如果 Hashtable 类提供了获取值的总数的方法，只 MultiHash 不重写这个方法，就可以用这个方法报告集合的项数。</li>
+</ul>
+<p><img src="https://s2.loli.net/2024/02/18/giRbqMPjYKXTlZS.png" srcset="/img/loading.gif" lazyload alt="image-20240218121948463"></p>
+<p><img src="https://s2.loli.net/2024/02/18/92n1mzrV6N3PUhv.png" srcset="/img/loading.gif" lazyload alt="image-20240218122011286"></p>
+<ul>
+<li>反对“是一个”关系的理由在这种情况下非常有力。LSP（Liskov Substitution Principle, 里氏替换原则）可帮助从“是一个”和“有一个”关系中选择。这个原则指出，你应当能在不改变行为的情况下，用派生类替代基类。将这个原则应用于本例，则表明应当是“有一个”关系，因为你无法在以前使用 Hashtable 的地方使用MultiHash 否则，行为就会改变。例如，Hashtable 的 insert。方法会删除映射中同一个键的旧值，而 MultiHash 不会删除此类值。</li>
+<li>因此，推荐使用 “有一个” 关系，而不是 “是一个” 关系。</li>
+<li>注意，这里使用 Hashtable 和 MultiHash 说明了“有一个”和“是一个”关系的不同之处。在代码中，建议使用标准 Hashtable 类，而不是自己写 一个。C++ 标准库中提供了 unordered m 类，用来代替 Hashtable, 此外还提供了 unordered_multimap 类，用来代替 MultiHash 类。第 17 章将讨论这两个标准类。</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="4-4not-a-关系"><a href="#4-4not-a-关系" class="headerlink" title="4.4not-a 关系"></a>4.4not-a 关系</h4><blockquote>
+<p>当考虑类之间的关系时，应该考虑类之间是否真的存在关系。不要把对面向对象设计的热情全部转换为许多不必要的类&#x2F;子类关系。  </p>
+<p>当实际事物之间存在明显关系，而代码中没有实际关系时，问题就出现了。0PP（面向对象）层次结构需要模拟功能关系，而不是人为制造关系。图 5-8 显示的关系作为概念集或层次结构是有意义的，但在代码中并不能代表有意义的关系。  </p>
+<p><img src="https://s2.loli.net/2024/02/18/cgRlI9OmYr3K5Tb.png" srcset="/img/loading.gif" lazyload alt="屏幕截图 2024-02-18 124133">避免不必要继承的最好方法是首先给出大概的设计。为每个类和派生类写出计划设置的属性和行为。如果发现某个类没有自己特定的属性或方法，或者某个类的所有属性和方法都被派生类重写，只要这个类不是前面提到的抽象基类，就应该重新考虑设计。</p>
+</blockquote>
+<hr>
+<h4 id="4-5层次结构"><a href="#4-5层次结构" class="headerlink" title="4.5层次结构"></a>4.5层次结构</h4><blockquote>
+<p>类根据层次使得各个派生共性更系统化，另外强调，根据不同划分方式，会得到不同的派生方式，得到不同的层次结构。因此，要点——在代码中，需要平衡现实关系和共享功能关系。</p>
+<p>即使在现实中的两种事物紧密联系，但是在代码中也可能没有任何关系，因为它们没有共享功能。</p>
+<p>优秀的面向对象层次结构优点：</p>
+<ul>
+<li>使用类之间存在有意义的功能关系；</li>
+<li>将共同的功能放入基类，从而支持代码重用；</li>
+<li>避免子类过多地重写父类的功能，除非父类是一个抽象类；</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="4-6多重继承"><a href="#4-6多重继承" class="headerlink" title="4.6多重继承"></a>4.6多重继承</h4><blockquote>
+<p>到目前为止，所有示例都是单一继承链，换句话说，是一种类似于森林的结构。但这不是必需的，在多重渲染中，一个类可以又多个基类。</p>
+<p><img src="https://s2.loli.net/2024/02/18/fSncVWwZ2PKdCTY.png" srcset="/img/loading.gif" lazyload alt="image-20240218131129845"></p>
+<p>考虑用户界面环境，假定用户可单击某张图片。这个对象好像既是按钮又是图片，因此其实现同时继承了 Image 类和 Button 类，如图 5.12所示。</p>
+<p><img src="https://s2.loli.net/2024/02/18/sWDZKbBpfygvmqE.png" srcset="/img/loading.gif" lazyload alt="image-20240218131236153"></p>
+<p>某些情况下多重继承可能很有用，但必须记住它也有很多缺点。许多程序员不喜欢多重继承，C++明确支持这种关系，而 Java 语言根本不予支持，除非通过多个接口来继承(抽象基类)。批评多重继承是有原因的：</p>
+<ul>
+<li>首先，用图形表示多重继承十分复杂。如图 5-11 所示，当存在多重继承和交叉线时，即使简单的类图也会变得非常复杂。类层次结构旨在让程序员更方便地理解代码之间的关系。而在多重继承中，类可有多个彼此没有关系的父类。将这么多类加入对象的代码中，能跟踪发生了什么吗？</li>
+<li>其次，多重继承会破坏清晰的层次结构。  </li>
+<li>最后，多重继承的实现很复杂。</li>
+</ul>
+<p>其他语言取消多重继承的原因是：通常可以避免使用多重继承。在控制某种项目设计时，重新考虑层次结构，通常可以避免引入多重继承。</p>
+</blockquote>
+<hr>
+<h4 id="4-7混入类"><a href="#4-7混入类" class="headerlink" title="4.7混入类"></a>4.7混入类</h4><blockquote>
+<p><strong>混入(mix-in) 类</strong>代表类之间的另一种关系。在 C++中，混入类的语法类似于多重继承，但语义完全不同。混入类回答“<strong>这个类还可以做什么</strong>”这个问题，<strong>答案经常以 “-able” 结尾</strong>。<strong>使用混入类，可向类中添加功能，而不需要保证是完全的“是一个”关系。</strong>可将它当作一种<strong>分享(share-with)关系</strong>。  </p>
+<p>混入类经常在用户界面中使用。可以说 Image 能够单击(Clickable), 而不需要说 PictureButton 类既是 Image又是 Button。桌面上的文件夹图标可以是一张可拖动(Draggable)、可单击(Clickable)的图片(Image)。软件开发人员总是喜欢弄一大堆有趣的形容词。  </p>
+<p>当考虑类而不是代码的差异时，混入类和基类的区别还有很多。因为范围有限，混入类通常比多重层次结构容易理解。Pettable 混入类只是在己有类中添加了一个行为，Clickable 混入类或许仅添加了“按下鼠标”和 “释放鼠标”行为。此外，混入类很少会有庞大的层次结构，因此不会出现功能的交叉混乱。第 28 章将详细介绍混入类。  </p>
+</blockquote>
+<hr>
+<h3 id="5-5抽象"><a href="#5-5抽象" class="headerlink" title="5.5抽象"></a>5.5抽象</h3><blockquote>
+<p>第 4 章讲述了抽象的概念一将实现与访问方式分离的概念。前面说过，抽象是一种优秀的思想，也是面向对象设计的基础。  </p>
+</blockquote>
+<hr>
+<h4 id="5-1接口与实现"><a href="#5-1接口与实现" class="headerlink" title="5.1接口与实现"></a>5.1接口与实现</h4><blockquote>
+<p><strong>抽象的关键在于有效分离接口与实现。</strong>实现是用来完成任务的代码，接口是其他用户使用代码的方式。在 C 中，描述库函数的头文件是接口，在面向对象编程中，类的接口是公有属性和方法的集合。优秀的接口只包含共有行为，类的属性&#x2F;变量绝不应该公有，但是可以通过公有方法公开，这些方法被称为获取器和设置器。</p>
+</blockquote>
+<hr>
+<h4 id="5-2决定公开的接口"><a href="#5-2决定公开的接口" class="headerlink" title="5.2决定公开的接口"></a>5.2决定公开的接口</h4><blockquote>
+<p>编写接口又很多理由。在编写代码前，甚至在决定要公开的功能之前，必须理解接口的目的。</p>
+<p>当设计类时，其他程序员如何与你的对象交互是一个问题。<strong>在 C++中，类的属性和方法可以是公有的(public)、受保护的(protected)和私有的(private)<strong>。 将属性或行为设置为 <strong>public 意味着其他代码可以访问它们。protected 意味着其他代码不能访问这个属性或行为，但子类可以访问。private 是最严格的控制，意味着不仅其他代码不能访问这个属性或行为，子类也不能访问，只有自身可以将属性转化为行为，然后根据行为来体现属性，最后只能使用自身来实现类的功能</strong>。注意，</strong>访问修饰符在类级别而非对象级别发挥作用。例如,这意味着类的方法可访问同一个类的其他对象的私有属性或私有方法。</strong>  </p>
+<p><strong>应用程序编程接口(API)</strong></p>
+<p>API 是一种外部可见机制，用于在其他环境中扩展产品或者使用其功能。如果说内部的接口是契约，那么API 更接近于雕刻在石头上的法律。一旦用户开始使用你的 API, 哪怕他们不是公司的员工，他们也不希望 API发生改变，除非加入帮助他们的新功能。在交给用户使用之前，应该关心 API 的设计，并与用户进行商谈。  </p>
+<p>设计 API 时主要考虑易用性和灵活性。由于接口的目标用户并不熟悉产品内部的运行方式，因此学习使用API 是一个循序渐进的过程。毕竟，公司向用户公开这些 API 的目的是想让用户使用 API。如果使用难度太大, API 就是失败的。灵活性常与此对立，产品可能有许多不同的用途，我们希望用户能使用产品提供的所有功能。然而，如果一个 API 让用户做产品可做的任何事，那么它肯定会过于复杂。   </p>
+<p>正如编程格言所说，“好的 API 使容易的情况变得更容易，使艰难的情况变得容易”。也就是说，API 应该很容易使用。大多数程序员想要做的事情就是访问。然而，<strong>API 应该允许更高级的用法</strong>，因此在罕见的复杂情况和常见的简单情况之间做出折中是可以接受的。</p>
+<p><strong>工具类或库</strong></p>
+<p><strong>通常，程序员的任务是设计某些特定的功能，供应用程序中的其他部分使用，这可能是一个随机数库或日志类</strong>。在此情况下比较容易确定接口，因为要公开大多数功能或全部功能，<strong>理想情况下不应该给出与实现有关的内容。</strong>通用性是需要考虑的重要问题，由于类或库是通用的，因此在设计中应该考虑设置可能的用例集。</p>
+<p><strong>子系统接口</strong></p>
+<p><strong>你可能设计程序中两个主要子系统之间的接口，例如访问数据库的机制。</strong>在此情况下，将接口与实现分离异常重要，其他程序员可能会在你的实现完成之前依靠你的接口编写他们的实现。当处理子系统时，首先考虑子系统的主要目的是什么。一旦定义子系统的主要任务，就可以考虑子系统的具体用法以及如何将它展示给代码的其他部分。试着从他人的角度考虑问题，而不要身陷实现的细节而不能自拔。</p>
+<p><strong>组件接口</strong></p>
+<p><strong>我们定义的大多数接口可能都小于子系统接口或 API。组件是在其他代码中会用到的类。</strong>这些情况下，当接口逐渐增大，变得难以控制时，就可能会出现问题。哪怕这些接口是供自己使用的，也要当成不是。与子系统接口类似，此时应该考虑每个类的主要目的，不要公开对这个目的没有贡献的功能。</p>
+<p><strong>在设计接口时，应该考虑将来的需求。你会在这个设计上花费数年时间吗？如果是这样，就可能需要使用插件架构，从而留出扩展空间。能够确定人们使用接口的目的与当初设计的目的相同吗？与他们交流，以更好地理解他们的使用情况。否则以后就要重写接口，或者更糟糕的是，以后可能需要不时地添加新功能，使接口变得凌乱不堪。要小心！如果将来的用途不明，就不要设计包含一切的日志类，因为这样做会不必要地将设计、实现和公有接口复杂化 。</strong></p>
+</blockquote>
+<hr>
+<h4 id="5-3设计成功的抽象"><a href="#5-3设计成功的抽象" class="headerlink" title="5.3设计成功的抽象"></a>5.3设计成功的抽象</h4><blockquote>
+<p>经验和重复是良好抽象的基础。只有经历过多年编写代码和使用抽象，才能真正地设计良好的接口。也可通过标准设计模式，重用己有的、设计优秀的抽象代码，利用他人多年编写和使用抽象的经验。当遇到其他抽象时，试着记住什么可行，什么不可行。</p>
+<p>良好的抽象意味着接口只有公有行为。所有代码都应该在实现文件而不是类定义文件中。这意味着包含类定义的接口文件是稳定的，不会改变。与此对应的技术称为私有实现习语或 pimpl idiom, 详见第 9 章。    </p>
+<p>小心单一类的抽象。如果编写的代码非常深奥，应该考虑用其他类配合主接口。例如，如果公开一个完成数据处理的接口，那么还要考虑编写一个结果对象，从而提供一种简单的方法来查看并说明结果。  </p>
+<p><strong>始终将属性转换为方法。</strong>换句话说，不要让外部代码直接操作类的数据。不要让一些粗心或怀有恶意的程序员把兔子对象的高度设置为负数，为此可对“设置高度”方法进行边界检查。  </p>
+</blockquote>
+<hr>
+<h3 id="5-6本章小结"><a href="#5-6本章小结" class="headerlink" title="5.6本章小结"></a>5.6本章小结</h3><blockquote>
+<p>层次清晰化，属性方法化，使用 “有一个” 而非 “是一个”，“是一个” 关系变多，会使得基类的概念模糊，耦合性过大)；</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ 复习教程第五章（面向对象设计）</div>
+      <div>http://example.com/2024/03/14/C++ 复习教程第五章（面向对象设计）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yanhuigang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%88C++%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC%EF%BC%89/" title="C++ 复习教程第三章（C++编码风格）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ 复习教程第三章（C++编码风格）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%88%E7%86%9F%E6%82%89%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%EF%BC%89/" title="C++ 复习教程第八章（熟悉类和对象）">
+                        <span class="hidden-mobile">C++ 复习教程第八章（熟悉类和对象）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

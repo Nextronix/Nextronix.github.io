@@ -1,0 +1,840 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yanhuigang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第6章 —— 设计可重用代码 在程序中，重用库和其他代码是一项重要的设计策略。然而，这只是重用策略的一半，另外一半是设计并编写在程序中的可重用代码。你可能己经发现，设计良好的库和设计不当的库之间存在显著差别。设计良好的库用起来很舒服，而设计糟糕的库会让人觉得非常难受，以至于放弃使用，自己编写代码。无论是编写供其他程序员使用的库，还是仅仅设计某个类层次结构，在设计代码时都应该考虑重用。你永远不知道后">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 复习教程第六章（设计可重用代码）">
+<meta property="og:url" content="http://example.com/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E5%8F%AF%E9%87%8D%E7%94%A8%E4%BB%A3%E7%A0%81%EF%BC%89/index.html">
+<meta property="og:site_name" content="yanhuigang&#39;s blog">
+<meta property="og:description" content="第6章 —— 设计可重用代码 在程序中，重用库和其他代码是一项重要的设计策略。然而，这只是重用策略的一半，另外一半是设计并编写在程序中的可重用代码。你可能己经发现，设计良好的库和设计不当的库之间存在显著差别。设计良好的库用起来很舒服，而设计糟糕的库会让人觉得非常难受，以至于放弃使用，自己编写代码。无论是编写供其他程序员使用的库，还是仅仅设计某个类层次结构，在设计代码时都应该考虑重用。你永远不知道后">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/02/20/xD5CHUStYdi4F2w.png">
+<meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
+<meta property="article:modified_time" content="2024-03-15T12:21:47.198Z">
+<meta property="article:author" content="yanhuigang">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/02/20/xD5CHUStYdi4F2w.png">
+  
+  
+  
+  <title>C++ 复习教程第六章（设计可重用代码） - yanhuigang&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yanhuigang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 复习教程第六章（设计可重用代码）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-14 18:18" pubdate>
+          2024年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          9.5k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          79 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 复习教程第六章（设计可重用代码）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="第6章-——-设计可重用代码"><a href="#第6章-——-设计可重用代码" class="headerlink" title="第6章 —— 设计可重用代码"></a>第6章 —— 设计可重用代码</h2><blockquote>
+<p>在程序中，重用库和其他代码是一项重要的设计策略。然而，这只是重用策略的一半，另外一半是设计并编写在程序中的可重用代码。你可能己经发现，设计良好的库和设计不当的库之间存在显著差别。设计良好的库用起来很舒服，而设计糟糕的库会让人觉得非常难受，以至于放弃使用，自己编写代码。<strong>无论是编写供其他程序员使用的库，还是仅仅设计某个类层次结构，在设计代码时都应该考虑重用。你永远不知道后续项目什么时候会用到相似的功能段。</strong>  </p>
+<p>第 4 章介绍了重用的设计主题，并阐述了如何通过在设计中整合库和其他代码来应用这个主题。<strong>本章讨论重用的另一方面：设计可重用代码。</strong>这一内容建立在第 5 章介绍的面向对象设计原则基础之上，并引入了新的策略和指导方针。</p>
+</blockquote>
+<hr>
+<h3 id="6-1重用哲学"><a href="#6-1重用哲学" class="headerlink" title="6.1重用哲学"></a>6.1重用哲学</h3><blockquote>
+<p>应该设计自己和其他程序员都可以重用的代码。这条规则不仅是用于专供其他程序员使用的库或框架，还适用于程序中用到的类、子系统和组件。</p>
+<p>牢记格言：</p>
+<ul>
+<li>编写一次，经常使用；</li>
+<li>尽量避免代码重复；</li>
+<li>DRY(Don’t Repeat Yourself)；</li>
+</ul>
+<p>原因如下：</p>
+<ul>
+<li>代码不大可能只在一个程序中使用，代码总会被重用；</li>
+<li>重用设计可节省时间和金钱，减少过多重复性工作；</li>
+<li>团队中的其他程序员必须能够使用你编写的代码，因为大部分工程都不可能独自完成，因此，重用设计可以称为协作编程；</li>
+<li>缺乏重用性会导致代码重复，代码重复会导致维护困难，因为一旦发现 bug 那么就必须在所有地方都进行改变，这很容易出错；</li>
+<li>你自己是主要受益人，因为经验丰富的程序员永远不会扔掉代码，随着时间推移，他们会创建个人工具库，你永远不会事先知道要在什么时候使用到类似的代码；</li>
+</ul>
+<p>警告：</p>
+<p>​	公司员工设计或编写代码时，通常拥有知识产权的时公司而不是员工本人。当员工终止劳动合同时，保留设计或代码的副本通常是违法的；</p>
+</blockquote>
+<hr>
+<h3 id="6-2如何设计可重用代码"><a href="#6-2如何设计可重用代码" class="headerlink" title="6.2如何设计可重用代码"></a>6.2如何设计可重用代码</h3><blockquote>
+<p>可重用代码目标：</p>
+<ol>
+<li>代码必须通用，太过特定的组件很难被重用；</li>
+<li>代码应当易于使用，而不需要花费大量时间理解他们的接口或功能；</li>
+</ol>
+<p>将库“递交”给客户的方法也很重要。可以源代码形式递交，这样客户只需要将源代码整合到他们的项目中。另一种选择是递交一个静态库，客户可以将该库连接到他们的应用程序中，也可以给 Windows 客户递交一个动态链接库(DLL)，给 Linux 客户递交一个共享对象(.so)。这些递交方式会对编写库的方式施加额外限定；</p>
+<p>注意：</p>
+<p><strong>本章用术语 “客户”代表使用接口的程序员。</strong>不要将客户与使用程序的 “用户”混淆。本章还使用了短语“客户代码”，这代表使用接口的代码。</p>
+<p>重中之重：</p>
+<p>重用代码的本质是——抽象；</p>
+<p>抽象将代码分为接口和实现，因此设计可重用代码会关注这两个关键领域；实现代码，是重用的实现；只要理解代码接口，即可使用；</p>
+</blockquote>
+<hr>
+<h4 id="2-1使用抽象"><a href="#2-1使用抽象" class="headerlink" title="2.1使用抽象"></a>2.1使用抽象</h4><blockquote>
+<p>抽象的优点：</p>
+<ul>
+<li><p>通过分离实现和接口，首先，使得客户只需要明白接口的用途就可以使用代码；而程序员在维护时，不需要修改接口，因此不需要征求客户的同意，只需改变代码本身就可以；如果使用动态链接库(DLL)，甚至不需要重新生成可执行文件；</p>
+</li>
+<li><p>总之，获得好处的是因为作为库的编写者，可在接口明确指定希望的交互方式和支持方式的功能；接口与实现的明确分离可以杜绝用户以不希望的方式使用库，而这些方式可能导致意料之外的行为和 bug。</p>
+</li>
+<li><p>当在设计界面时，不要向客户公开实现细节；</p>
+</li>
+<li><p><strong>有时为将某个接口返回的信息传递给其他接口，库要求客户代码保存这些信息。这一信息有时叫作句柄（handle）, 经常用来跟踪某些特定的实例，这些实例调用时的状态需要被记住。如果库的设计需要句柄，不要公开句柄的内部情况。可将句柄放入某个不透明类，程序员不能“直接访问这个类的内部数据成员，也不能通过公有的获取器或设置器来访问”。</strong></p>
+<blockquote>
+<p>这种设计决策有以下目的和优势：</p>
+<ol>
+<li><strong>封装内部实现：</strong> 将句柄放入一个不透明类中，允许库在内部更改实现细节而不会影响客户代码。客户代码只需要与句柄进行交互，而不需要了解其内部结构。</li>
+<li><strong>隐藏实现细节：</strong> 隐藏句柄的内部情况可以防止客户代码直接访问或修改句柄的状态。这种信息隐藏有助于维护库的一致性和稳定性，因为客户代码无法非法地操作句柄。</li>
+<li><strong>提高安全性：</strong> 不透明类的使用可以提高安全性，防止客户代码意外地破坏库内部的状态。通过限制对内部成员的访问，可以减少潜在的错误和不当操作。</li>
+</ol>
+</blockquote>
+</li>
+<li><p>不要要求客户代码改变句柄内部的变量。一个不良设计的示例是，一个库为了启用错误日志，要求设置某个结构的特定成员，而这个结构所在的句柄本来应该是不透明的</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="2-2构建理想的重用代码"><a href="#2-2构建理想的重用代码" class="headerlink" title="2.2构建理想的重用代码"></a>2.2构建理想的重用代码</h4><blockquote>
+<ol>
+<li><p><strong>避免组合不相干的概念或者逻辑上独立的概念，当设计组件时，应该关注单个任务或一组任务，即“高聚合”， 也称为 SRP（Single Responsibility Principle,单一责任原则）。</strong> 不要将无关概念组合在一起，例如随机数生成器和 XML 解析器。  </p>
+<p><strong>即使设计的代码并不是专门用来重用的，也应该记住这一策略。</strong>整个程序本身很少会被重用，但是程序的片段或子系统可直接组合到其他应用程序中，也可以在稍作变动后用于大致相同的环境。因此，设计程序时，应将逻辑独立的功能放到不同的组件中，以便在其他程序中使用。其中的每个组件都应当有明确定义的责任。</p>
+<p><strong>这个编程策略模拟了现实中可互换的独立部分的设计原则。</strong>例如，可编写一个 Car 类，在其中放入引擎的所有属性和行为。但引擎是独立组件，未与小汽车的其他部分绑定。可将引擎从一辆小汽车卸下，安装在另一辆小汽车中。<strong>合理的设计是添加一个 Engine 类，其中包含与引擎相关的所有功能。此后，Car 实例将包含 Engine实例。</strong></p>
+<p><strong>将程序分为逻辑子系统  ，将子系统设计为可单独重用的分立组件，即“低耦合”。</strong> 每个子系统都应该遵循抽象原则。将每个子系统当作微型库，必须为其提供稳定的、便于使用的接口。即使你是使用这个微型库的唯一程序员，设计良好的接口和从逻辑上分离不同功能的实现也是有益的。  </p>
+<p> <strong>用类层次结构分离逻辑概念，除了将程序分为逻辑子系统以外，在类级别上应该避免将无关概念组合在一起。</strong>  <strong>总结：组织内部高聚合，组件之间低耦合；</strong></p>
+<p>用聚合分离逻辑概念。第 5 章讨论的聚合（Aggregation）模拟了“有一个”关系：为完成特定功能，对象会包含其他对象。当不适合使用继承方法时，可以使用聚合分离没有关系的功能或者有关系但独立的功能。</p>
+<p>例如，假定要编写一个 Family 类来存储家庭成员。显然，树数据结构是存储这些信息的理想结构。不应该把树数据结构的代码整合到 Family 类中，而是应该编写一个单独的 Tree 类。然后 Family 类可以包含并使用 Tree实例。用面向对象的术语来说，Family 有一个 Tree。通过这种方法，可以在其他程序中方便地重用树数据结构。</p>
+<p>消除用户界面的依赖性</p>
+<p>如果是一个操作数据的库，就需要将数据操作与用户界面分离开来。这意味着对于这些类型的库，不应该假定哪种类型的用户界面会使用库，因此不应该使用 cout、cerr、cin、stdout、stderr 或 stdin, 因为如果在图形用户界面的环境下使用库，这些概念将没有意义。例如，基于 Windows GUI 的应用程序通常不会有任何形式的控制台 I&#x2F;O。即使库只用于基于 GUI 的程序，也不应该向最终用户弹出任何类型的消息窗口或者其他类型的提示，这是客户代码需要做的事情。这种类型的依赖不仅降低了重用性，还阻止了客户代码正确响应错误以及在后台自动处理错误。</p>
+</li>
+</ol>
+<p>以下是一些实现这一目标的常见策略：</p>
+<ol>
+<li><strong>使用回调函数：</strong> 允许客户代码提供回调函数，这些函数用于处理特定事件或错误。例如，库可以定义一些回调函数，如处理错误、进度更新或异步操作完成等。客户代码负责实现这些回调函数，以便在适当的时候进行响应。</li>
+<li><strong>定义接口或抽象类：</strong> 将用户界面相关的操作定义为接口或抽象类，使得客户代码可以根据自己的需要实现这些接口。这种方式使得库不依赖于具体的用户界面实现，而只依赖于接口。</li>
+<li><strong>使用事件机制：</strong> 如果库支持事件，客户代码可以注册感兴趣的事件处理器。这样，库可以触发事件，而客户代码则负责处理这些事件，例如更新界面或处理错误。</li>
+<li><strong>提供配置选项：</strong> 允许客户代码通过配置选项来自定义库的行为，而不是在库中直接使用特定的用户界面元素。例如，客户代码可以通过设置配置选项来指定日志输出的目标，而不是直接使用 cout 或者其他特定的输出流。</li>
+<li><strong>避免直接的用户界面代码：</strong> 在库中避免直接调用与用户界面相关的库或函数。将这些调用封装在特定的接口或者类中，使得用户界面的具体实现对于库来说是可替换的。</li>
+<li><strong>提供适配器模式：</strong> 如果必须在库中处理用户界面相关的逻辑，可以考虑使用适配器模式。通过定义一个接口，允许不同的用户界面实现提供适配器，以便库可以与不同的用户界面进行交互。</li>
+</ol>
+<p>第 4 章介绍的 Model-View-Controner（MVC）范型是一种将数据存储和数据显示分开的著名设计模式。在这种范型中，模型可放在库中，客户代码可提供视图和控制器。</p>
+<p>2.<strong>对泛型数据结构和算法使用模板：</strong>  </p>
+<p>​	<strong>C++模板的概念允许以类型或类的形式创建泛型结构。</strong>例如，假定为整型数组编写了代码。如果以后要使用 double 数组，就需要重写并复制所有代码。模板的概念将类型变成一个需要指定的参数，这样就可以创建一个适用于任何类型的代码体。模板允许编写适用于任何类型的数据结构和算法。</p>
+<p>最简单的示例是std::vector类,这个类是C++标准库的一部分。为创建整型的 vector, 可编写 std::vector<int>;,为创建 double 类型的 vector, 可编写 std::vector<double>。模板编程通常功能强大，但非常复杂。幸运的是，可以创建简单的、使用类型作为参数的模板用例。第 12 和 22 章讲述编写自定义模板的技巧，本节讨论模板的一些重要设计特征。</p>
+<p><strong>只要有可能，就应该设计泛型（而不是局限于某个特定程序的）数据结构和算法。</strong>不要编写只存储 book 对象的平衡二叉树结构，要使用泛型，这样就可以存储任何类型的对象。通过这种方法，可将其用于书店、音乐商店、操作系统或需要平衡二叉树的任何地方。这个策略是标准库的基础。标准库提供可用于任何类型的泛型数据结构和算法。</p>
+<p><strong>模板优于其他泛型程序设计的原因：</strong></p>
+<ol>
+<li>void* (用于不指定类型的指针)，类型不安全，，欸有类型检测，无论删除还是转换都存在一定风险；</li>
+<li>为特定类编写数据结构，通过多态性(统一操作作用于不同对象，行为不同)，这个类的所有子类都可以存储在这个结构中。Java 将这种方法发挥到极致，指定所有的类都从 Object 类直接或间接派生。<strong>早期 Java 版本的容器存储 Object, 因此可以存储任何类型的对象。然而，这种方法也不是真正类型安全的。从容器中删除某个对象时，必须记得其真实的类型，并向下转换（down-cast）为合适的类型。向下转换意味着转换为类层次结构中更具体的类，即沿着类层次结构“向下”转换。</strong></li>
+</ol>
+<p><strong>模板并不是完美的：</strong></p>
+<ol>
+<li>首先，语法较为迷惑；</li>
+<li>其次，模板要求相同类型的数据节后，在一个结构中只能存储相同的数据类型。这就是说，一个模板创建出的数据结构，只能用于存储同种类型。这种限制是由模板的类型安全性质决定的。从 C++17开始，可以采用一种标准方式来绕过这种“相同类型”限制。可编写数据结构来存储 std::variant 或 std::any 对象。std::any 对象可存储任意类型的值，std::variant对象可存储所选类型的值。第 20 章将详细介绍这两种对象以及它们的变体。</li>
+</ol>
+<p>模板与继承的区别：</p>
+<ol>
+<li><strong>如果打算为不同的类型提供相同的功能，则使用模板。</strong>例如，如果要编写一个适用于任何类型的泛型排序算法，应该使用模板。如果要创建一个可以存储任何类型的容器，应该使用模板。关键的概念在于模板化的结构或算法会以相同方式处理所有类型。但是，如有必要，可给特定的类型特殊化模板，以区别对待这些类型。模板特殊化参见第 12 章  </li>
+<li><strong>当需要提供相关类型的不同行为时，应该使用继承。</strong>例如，如果要提供两个不同但类似的容器，例如队列和优先队列，应该使用继承；</li>
+<li>把二者结合起来。可以编写一个模板基类，此后从中派生一个模板化的类。(这也就叫做抽象，抽象出来这个，然后给出接口)第 12 章将详细讲述模板语法；</li>
+</ol>
+<p><strong>提供适当的检测和安全措施：</strong></p>
+<p>第一种方法是按契约设计，这表示函数或类的文档是契约，详细描述客户代码的作用以及函数或类的作用。按契约设计有三个重要方面：前置条件(precondition)、后置条件(postcondition)和不变量(invariant)。前置条件列出为调用函数或方法，客户代码必须满足的条件。后置条件列出完成执行后，函数或方法必须满足的条件。最后，不变量列出在函数或方法执行期间，必须一直满足的条件；</p>
+<blockquote>
+<p>这种方法常用于标准库。例如，std::vector 定义了一个契约，以使用数组记号获取 vector 中的某个元素。契约指定，vector 不进行边界检查，这是客户代码的责任。也就是说，使用数组记号从 vector 获取元素的前置条件对于给定索引是有效的。这样可提高客户代码的性能，因为客户代码知道其索引在指定范围内。vector 还定义了 at()方法，用来获取进行边界检查的特定元素。所以客户代码可以选择是使用不带边界检查的数组记号，还是使用带有边界检查的 at()方法。  </p>
+</blockquote>
+<p>第二种方法是以尽可能安全的方式设计函数和类。这个指导方针的最主要特征就是在代码中执行错误检测。例如，如果随机数生成器要求一个处于指定范围的种子，不要相信用户一定会正确地传递一个有效的种子。应该检测传递过来的值，如果无效，就拒绝调用。前面讨论的 at() 方法是另一个考虑安全的示例。如果用户提供了无效索引，该方法将抛出异常。  </p>
+<p>有些技巧和语言特征有助于编写安全代码，有助于在程序中加入检测和安全措施。<strong>首先，可返回错误代码或特定的值(例如 fhlse 或 nullptr), 或者抛出异常，以提醒客户代码发生了错误，第 14 章将详细讲述异常。****其次,为编写安全代码，可使用智能指针管理动态分配的内存等资源。从概念上说，智能指针是指向动态分配的资源的指针，当超出作用域时会自动释放资源。</strong>第 1 章讨论过智能指针。</p>
+<p><strong>扩展性:</strong></p>
+<p>设计的类应当具有扩展性，可通过从这些类派生其他类来扩展它们。不过，设计好的类应当不再修改；也就是说，其行为应当是可扩展的，而不必修改其实现。这称为开放&#x2F;关闭原则(Open&#x2F;Closed Principle, OCP)。</p>
+<p>  例如，假设开始实现绘图应用程序。第一个版本只支持绘制正方形，设计中包含两个类：Square() 和 Renderer0 前者包含正方形的定义，如边长；后者负责绘制正方形。得到的代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Square</span><br>&#123;<br>	<span class="hljs-comment">// Details not important for this example.</span><br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Renderer</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">(<span class="hljs-type">const</span> vector&lt;Square&gt;&amp; squares)</span></span>;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Renderer::render</span><span class="hljs-params">(<span class="hljs-type">const</span> vector&lt;Square&gt;&amp; squares)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; square : squares)<br>	&#123;<br>		<span class="hljs-comment">// Render this square object.</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>接下来，添加对绘制圆的支持，因此创建 Circle 类：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Circle</span><br>&#123;<br>	<span class="hljs-comment">// Details not important for this example.</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>下面给出一种愚蠢的 render() 解决方案:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Renderer::render</span><span class="hljs-params">(<span class="hljs-type">const</span> vector&lt;Square&gt;&amp; squares,</span></span><br><span class="hljs-params"><span class="hljs-function">					  <span class="hljs-type">const</span> vector&lt;Circle&gt;&amp; circles)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; square : squares)<br>	&#123;<br>		<span class="hljs-comment">// Render this square object.</span><br>	&#125;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; circle : circles)<br>	&#123;<br>		<span class="hljs-comment">// Render this circle object.</span><br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>此时的设计应当使用继承，虽然稍微超前，但是仍然给出，只需要理解其中的精妙，只需要知道 Square 从 Shape 类中派生即可：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Square</span> : <span class="hljs-keyword">public</span> Shape &#123;&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>下面使用继承语法的设计：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Shape</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Square</span> : <span class="hljs-keyword">public</span> Shape<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123; <span class="hljs-comment">/* Render square */</span> &#125;<br>	<span class="hljs-comment">// Other members not important for this example.</span><br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Circle</span> : <span class="hljs-keyword">public</span> Shape<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123; <span class="hljs-comment">/* Render circle */</span> &#125;<br>	<span class="hljs-comment">// Other members not important for this example.</span><br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Renderer</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">(<span class="hljs-type">const</span> vector&lt;shared_ptr&lt;Shape&gt;&gt;&amp; objects)</span></span>;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Renderer::render</span><span class="hljs-params">(<span class="hljs-type">const</span> vector&lt;shared_ptr&lt;Shape&gt;&gt;&amp; objects)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-keyword">auto</span>&amp; object : objects)<br>	&#123;<br>	object-&gt;<span class="hljs-built_in">render</span>();<br>	&#125;<br>&#125;<br><span class="hljs-comment">/*看到这里没有这个多态，实在是优美，利用抽象把多态给搞出来，再利用抽象把将有特点的类从基类中派生出来，注意到没有 auto* 的使用，这是不是特别引人入胜，一下子把很多需要说的东西给解决了，而且是类型安全的，而且使用 const &amp; 的常量引用方式，只能说结构实在是清晰*/</span><br><br><span class="hljs-comment">// 因为后面介绍了 DIP 这种比较高级的方式，下面给出这种写法(看后面，已经觉得这种方式不是很好了，下面有鲁棒的)：</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-comment">// 渲染器接口</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Renderer</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">renderShape</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br>&#125;;<br><br><span class="hljs-comment">// 具体的方形渲染器</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SquareRenderer</span> : <span class="hljs-keyword">public</span> Renderer<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">renderShape</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span></span><br><span class="hljs-function">	</span>&#123;<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;Rendering square.&quot;</span> &lt;&lt; std::endl;<br>		<span class="hljs-comment">// 具体的方形渲染逻辑</span><br>	&#125;<br>&#125;;<br><br><span class="hljs-comment">// 具体的圆形渲染器</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">CircleRenderer</span> : <span class="hljs-keyword">public</span> Renderer<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">renderShape</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span></span><br><span class="hljs-function">	</span>&#123;<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;Rendering circle.&quot;</span> &lt;&lt; std::endl;<br>		<span class="hljs-comment">// 具体的圆形渲染逻辑</span><br>	&#125;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Shape</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">// 通过渲染器接口实现依赖反转</span><br>	<span class="hljs-built_in">Shape</span>(Renderer* renderer) : <span class="hljs-built_in">renderer</span>(renderer) &#123;&#125;<br><br>	<span class="hljs-comment">// 渲染形状的方法</span><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		renderer-&gt;<span class="hljs-built_in">renderShape</span>();<br>	&#125;<br><br><span class="hljs-keyword">private</span>:<br>	Renderer* renderer;<br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// 创建具体的渲染器实例</span><br>	SquareRenderer squareRenderer;<br>	CircleRenderer circleRenderer;<br><br>	<span class="hljs-comment">// 创建具体的形状实例，并传入相应的渲染器</span><br>	<span class="hljs-function">Shape <span class="hljs-title">square</span><span class="hljs-params">(&amp;squareRenderer)</span></span>;<br>	<span class="hljs-function">Shape <span class="hljs-title">circle</span><span class="hljs-params">(&amp;circleRenderer)</span></span>;<br><br>	<span class="hljs-comment">// 渲染形状</span><br>	square.<span class="hljs-built_in">render</span>();  <span class="hljs-comment">// 输出：Rendering square.</span><br>	circle.<span class="hljs-built_in">render</span>();  <span class="hljs-comment">// 输出：Rendering circle.</span><br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">/*这样看上去是不是更 NB 了？这样使得依赖注入了*/</span><br><span class="hljs-comment">/*我想强调的是：依赖注入(DIP)实现的是对功能的多态化处理，将类与类的功能分开，是向实现功能的特定类进行派生类注入，然后实现同一操作的多态化。所以，给出下面更好的方法。*/</span><br><br><span class="hljs-comment">// 理论角度上，下面这种方式也是可行的：</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-comment">// 渲染器接口</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Shape</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">renderShape</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br>&#125;;<br><br><span class="hljs-comment">// 具体的方形渲染器</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Square</span> : <span class="hljs-keyword">public</span> Shape<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">renderShape</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span></span><br><span class="hljs-function">	</span>&#123;<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;Rendering square.&quot;</span> &lt;&lt; std::endl;<br>		<span class="hljs-comment">// 具体的方形渲染逻辑</span><br>	&#125;<br>&#125;;<br><br><span class="hljs-comment">// 具体的圆形渲染器</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Circle</span> : <span class="hljs-keyword">public</span> Shape<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-function"><span class="hljs-keyword">virtual</span> <span class="hljs-type">void</span> <span class="hljs-title">renderShape</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span></span><br><span class="hljs-function">	</span>&#123;<br>		std::cout &lt;&lt; <span class="hljs-string">&quot;Rendering circle.&quot;</span> &lt;&lt; std::endl;<br>		<span class="hljs-comment">// 具体的圆形渲染逻辑</span><br>	&#125;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Render</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">// 通过渲染器接口实现依赖反转</span><br>	<span class="hljs-built_in">Render</span>(Shape* shape) : <span class="hljs-built_in">shape</span>(shape) &#123;&#125;<br><br>	<span class="hljs-comment">// 渲染形状的方法</span><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">render</span><span class="hljs-params">()</span></span><br><span class="hljs-function">	</span>&#123;<br>		shape-&gt;<span class="hljs-built_in">renderShape</span>();<br>	&#125;<br><br><span class="hljs-keyword">private</span>:<br>	Shape* shape;<br>&#125;;<br><br><span class="hljs-comment">/*这里我们看到了两种依赖方式：</span><br><span class="hljs-comment">    1.Shape 类依赖于 Renderer 接口(派生类为渲染器)：</span><br><span class="hljs-comment">优点：Shape 类可以直接依赖于渲染器接口，更加直观。添加新的形状时，只需创建一个新的实现了 Renderer 接口的类，而不需要修改 Shape 类。</span><br><span class="hljs-comment">缺点：Shape 类需要知道渲染器的存在，这可能在一些情况下被视为 Shape 类的责任过重，不够单一。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">	2.Render 类依赖于 Shape 接口(派生类为图形)：</span><br><span class="hljs-comment">优点：在这种情况下，Shape 类并不关心具体的渲染器是什么，只关心渲染的形状。这种设计更加符合单一责任原则，因为每个类都有一个清晰的责任。</span><br><span class="hljs-comment">缺点：可能存在大量的渲染器类，每个都需要实现 renderShape() 方法。这种情况下，添加新的形状可能需要创建一个新的渲染器类。</span><br><span class="hljs-comment"></span><br><span class="hljs-comment">在实际应用中，选择哪种方法通常取决于具体的系统需求和设计目标。</span><br><span class="hljs-comment">如果系统中存在多种形状和多种渲染器，并且它们的变化原因不同，那么第一种方法可能更为合适。</span><br><span class="hljs-comment">如果系统中形状的变化和渲染器的变化相对独立，那么第二种方法可能更为直观和灵活。</span><br><span class="hljs-comment">嗯，事实上，第二种更符合最上面没有 DIP 化的形式，但是明显第一种也是可行的。虽然，我也认为第一种是极其不合适的，因为它作为 Shape 类太过“随便”了！仿佛是个图形都可以触发，这显得很轻浮，可以到处沾花惹草，也就是换成人话说，耦合性太强，责任太强。真的不如后面的第二个向 Render 中注入 Shape 的方式；</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+
+<p>现在，设想一下，我们要添加一个新形状类型，那么只需要对基类 Shape 进行派生就可以了，而不需要对 render() 方法进行修改，这完全是多态的体现，这是一种动态的多态，也叫运行时多态。(PS: 另外一种静态多态，多被体现为函数的复写)。因此我们可以说，多态是拓展是开放的，对修改是关闭的。</p>
+<p>我来解释一下，什么叫做 OPC:</p>
+<p>开放：开放对新派生类的扩充，对其属性和行为的规范；</p>
+<p>关闭：关闭对行为(可重用代码)的修改，利用抽象派生实现；</p>
+</blockquote>
+<hr>
+<h4 id="2-3设计有用的接口"><a href="#2-3设计有用的接口" class="headerlink" title="2.3设计有用的接口"></a>2.3设计有用的接口</h4><blockquote>
+<p>没有优美的接口，实现再美好，都是扯淡。</p>
+<p>良好接口有利于重用。</p>
+<p>创新从实现上入手，不要对接口又什么创新想法，那只会变得很蠢；</p>
+<p>回到 C++, 开发的接口应该遵循 C++程序员熟悉的标准。例如，C++程序员希望构造函数初始化对象，析构函数清理对象。当设计类时，应该遵循这个标准。如果要求程序员调用initialize。方法初始化对象，调用 cleanup。方法清理对象，而不是将这些功能放在构造函数和析构函数中，就会让所有用户感到迷惑。因为这个类与其他 C++类的行为不同，程序员需要花费更长的时间学习如何使用这个类，并可能由于忘记调用initialize。或 cleanup。方法而出错。  </p>
+<p><strong>注意：</strong></p>
+<p>​	<strong>设计从使用者角度进行考虑；</strong></p>
+<p>运算符重载可以作为一种帮助为对象开发易于使用的接口的语言特性；但不要使用过度，那样很笨拙，而且反人性，之后会详细讨论；</p>
+<p><strong>不要省略必需的功能：</strong></p>
+<p><strong>该策略分为两部分：</strong></p>
+<ul>
+<li>尽量包括用户所有的可能行为，虽然不可能完美，但是代码本身就没有完美，只有优雅；</li>
+<li>在实现中尽量包含多的功能，不要要求客户端代码指定在实现中已经知道的信息(例如，库需要一个临时文件，不要让库的客户指定路径，他们应当不必担心库使用什么文件，应该用其他方法决定合适的临时文件路径)；</li>
+</ul>
+<p>	</p>
+<p><strong>走向极端：</strong></p>
+<p>部分程序员认为需要完美，比如曾经的我，但是现在我们认识到，优雅比完美更好。上面两个策略任何一个走向极端都是糟糕的事情，那会使得接口混乱至极；</p>
+<p>从本质上说，设计简洁接口的思想看似简单，但是那是主观的规则，实践起来其实相当困难；这个规则基本上是主观的：由你决定什么是必需的，什么不是。当然，当这个判断出错时，客户一定会通知你。  </p>
+<p><strong>提供文档和注释：</strong></p>
+<p>这不是当前的重点，我一带而过，这部分单独学习；</p>
+<p>无论接口多么便于使用，都应该提供使用文档。如果不告诉程序员如何使用，不能期望他们会正确使用库。应该将库或代码称为供其他程序员使用的产品。产品应该带有说明其正确用法的文档。</p>
+<p>提供接口文档有两种方法：接口自身内部的注释和外部的文档。应该尽量提供这两种文档。大多数公开的API 只提供外部文档：许多标准 UNIX 和 Windows 头文件中都缺少注释。在 UNIX 中，文档形式通常是名为man pages 的在线手册。在 Windows 中，集成开发环境通常附带文档。</p>
+<p>虽然多数 API 和库都取消了接口本身的注释，但我们认为，这种形式的文档才是最重要的。绝不应该给出一个只包含代码的“裸”头文件。即使注释与外部文档完全相同，具有友好注释的头文件也比只有代码的头文件看上去舒服，即使最优秀的程序员也希望经常看到书面语言。</p>
+<p>有些程序员使用工具将注释自动转换为文档，第 3 章详细讨论了这一技术。(但我还是没学)</p>
+<p><strong>无论提供注释、外部文档还是二者都提供，文档都应该描述库的行为而不是实现。行为包括输入、输出、错误条件和处理、预定用法和性能保障。</strong>例如，描述生成单个随机数的调用的文档应该说明这个调用不需要参数，返回一个预先指定范围的整数，还应该列出当出现问题时可能抛出的所有异常。文档不应该详细解释实际生成数字的线性同余算法，在接口注释中提供太多的实现细节可能是接口开发中最常见的错误。适用于库维护者(而不是客户)的注释会破坏接口和实现的良好分离，许多开发人员都见到过这种情况。当然，内部的实现也应该有文档记录，只是不要把它作为接口的一部分公开。第 3 章详细讨论了如何在代码中恰当地使用注释。  </p>
+<p><strong>设计通用接口：</strong></p>
+<p><strong>提供执行相同功能的多种方法：</strong></p>
+<p>例如：std::vector 提供了两种方法来访问特定索引处的元素。可使用at()方法，该方法执行边界检查；也可使用 operator口方法，该方法不执行边界检查。如果知道索引是有效的，那么使用 operator口方法更合适，这样可省去使用 at()方法时的边界检查开销；</p>
+<p>注意，这一策略应该当作接口设计中“整洁”规则的例外。有些情况下这个例外是恰当的，但大多数情况下应该遵循“整洁”规则；</p>
+<p><strong>提供定制：</strong></p>
+<p>为增强接口的灵活性，可提供定制。定制可以很简单，如允许用户打开或关闭错误日志。定制的基本前提是向每个客户提供相同的基本功能，但给予用户稍加调整的能力。</p>
+<p>通过函数指针和模板参数，可提供更强的定制。例如，可允许客户设置自己的错误处理例程。</p>
+<p><strong>标准库将定制策略发挥到极致，允许客户为容器指定自己的内存分配器。如果要使用这些特性，就必须编写一个遵循标准库指导方针和符合接口要求的内存分配器对象。</strong>标准库中的每个容器都将分配器作为模板参数，第 21 章将详细讲述。</p>
+<p><strong>协调通用性和使用性：</strong> </p>
+<p>通用意味着复杂，使用意味着简洁，统一这两者即可得到想要的优雅接口；</p>
+<p>太通用，太模板化，不利于使用；太简介，不一定能够完全满足需求；</p>
+<p>但它们并不是互斥的；</p>
+<p><strong>提供多个接口：</strong></p>
+<p>为在提供足够功能的同时，使用这种方法，提供多个独立的接口，这样可以使得复杂度极大降低。也就是说，实现虽然差不多，但是，使用不同接口，进行功能定制；<strong>这称为接口隔离原则(Interface Segregation Principle, ISP)。</strong>例如，编写的通用网络库可以具有两个独立的方向：一个为游戏提供网络接口，另一个为超文本传输协议(HTTP, 一种网络浏览协议)提供网络接口。 </p>
+<p><strong>让常用功能易于使用：</strong> </p>
+<p>当提供通用接口时，某些功能的使用频率会高于其他功能。应该让常用功能易于使用，同时仍提供高级功能选项。例如，多语言设置，给定一种语言作为默认语言，其余仍可设置使用；</p>
+</blockquote>
+<hr>
+<h4 id="2-4-SOLID-原则"><a href="#2-4-SOLID-原则" class="headerlink" title="2.4 SOLID 原则"></a>2.4 SOLID 原则</h4><blockquote>
+<p>常使用易记的首字母缩写词 SOLID 来指代面向对象设计的基本原则。表 6 汇总了 SOLID 原则。其中的大多数原则都在本章讨论过；对于本章未讨论的原则，则指明相关的章号。 </p>
+<p><img src="https://s2.loli.net/2024/02/20/xD5CHUStYdi4F2w.png" srcset="/img/loading.gif" lazyload alt="image-20240220042235720"></p>
+<p>原则如下：</p>
+<p>S：内部高聚合，之间低耦合；</p>
+<p>O：多态+继承实现对象开放，多态+复用实现功能修改关闭；</p>
+<p>L：用于区分“有一个”和“是一个”，意思是说，当选择进行“是一个”的派生时，派生类的行为应当与其基类保持一致，如果程序能够保持一致，那么认为应该继续认为选择“是一个”的关系(因为关系为“是一个”，所以当进行使用时，保持前后行为的一致性，功能没有特殊性的前提下，这样的行为不会引起歧义，而且这样做还可以使得多态性得以增强，因为行为是一致的，因为如果一旦复写方法，那么就有可能存在定义上的偏差，这种偏差随着积累可能会很突兀，而且继承之下，潜在的基类属性也会一并继承，这种渗透事实上很糟糕)；如果不能保证的话，也就是派生类的行为与基类不一致时，应该舍弃“是一个”的派生关系，而转为“有一个”的包含关系(因为要包含对行为的修改，用有一个部分再进行修改的方式去写逻辑上更清晰。这种凡是则更加灵活，不会出现复写方法时的逻辑混乱问题)；</p>
+<p>I：接口兼顾通用、实用，通过独立接口实现接口特异化，高效；</p>
+<p>D：高层模块不应该依赖于底层模块，两者都应该依赖于抽象。抽象不应该依赖于细节，细节应该依赖于抽象。</p>
+<ol>
+<li><strong>高层模块（抽象）定义接口，低层模块实现接口。</strong></li>
+<li><strong>具体实现依赖于抽象，而不是抽象依赖于具体实现。</strong></li>
+<li><strong>使用接口或抽象类来定义高层模块的行为，而不是依赖于具体的实现类。</strong></li>
+</ol>
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><br><span class="hljs-comment">// 定义抽象接口</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Report</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-keyword">virtual</span> std::string <span class="hljs-title">generate</span><span class="hljs-params">()</span> </span>= <span class="hljs-number">0</span>;<br>    <span class="hljs-keyword">virtual</span> ~<span class="hljs-built_in">Report</span>() &#123;&#125;  <span class="hljs-comment">// 增加虚析构函数以正确释放资源</span><br>&#125;;<br><br><span class="hljs-comment">// 具体实现类</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">PDFReport</span> : <span class="hljs-keyword">public</span> Report &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">std::string <span class="hljs-title">generate</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123;<br>        <span class="hljs-comment">// 生成 PDF 报告的具体实现</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;PDF Report&quot;</span>;<br>    &#125;<br>&#125;;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">HTMLReport</span> : <span class="hljs-keyword">public</span> Report &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function">std::string <span class="hljs-title">generate</span><span class="hljs-params">()</span> <span class="hljs-keyword">override</span> </span>&#123;<br>        <span class="hljs-comment">// 生成 HTML 报告的具体实现</span><br>        <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;HTML Report&quot;</span>;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 高层模块使用抽象接口</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">ReportGenerator</span> &#123;<br><span class="hljs-keyword">private</span>:<br>    Report* report;<br><br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// 通过构造函数注入依赖</span><br>    <span class="hljs-built_in">ReportGenerator</span>(Report* report) : <span class="hljs-built_in">report</span>(report) &#123;&#125;<br><br>    ~<span class="hljs-built_in">ReportGenerator</span>() &#123;<br>        <span class="hljs-keyword">delete</span> report;  <span class="hljs-comment">// 释放资源</span><br>    &#125;<br><br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">generateReport</span><span class="hljs-params">()</span> </span>&#123;<br>        <span class="hljs-comment">// 生成报告</span><br>        std::string result = report-&gt;<span class="hljs-built_in">generate</span>();<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Generated Report: &quot;</span> &lt;&lt; result &lt;&lt; std::endl;<br>    &#125;<br>&#125;;<br><br><span class="hljs-comment">// 在使用时，可以通过传入不同的 Report 实现来生成不同类型的报告</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    Report* pdfReport = <span class="hljs-keyword">new</span> <span class="hljs-built_in">PDFReport</span>();<br>    Report* htmlReport = <span class="hljs-keyword">new</span> <span class="hljs-built_in">HTMLReport</span>();<br><br>    <span class="hljs-function">ReportGenerator <span class="hljs-title">pdfReportGenerator</span><span class="hljs-params">(pdfReport)</span></span>;<br>    pdfReportGenerator.<span class="hljs-built_in">generateReport</span>();<br><br>    <span class="hljs-function">ReportGenerator <span class="hljs-title">htmlReportGenerator</span><span class="hljs-params">(htmlReport)</span></span>;<br>    htmlReportGenerator.<span class="hljs-built_in">generateReport</span>();<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">/*和上面的图形类似，这是在说，我的每个派生类要有一个抽象的拥有共同属性的基类，然后，每个积累包含有自己函数名相同但是实现内容不同的函数(多态的实现),然后对于高一级的应用，因为虽然是想对派生类进行操作，但是考虑到复用和不依赖关系，则使用注入基类的方式，来实现多态的实现*/</span><br></code></pre></td></tr></table></figure>
+
+<p>优点如下：</p>
+<ol>
+<li><strong>松耦合：</strong> 依赖注入通过在对象的构造函数、方法参数或者属性中注入依赖，降低了组件之间的耦合度。这使得各个组件可以更独立地开发、测试和维护，而不容易受到彼此的变化影响。</li>
+<li><strong>可测试性：</strong> 通过依赖注入，可以轻松地替换实际依赖的实现，使用模拟对象或者测试替身。这样，在单元测试中，我们可以注入模拟对象，更方便地对组件进行隔离测试，而不受到真实依赖的影响。</li>
+<li><strong>可维护性：</strong> 依赖注入使得代码的结构更清晰，依赖关系更明确。这有助于理解和维护代码，因为每个组件的依赖都是显式的，而不是隐藏在组件内部。</li>
+<li><strong>灵活性：</strong> 通过依赖注入，可以在运行时动态地替换依赖的实现。这为系统提供了更大的灵活性，使得在不修改现有代码的情况下，可以更容易地切换或升级依赖的版本或实现。</li>
+<li><strong>可扩展性：</strong> 依赖注入使系统更容易扩展，因为新增的组件可以通过依赖注入的方式接入系统，而不需要修改现有代码。</li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="6-3本章小结"><a href="#6-3本章小结" class="headerlink" title="6.3本章小结"></a>6.3本章小结</h3><blockquote>
+<p>SOLID！！！</p>
+</blockquote>
+<hr>
+<h2 id="第三部分-——-专业的-C-编码方法"><a href="#第三部分-——-专业的-C-编码方法" class="headerlink" title="第三部分 —— 专业的 C++ 编码方法"></a>第三部分 —— 专业的 C++ 编码方法</h2><hr>
+<blockquote>
+<p>- </p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ 复习教程第六章（设计可重用代码）</div>
+      <div>http://example.com/2024/03/14/C++ 复习教程第六章（设计可重用代码）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yanhuigang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%85%AB%E7%AB%A0%EF%BC%88%E7%86%9F%E6%82%89%E7%B1%BB%E5%92%8C%E5%AF%B9%E8%B1%A1%EF%BC%89/" title="C++ 复习教程第八章（熟悉类和对象）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ 复习教程第八章（熟悉类和对象）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B9%9D%E7%AB%A0%EF%BC%88%E7%B2%BE%E9%80%9A%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%EF%BC%89/" title="C++ 复习教程第九章（精通类与对象）">
+                        <span class="hidden-mobile">C++ 复习教程第九章（精通类与对象）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,874 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yanhuigang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第3章 —— 编码风格  编写具有风格的代码才算真正掌握了编码； 简单地改变代码风格可以极大改变代码的外观； 不同种程序员的 C++ 代码风格有着本质的区别；  3.1良好外观的重要性 编写文体上“良好” 的代码很费时，而编写出功能分离、注释充分、结构清晰的相同程序需要更长时间，那么就有一个问题这值吗？显然，既然提出那么结果必然是值得的；   1.1事先考虑 实际中如果没有良好的编码风格会有以下问">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 复习教程第三章（C++编码风格）">
+<meta property="og:url" content="http://example.com/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%89%E7%AB%A0%EF%BC%88C++%E7%BC%96%E7%A0%81%E9%A3%8E%E6%A0%BC%EF%BC%89/index.html">
+<meta property="og:site_name" content="yanhuigang&#39;s blog">
+<meta property="og:description" content="第3章 —— 编码风格  编写具有风格的代码才算真正掌握了编码； 简单地改变代码风格可以极大改变代码的外观； 不同种程序员的 C++ 代码风格有着本质的区别；  3.1良好外观的重要性 编写文体上“良好” 的代码很费时，而编写出功能分离、注释充分、结构清晰的相同程序需要更长时间，那么就有一个问题这值吗？显然，既然提出那么结果必然是值得的；   1.1事先考虑 实际中如果没有良好的编码风格会有以下问">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/kzXxCPVmv7t5yrK.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/09/mIYiPr5blEetgpk.png">
+<meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
+<meta property="article:modified_time" content="2024-03-15T12:29:55.417Z">
+<meta property="article:author" content="yanhuigang">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/02/09/kzXxCPVmv7t5yrK.png">
+  
+  
+  
+  <title>C++ 复习教程第三章（C++编码风格） - yanhuigang&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yanhuigang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 复习教程第三章（C++编码风格）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-14 18:18" pubdate>
+          2024年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          4.8k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          40 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 复习教程第三章（C++编码风格）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="第3章-——-编码风格"><a href="#第3章-——-编码风格" class="headerlink" title="第3章 —— 编码风格"></a>第3章 —— 编码风格</h2><hr>
+<blockquote>
+<p>编写具有风格的代码才算真正掌握了编码；</p>
+<p>简单地改变代码风格可以极大改变代码的外观；</p>
+<p>不同种程序员的 C++ 代码风格有着本质的区别；</p>
+</blockquote>
+<h3 id="3-1良好外观的重要性"><a href="#3-1良好外观的重要性" class="headerlink" title="3.1良好外观的重要性"></a>3.1良好外观的重要性</h3><blockquote>
+<p>编写文体上“良好” 的代码很费时，而编写出功能分离、注释充分、结构清晰的相同程序需要更长时间，那么就有一个问题这值吗？显然，既然提出那么结果必然是值得的；</p>
+</blockquote>
+<hr>
+<h4 id="1-1事先考虑"><a href="#1-1事先考虑" class="headerlink" title="1.1事先考虑"></a>1.1事先考虑</h4><blockquote>
+<p>实际中如果没有良好的编码风格会有以下问题：</p>
+<ol>
+<li>对于新手不友好；</li>
+<li>几乎无法代码维护，代价极大；</li>
+<li>难以复用代码实现；</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="1-2良好风格的元素"><a href="#1-2良好风格的元素" class="headerlink" title="1.2良好风格的元素"></a>1.2良好风格的元素</h4><blockquote>
+<p>良好代码的共通原则：</p>
+<ul>
+<li>文档</li>
+<li>分解</li>
+<li>命名</li>
+<li>语言的使用</li>
+<li>格式</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="3-2为代码编写文档"><a href="#3-2为代码编写文档" class="headerlink" title="3.2为代码编写文档"></a>3.2为代码编写文档</h3><blockquote>
+<p>在编程环境下，文档通常指源文件中的注释。当编写相关代码时，注释用来说明你当时的想法。这里给出的信息应当是不能轻易从代码中看出来的。</p>
+</blockquote>
+<hr>
+<h4 id="2-1使用注释的原因"><a href="#2-1使用注释的原因" class="headerlink" title="2.1使用注释的原因"></a>2.1使用注释的原因</h4><blockquote>
+<p>使用注释明显能够提高效率、易于理解代码等优点，下面给出全部使用注释的原因：</p>
+<ol>
+<li><p>说明用途的注释：</p>
+<blockquote>
+<p><strong>使用注释的原因之一是说明客户如何与代码交互。通常而言，开发人员应当能够根据函数名、返回值的类型以及参数的类型和名称来推断函数的功能。</strong>但是，代码本身不能解释一切。有时， 一个函数需要一些先置条件或后置条件，而这些需要在注释中解释。函数可能抛出的异常也应当在注释中解释。在笔者看来，只有当注释能提供有用的信息时才添加注释。因此，应由开发人员确定函数是否需要添加注释。经验丰富的程序员能可靠地确定这一点，但经验不足的开发人员则未必能做出正确的决策。<strong>因此，一些公司制定规则，要求头文件中每个公有访问的函数或方法都应该带有解释其行为的注释。某些组织喜欢将注释规范化，明确列出每个方法的目的、参数、返回值以及可能抛出的异常。</strong>  </p>
+<p>示例：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*通过注释，可用自然语言陈述在代码中无法陈述的内容。例如，在 C++中无法说明：数据库对象的saveRecord()方法只能在 openDatabaseo方法之后调用，否则将抛出异常。但可以使用注释提示这一限制，如下所示：*/</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* This method throws a ,,DatabaseNotOpenedExceptionH</span><br><span class="hljs-comment">* if the openDatabase() method has not been called yet.</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">saveRecord</span><span class="hljs-params">(Record&amp; record)</span></span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*C++语言强制要求指定方法的返回类型，但是无法说明返回值实际代表了什么。例如，saveRecord() 方法的声明可能指出这个方法返回 int 类型(这是一种不良的设计决策，见下一节的讨论)，但是阅读这个声明的客户不知道 int 的含义。注释可解释其含义：*/</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* Returns: int</span><br><span class="hljs-comment">* An integer representing the ID of the saved record.</span><br><span class="hljs-comment">* Throws:</span><br><span class="hljs-comment">* DatabaseNotOpenedException if the openDatabase() method has not</span><br><span class="hljs-comment">* been called yet.</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">saveRecord</span><span class="hljs-params">(Record&amp; record)</span></span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*如前所述，有些公司要求用正式方式记录有关函数的所有信息。下例演示了遵守这个原则的 saveRecord()方法：*/</span><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* saveRecord( )</span><br><span class="hljs-comment">* Saves the given record to the database.</span><br><span class="hljs-comment">* Parameters:</span><br><span class="hljs-comment">* Records record: the record to save to the database.</span><br><span class="hljs-comment">* Returns: int</span><br><span class="hljs-comment">* An integer representing the ID of the saved record.</span><br><span class="hljs-comment">* Throws:</span><br><span class="hljs-comment">* DatabaseNotOpenedException if the openDatabase() method has not</span><br><span class="hljs-comment">* been called yet.</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">saveRecord</span><span class="hljs-params">(Record&amp; record)</span></span>;<br><br><span class="hljs-comment">/* 但不建议使用这种风格的注释。前两行完全无用，因为函数名的含义不言自明。对形参的解释也不能添加任何附加信息。*/</span><br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*更好的设计方式是返回 RecordID 而非普通的 int 类型，那样的话，就不需要为返回类型添加注释。RecordID 只是 int 的类型别名(见第 11 章)，但传达的信息更多。唯一必须保留的注释是异常。因此，建议使用如下 saveRecord() 方法：*/</span><br><br><br><span class="hljs-comment">/*</span><br><span class="hljs-comment">* Throws:</span><br><span class="hljs-comment">* DatabaseNotOpenedException if the openDatabase() method has not</span><br><span class="hljs-comment">* been called yet.</span><br><span class="hljs-comment">*/</span><br><span class="hljs-function">RecordID <span class="hljs-title">saveRecord</span><span class="hljs-params">(Record&amp; record)</span></span>;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*有时函数的参数和返回值是泛型，可用来传递任何类型的信息。在此情况下应该清楚地用文档说明所传递的确切类型。例如，Windows 的消息处理程序接收两个参数 LPARAM 和 WPARAM, 返回 LRESUUT。这些参数和返回值可以传递任何内容，但是不能改变它们的类型。使用类型转换，可以用它们传递简单的整数，或者传递指向某个对象的指针。文档应该是这样的：*/</span><br><br><span class="hljs-comment">/* Parameters:</span><br><span class="hljs-comment">* WPARAM wParam: (WPARAM)(int): An integer representing...</span><br><span class="hljs-comment">* LPARAM IParam: (LPARAM)(string*): A string pointer representing...</span><br><span class="hljs-comment">* Returns: (LRESULT)(Record*)</span><br><span class="hljs-comment">* nullptr in case of an error, otherwise a pointer to a Record object</span><br><span class="hljs-comment">* representing ...</span><br><span class="hljs-comment">*/</span><br></code></pre></td></tr></table></figure>
+</blockquote>
+</li>
+<li><p>用来说明复杂代码的注释</p>
+<blockquote>
+<p>在专业领域中，代码的算法往往复杂、深奥，很难理解。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-comment">/*</span><br><span class="hljs-comment"> * 实现插入排序算法。该算法将数组分为两部分——有序部分和无序部分。</span><br><span class="hljs-comment"> * 每个元素，从位置1开始，都会被检查。数组中早于当前位置的元素都在有序部分，</span><br><span class="hljs-comment"> * 因此算法会将每个元素向右移动，直到找到正确的位置以插入当前元素。</span><br><span class="hljs-comment"> * 当算法完成对最后一个元素的操作时，整个数组都已排序。</span><br><span class="hljs-comment"> */</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">sort</span><span class="hljs-params">(<span class="hljs-type">int</span> inArray[], <span class="hljs-type">size_t</span> inSize)</span> </span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// 从位置1开始，检查每个元素。</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">1</span>; i &lt; inSize; i++) <br>    &#123;<br>        <span class="hljs-comment">// 循环不变式：</span><br>        <span class="hljs-comment">// 在范围0到i-1（包括i-1）的所有元素都是有序的。</span><br>        <span class="hljs-type">int</span> element = inArray[i];<br>        <span class="hljs-comment">// j 标记在有序部分中，element 将要插入的位置之后。</span><br>        <span class="hljs-type">size_t</span> j = i - <span class="hljs-number">1</span>;<br>        <span class="hljs-comment">// 只要有序数组中的当前槽位的值大于 element，将值向右移动以为插入 element 腾出位置</span><br>        <span class="hljs-comment">//（因此称为 &quot;插入排序&quot;）。</span><br>        <span class="hljs-keyword">while</span> (j &gt;= <span class="hljs-number">0</span> &amp;&amp; inArray[j] &gt; element) &#123;<br>            inArray[j + <span class="hljs-number">1</span>] = inArray[j];<br>            j--;<br>        &#125;<br>        <span class="hljs-comment">// 此时有序数组中的当前位置不大于 element，因此这是 element 的新位置。</span><br>        inArray[j + <span class="hljs-number">1</span>] = element;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>新代码有所增长，但通过注释，使得不熟悉代码的读者也能理解这段代码；</p>
+</blockquote>
+</li>
+<li><p>传递元信息的注释</p>
+<blockquote>
+<p>使用注释的另一个原因高于代码层次提供信息，元信息提供代码的详细信息，但是不涉及代码的特定行为。例如，某组织可能想使用元信息跟踪每个方法的原始作者。还可以使用元信息引用外部文档或其他代码；</p>
+<p>下例给出了元信息的几个实例，包括文件的作者、创建日期、提供的特性。此外还包括表示元数据的行内注释，例如对应某行代码的 bug </p>
+<p>编号，提醒以后重新访问时代码中某个可能的问题。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs c++">   &gt;<span class="hljs-comment">/*</span><br><span class="hljs-comment">   &gt;* Author: marcg </span><br><span class="hljs-comment">   &gt;* Date: 110412</span><br><span class="hljs-comment">   &gt;* Feature: PRD version 3, Feature 5.10</span><br><span class="hljs-comment">   &gt;*/</span> <br><br>   &gt;<span class="hljs-function">RecordID <span class="hljs-title">saveRecord</span><span class="hljs-params">(Records record)</span> </span><br><span class="hljs-function">   &gt;</span>&#123; <br>  <span class="hljs-keyword">if</span> (!mDatabaseOpen) <br>	&#123; <br>      	<span class="hljs-keyword">throw</span> <span class="hljs-built_in">DatabaseNotOpenedException</span>(); <br>  	 &#125; <br>RecordID id = <span class="hljs-built_in">getDB</span>()-&gt;<span class="hljs-built_in">saveRecord</span>(record);<br><span class="hljs-keyword">if</span> (id == <span class="hljs-number">-1</span>) <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>; <span class="hljs-comment">// Added to address bug #142 - jsmith 110428</span><br>record.<span class="hljs-built_in">setld</span>(id); <span class="hljs-comment">// <span class="hljs-doctag">TODO:</span> What if setld() throws an exception? - akshayr 110501</span><br>   &gt;&#125;<br>   &gt;<span class="hljs-comment">/*</span><br><span class="hljs-comment">   &gt;* Date   | Change</span><br><span class="hljs-comment">   &gt;*--------+-------------------------------------------</span><br><span class="hljs-comment">   &gt;* 110413 |REQ #005: &lt;marcg&gt; Do not normalize values.</span><br><span class="hljs-comment">   &gt;* 110417 | REQ #006: &lt;marcg&gt; use nullptr instead of NULL.</span><br><span class="hljs-comment">   &gt;*/</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>警告：</strong><br><strong>使用第 24 章讲述的源代码控制方案（也应当使用该方案）， 前几个示例中就不必使用所有元信息（TODO 注释除外）。 源代码控制方案提供了带注释的修改历史，包括修改日期、修改人、对每个修改的注释（假定使用正确），以及对修改请求和 bug 报告的引用。应 当使用描述性注释，分别签入（check-in）、提交每个修改请求或 bug修复。有了这样的系统，你不必手动跟踪元信息。</strong></p>
+<p><strong>另一种元信息类型是版权声明。有些公司要求在每个源文件的开头添加此类版权信息。</strong></p>
+<p><strong>注释很容易走向极端。最好与团队成员讨论哪种类型的注释最有用，并制定约定。例如，如果团队的某个成员使用 TODO 注释表明代码仍然需要加工，但是其他人不知道这个约定，这段代码就可能被忽略。</strong></p>
+<p>具体略过了，看课本吧，这太麻烦了，不是我想学的东西；</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<hr>
+<p>2.2注释的风格</p>
+<blockquote>
+<ol>
+<li>错误：每行均注释，完全没必要，可以写很多，但是要保证有用；</li>
+<li>正确：前置注释，某些源代码控制系统，例如(Subversion(SVN))甚至可以帮忙填写元数据；<ul>
+<li>最近的修改日期</li>
+<li>原始作者</li>
+<li>前面所讲的修改日志</li>
+<li>文件给出的功能</li>
+<li>版权信息</li>
+<li>文件或类的简要说明</li>
+<li>未完成的功能</li>
+<li>已知的 bug</li>
+</ul>
+</li>
+<li>固定格式的注释，关于 Doxygen 的学习之后再说。</li>
+<li>特殊注释：<ul>
+<li>注释之前，思考是否可以通过修改代码来避免注释，如：重命名变量、函数与类、重新排列代码步骤的顺序，引入完好命名的中间变量；</li>
+<li>他人难以察觉的微妙之处应当注释；</li>
+<li>不要在代码中加入姓名缩写，源代码控制解决方案会自动跟踪这些信息；</li>
+<li>如果处理不太明显的 API，应当再解释 API 的地方对 API 文档进行引用；</li>
+<li>更新代码时，记得更新注释；</li>
+<li>如果使用注释将某个函数分为多节，那么考虑这个函数是否可以被分为多个更小的函数；</li>
+</ul>
+</li>
+<li>自文档化代码<ul>
+<li>编写良好的代码并非总是需要充裕的注释，优秀的代码本身就容易阅读。</li>
+<li>如果给每行代码都加入注释，考虑是否可重写这些代码，以更好地配合注释内容。</li>
+<li>例如给函数、参数、变量等使用描述性名称。</li>
+<li>合理使用 const, 也就是说，如果不准备修改变量，就将其标记为 const </li>
+<li>重新排列函数中步骤的顺序，使人更容易理解其作用。</li>
+<li>引入命名良好的中间变量，使算法更易懂。</li>
+</ul>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="3-3分解-decomposition"><a href="#3-3分解-decomposition" class="headerlink" title="3.3分解(decomposition)"></a>3.3分解(decomposition)</h3><blockquote>
+<p>分解指将代码分为小段；</p>
+<p>当有新要求或修订 bug 时，会对现有的代码进行少量修改，计算机术语 cruft 便是指的逐渐积累少量代码使得曾经优雅的代码编程一堆补丁和特例；</p>
+</blockquote>
+<hr>
+<h4 id="3-1通过重构-refactoring-分解"><a href="#3-1通过重构-refactoring-分解" class="headerlink" title="3.1通过重构(refactoring)分解"></a>3.1通过重构(refactoring)分解</h4><blockquote>
+<p>增强抽象的技术：</p>
+<ul>
+<li>封装字段：私有化字段，使用 get() 方法、set() 方法；</li>
+<li>让类型通用：创建更通用类型，便于共享代码；</li>
+</ul>
+<p>分割代码使其更合理的技术：</p>
+<ul>
+<li>提取方法：将一个大方法的部分提取成为便于理解的方法；</li>
+<li>提取类：将现有类的部分代码转移到新类中；</li>
+</ul>
+<p>增强代码名称和位置的技巧：</p>
+<ul>
+<li>移动方法或字段：移动到更合适的类或源文件中；</li>
+<li>重命名方法或字段：使之名称更符合其含义；</li>
+<li>上移(pull up)：在 OOP 中，移到基类；</li>
+<li>下移(push down)：在 OOP 中，移到派生类；</li>
+</ul>
+<p>详细见课本内容，这对我目前意义不大。</p>
+</blockquote>
+<hr>
+<h4 id="3-2通过设计来分解"><a href="#3-2通过设计来分解" class="headerlink" title="3.2通过设计来分解"></a>3.2通过设计来分解</h4><blockquote>
+<p>略。</p>
+</blockquote>
+<hr>
+<h4 id="3-3本书的分解"><a href="#3-3本书的分解" class="headerlink" title="3.3本书的分解"></a>3.3本书的分解</h4><blockquote>
+<p>略。</p>
+</blockquote>
+<hr>
+<h3 id="3-4命名"><a href="#3-4命名" class="headerlink" title="3.4命名"></a>3.4命名</h3><blockquote>
+<p>编译器的几个命名规则：</p>
+<ul>
+<li><p>名称不以数字开头；</p>
+</li>
+<li><p>包含两个下划线的名称(例如 my__name) 是保留名称，不应当使用；</p>
+<blockquote>
+<p>C++标准（例如C++17）规定了使用双下划线开头或结尾的标识符是保留给实现的。这意味着用户代码不应该在标识符的开头或结尾使用双下划线，以免与实现的标识符冲突。</p>
+</blockquote>
+</li>
+<li><p>以下划线开头(例如 _Name 或 __Name) 是保留名称，不应该使用；</p>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h4 id="4-1选择恰当的名称"><a href="#4-1选择恰当的名称" class="headerlink" title="4.1选择恰当的名称"></a>4.1选择恰当的名称</h4><blockquote>
+<img src="https://s2.loli.net/2024/02/09/kzXxCPVmv7t5yrK.png" srcset="/img/loading.gif" lazyload alt="image-20240204084416838"  />
+
+<p>如上。</p>
+</blockquote>
+<hr>
+<h4 id="4-2命名约定"><a href="#4-2命名约定" class="headerlink" title="4.2命名约定"></a>4.2命名约定</h4><blockquote>
+<ol>
+<li>计数器：【i、j】【row、column】【outerLoopIndex、innerLoopIndex】</li>
+<li>前缀：使用前缀会使得相关代码难以维护，例如，如果某个成员变量从静态变为非静态，这意味着所有用到这个名称的地方都要修改。这通常非常耗时，因此大多数程序员不会重命名这个变量。随着代码的演变,变量的声明变了，但是名称没有变。结果是名称给出了虚假的语义，实际上这个语义是错误的。</li>
+</ol>
+<p><img src="https://s2.loli.net/2024/02/09/mIYiPr5blEetgpk.png" srcset="/img/loading.gif" lazyload alt="image-20240204084721064"></p>
+<ol start="3">
+<li><p>匈牙利表示法是关于变量和数据成员的命名约定，在 Microsc仕 Windows 程序员中很流行。其基本思想是使用更详细的前缀而不是一个字母(例如 m)表示附加信息。下面这行代码显示了匈牙利表示法的用法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-type">char</span>* pszName; <span class="hljs-comment">// psz means &quot;pointer to a null-terminated string&quot;</span><br></code></pre></td></tr></table></figure>
+
+<p>术语“匈牙利表示法”源于其发明者 Charles Simonyi 是匈牙利人。也有人认为这准确地反映了一个事实：使用匈牙利表示法的程序好像是用外语编写的。为此，一些程序员不喜欢匈牙利表示法。本书使用前缀，而不使用匈牙利表示法。合理命名的变量不需要前缀以外的附加上下文信息，例如，用 mName 命名数据成员就足够了。</p>
+</li>
+<li><p>get() 和 set()</p>
+</li>
+<li><p>大小写，统一即可</p>
+</li>
+<li><p>把常量放到名称空间</p>
+<blockquote>
+<p>假定编写一个带图形用户界面的程序。这个程序有几个菜单，包括 File、 Edit 和 Help。用常量代表每个菜单的 ID。kHelp 是代表 Help 菜单 ID 的一个好名字。</p>
+<p>名称 kHelp一直运行良好，直到有一天在主窗口上添加了一个 Help 按钮。还需要一个常量来代表 Help 按钮的 ID, 但是 kHelp 已经被使用了。</p>
+<p>在此情况下,建议将常量放到不同的名称空间中，名称空间参见第 1 章。可以创建两个名称空间: Menu 和 Button。</p>
+<p>每个名称空间中都有一个 kHelp 常量，其用法为 Menu::kHelp 和 Button::kHelpo </p>
+<p>另一个更好的方法是使用枚举器，参见第 1 章。</p>
+</blockquote>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h3 id="3-5使用具有风格的语言特征"><a href="#3-5使用具有风格的语言特征" class="headerlink" title="3.5使用具有风格的语言特征"></a>3.5使用具有风格的语言特征</h3><blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs c++">i++ + ++i;<br>a[i] = ++i;<br><br>第一行完全没有标准，结果取决于平台；<br>第二行在 C++ <span class="hljs-number">17</span> 中是确定的：i先递增，再在 a[i] 中用作索引；<br></code></pre></td></tr></table></figure>
+
+<p>但它们的共同特点就是：丑陋。</p>
+</blockquote>
+<hr>
+<h4 id="5-1使用常量"><a href="#5-1使用常量" class="headerlink" title="5.1使用常量"></a>5.1使用常量</h4><blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cmath&gt;</span></span><br><br><span class="hljs-type">double</span> result = <span class="hljs-number">2.71828</span> * <span class="hljs-number">5.0</span>;<br>std::cout &lt;&lt; <span class="hljs-string">&quot;Result: &quot;</span> &lt;&lt; result &lt;&lt; std::endl;<br><br><span class="hljs-comment">// 推荐的方式，使用常量 M_E</span><br>result = M_E * <span class="hljs-number">5.0</span>;<br>std::cout &lt;&lt; <span class="hljs-string">&quot;Result: &quot;</span> &lt;&lt; result &lt;&lt; std::endl;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="5-2使用引用代替指针"><a href="#5-2使用引用代替指针" class="headerlink" title="5.2使用引用代替指针"></a>5.2使用引用代替指针</h4><blockquote>
+<p><strong>C++程序员通常开始学的是 C。在 C 中，指针是按引用传递的唯一机制</strong>，多年来一直运行良好。在某些情况下仍然需要指针，但在许多情况下可以用引用代替指针。如果开始学习的是 C, 可能认为引用实际上没有给C++语言增加新的功能，只是引入了一种新的语法，其功能己经由指针提供。  </p>
+<p><strong>用引用替换指针有许多好处。</strong>首先，<strong>引用比指针安全</strong>，因为<strong>引用不会直接处理内存地址，也不会是 nullptr</strong>。其次，<strong>引用在文体上比指针好</strong>，因为引<strong>用使用与堆栈变量相同的语法，没有使用 * 和&amp;等符号</strong>。引用易于使用，因此将引用加入风格中没有任何问题。遗憾的是，某些程序员认为，如果在函数调用中看到&amp;，被调用的函数将改变对象；如果没有看到&amp;，对象一定是按值传递。而使用引用，就无法判断函数是否将改变对象，除非看到函数原型。这种思维方式是错误的。用指针传递未必意味着对象将改变，因为参数可能是 const T。<strong>传递指针或引用是否会修改对象，都取决于函数原型是否使用了 const T* 、T*、constT&amp;或 T&amp;。因此，只有查看函数原型，才能判断函数是否改变对象</strong>。  </p>
+<p><strong>使用引用的另一个好处是它明确了内存的所有权。如果一个程序员编写了一个方法，另一个程序员传递给它一个对象的引用，很明显可以读取并修改这个对象，但是无法轻易地释放对象的内存。如果传递的是一个指针，就不那么明显。需要删除对象来清理内存吗？还是调用者需要这样做？处理内存的较好方法是使用第 1 章介绍的智能指针.</strong>  </p>
+</blockquote>
+<hr>
+<h4 id="5-3使用自定义异常"><a href="#5-3使用自定义异常" class="headerlink" title="5.3使用自定义异常"></a>5.3使用自定义异常</h4><blockquote>
+<p>C++可以很方便地忽略异常，这一语言的语法没有强制处理异常，可以很方便地用传统的机制（例如返回nullptr 或者设置错误标志）编写容错程序。</p>
+<p>异常提供了更丰富的错误处理机制，自定义异常允许根据需要进行取舍。例如，Web 浏览器的自定义异常类型包含的字段可指定包含错误的页面、错误发生时的网络状态和附加的环境信息。  </p>
+<p>第 14 章将详细讲述 C++中的异常 。</p>
+</blockquote>
+<hr>
+<h3 id="3-6格式"><a href="#3-6格式" class="headerlink" title="3.6格式"></a>3.6格式</h3><blockquote>
+<p>一句话，统一的就是好的。</p>
+</blockquote>
+<hr>
+<h4 id="6-1关于大括号对齐的争论"><a href="#6-1关于大括号对齐的争论" class="headerlink" title="6.1关于大括号对齐的争论"></a>6.1关于大括号对齐的争论</h4><blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c++">Staff<br>&#123;<br>	...<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>我都是这样用的；</p>
+</blockquote>
+<hr>
+<h4 id="6-2关于空格和圆括号的争论"><a href="#6-2关于空格和圆括号的争论" class="headerlink" title="6.2关于空格和圆括号的争论"></a>6.2关于空格和圆括号的争论</h4><blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs c++"><span class="hljs-built_in">function</span>();<br><span class="hljs-keyword">if</span> ()<br><span class="hljs-keyword">for</span> ()<br></code></pre></td></tr></table></figure>
+
+<p>函数不空格，判定循环语句空格；</p>
+</blockquote>
+<hr>
+<h4 id="6-3空格和制表符"><a href="#6-3空格和制表符" class="headerlink" title="6.3空格和制表符"></a>6.3空格和制表符</h4><blockquote>
+<p>没啥说的；</p>
+</blockquote>
+<hr>
+<h3 id="3-7风格的挑战"><a href="#3-7风格的挑战" class="headerlink" title="3.7风格的挑战"></a>3.7风格的挑战</h3><blockquote>
+<p>许多程序员在项目开始时都保证他们将做好每件事。只要变量或参数永远不变，就将其标记为 const。所有变量都具有清楚的、简明的、容易阅读的名称。每个开发人员都将左大括号放在后续行，采用标准文本编辑器,并遵循关于制表符和空格的约定。</p>
+<p>维持这种层次的格式一致非常困难，原因有很多<strong>。当涉及 const 时，有些程序员不知道如何用它。总会遇到不支持 const 的旧代码或库函数。好的程序员会使用 const_cast 暂时取消变量的 const 属性，但缺少经验的程序员会取消来自调用函数的 const 属性，结果，程序从不使用 const。</strong></p>
+<p>有时，标准化的格式会与程序员的个人口味和偏好发生冲突。或许团队文化无法强制使用严格的风格准则。此类情况下，必须判断哪些元素需要标准化(例如变量名称和制表符)，哪些元素可以由个人决定其风格(或许空格和注释格式可以这样)。甚至可以获取或编写脚本，自动纠正格式 bug, 或将格式问题与代码错误一起标记。一些开发环境，例如 Microsoft Visual C++ 2013, 支持根据指定的规则自动格式化代码，这样就很容易编写出始终遵循指定规则的代码</p>
+</blockquote>
+<hr>
+<h3 id="3-8本章小结"><a href="#3-8本章小结" class="headerlink" title="3.8本章小结"></a>3.8本章小结</h3><blockquote>
+<p>一句话，风格好就是NB。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ 复习教程第三章（C++编码风格）</div>
+      <div>http://example.com/2024/03/14/C++ 复习教程第三章（C++编码风格）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yanhuigang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%83%E7%AB%A0%EF%BC%88%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%89/" title="C++ 复习教程第七章（内存管理）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ 复习教程第七章（内存管理）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%88%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%EF%BC%89/" title="C++ 复习教程第五章（面向对象设计）">
+                        <span class="hidden-mobile">C++ 复习教程第五章（面向对象设计）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

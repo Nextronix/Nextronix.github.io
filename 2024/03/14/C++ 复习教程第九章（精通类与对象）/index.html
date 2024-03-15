@@ -1,0 +1,1206 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/img/fluid.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="yanhuigang">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="第9章 —— 精通类与对象 第8章讲述了类和对象，这一章将讲述其精妙之处——如何操纵并利用 C++ 语言中最复杂的特性，以编写安全、有效、有用的类。本章的许多概念会出现在 C++ 高级编程中，特别是 标准库。   9.1友元 C++ 允许某个类将其他类、其他类的成员函数或非成员函数声明为 友元(friend)，友元可以访问类的 protected、private 数据成员和方法。例如，假设有两个类">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++ 复习教程第九章（精通类与对象）">
+<meta property="og:url" content="http://example.com/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B9%9D%E7%AB%A0%EF%BC%88%E7%B2%BE%E9%80%9A%E7%B1%BB%E4%B8%8E%E5%AF%B9%E8%B1%A1%EF%BC%89/index.html">
+<meta property="og:site_name" content="yanhuigang&#39;s blog">
+<meta property="og:description" content="第9章 —— 精通类与对象 第8章讲述了类和对象，这一章将讲述其精妙之处——如何操纵并利用 C++ 语言中最复杂的特性，以编写安全、有效、有用的类。本章的许多概念会出现在 C++ 高级编程中，特别是 标准库。   9.1友元 C++ 允许某个类将其他类、其他类的成员函数或非成员函数声明为 友元(friend)，友元可以访问类的 protected、private 数据成员和方法。例如，假设有两个类">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://s2.loli.net/2024/02/28/qzRuvh6VMH19dfY.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/28/1AGY8lFnkiBr7JQ.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/28/LGFtNBimkceVr8M.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/28/THZzqK9hO2UtoA8.png">
+<meta property="og:image" content="https://s2.loli.net/2024/02/28/GbieDx7p61Sw3kd.png">
+<meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
+<meta property="article:modified_time" content="2024-03-15T12:23:08.839Z">
+<meta property="article:author" content="yanhuigang">
+<meta property="article:tag" content="编程">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://s2.loli.net/2024/02/28/qzRuvh6VMH19dfY.png">
+  
+  
+  
+  <title>C++ 复习教程第九章（精通类与对象） - yanhuigang&#39;s blog</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_hj8rtnfg7um.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.7","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"follow_dnt":true,"baidu":null,"google":{"measurement_id":null},"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+
+  
+<meta name="generator" content="Hexo 6.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>yanhuigang&#39;s blog</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-home-fill"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/" target="_self">
+                <i class="iconfont icon-archive-fill"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/" target="_self">
+                <i class="iconfont icon-category-fill"></i>
+                <span>分类</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-tags-fill"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-user-fill"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="C++ 复习教程第九章（精通类与对象）"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2024-03-14 18:18" pubdate>
+          2024年3月14日 晚上
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          17k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          139 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">C++ 复习教程第九章（精通类与对象）</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="第9章-——-精通类与对象"><a href="#第9章-——-精通类与对象" class="headerlink" title="第9章 —— 精通类与对象"></a>第9章 —— 精通类与对象</h2><blockquote>
+<p>第8章讲述了类和对象，这一章将讲述其精妙之处——如何操纵并利用 C++ 语言中最复杂的特性，以编写安全、有效、有用的类。本章的许多概念会出现在 C++ 高级编程中，特别是 标准库。</p>
+</blockquote>
+<hr>
+<h3 id="9-1友元"><a href="#9-1友元" class="headerlink" title="9.1友元"></a>9.1友元</h3><blockquote>
+<p>C++ 允许某个类将其他类、其他类的成员函数或非成员函数声明为 友元(friend)，友元可以访问类的 protected、private 数据成员和方法。例如，假设有两个类 Foo 和 Bar。可将 Bar 类指定为 Foo 类的友元，如下例所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span><br>&#123;<br><span class="hljs-keyword">friend</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Bar</span>;	<span class="hljs-comment">// 认为 Bar 是 friend，但是不代表 Bar 也认定 Foo 为 friend</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>现在，<strong>Bar 类的所有成员可访问 Foo 类的 private、protected 数据成员和方法。</strong></p>
+<p>也可将 Bar 类的一个特定方法作为友元。假设 Bar 类拥有一个 processFoo(const Foo&amp; foo) 方法，下面的语法将该方法成为 Foo 类的友元：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++">calss Foo<br>&#123;<br><span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">Bar::processFoo</span><span class="hljs-params">(<span class="hljs-type">const</span> Foo&amp; foo)</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>独立函数也可以成为类的友元。例如，假设要编写一个函数，将 Foo 对象的所有数据转储到控制台。你可能希望将这个函数放在 Foo 类之外，以模拟外部审计，但该函数应当可以访问 Foo 对象的内部数据成员，对其进行适当检查。下面是 Foo 类定义和 dumpFoo() 友元函数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span><br>&#123;<br><span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">dumpFoo</span><span class="hljs-params">(<span class="hljs-type">const</span> Foo&amp; foo)</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>类中的 friend 声明用作函数的原型。不需要在别处编写原型(当然，如果你那样做，也无害处)。</p>
+<p>下面是函数定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">dumpFoo</span><span class="hljs-params">(<span class="hljs-type">const</span> Foo&amp; foo)</span></span><br><span class="hljs-function"></span>&#123;<br><span class="hljs-comment">// Dump all data of foo to the console, including</span><br><span class="hljs-comment">// private and protected data members.</span><br><span class="hljs-comment">// 该函数可以获取了访问 dumpFoo 的 成员 </span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>你编写的函数与其他函数类似，只是可以用这个函数直接访问 Foo 类的 private 和 protected 数据成员。在函数定义中不需要重复使用 friend 关键字。</p>
+<p><strong>注意类需要知道其他哪些类、方法或函数希望成为友元；类、方法或函数不能将自身声明为其他类的友元并访问这些类的非公有名称。</strong></p>
+<p>friend 类和方法很容易被滥用；友元可以违反封装原则，将类的内部暴露给其他类或函数。因此，只有在特定的情况下才应该使用它们，本章将穿插介绍一些用例。</p>
+</blockquote>
+<hr>
+<h3 id="9-2对象的动态内存分配"><a href="#9-2对象的动态内存分配" class="headerlink" title="9.2对象的动态内存分配"></a>9.2对象的动态内存分配</h3><blockquote>
+<p>为解决在程序实际运行前，并不知道需要多少内存的问题；那么就要动态地分配内存。类也不例外，有时不知道某个对象需要多少内存，在这种情况下，就要动态内存分配。但是，对于类而言，它的构建、复制、析构、赋值等就面临内存泄漏的严重问题，这种情况就需要我们对析构、复制、赋值函数进行重新构造。</p>
+</blockquote>
+<hr>
+<h4 id="2-1Spreadsheet-类"><a href="#2-1Spreadsheet-类" class="headerlink" title="2.1Spreadsheet 类"></a>2.1Spreadsheet 类</h4><blockquote>
+<p>与 SpreadsheetCell 类 类似，Spreadsheet 类将在本章中不断被完善。因此我们将在不断尝试中，说明编写类的最佳方法。</p>
+<p>Spreadsheet 的最初版本只是一个 Spreadsheet 类的二维数组，其中具有设置和获取 SpreadsheetCell 中特定的类的最佳方式，其中具有设置和获取 Spreadsheet 中特定位置单元格的方法。尽管大多数电子表格应用程序为了指定单元格，会在一个方向上使用字母，但此处的 Spreadsheet 类在两个方向上均使用数字(仅为说明应该如何构建类)，下面为一个简单定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstddef&gt;</span></span><br>&gt;<span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SpreadsheetCell.h&quot;</span></span><br><br>&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&gt;&#123;<br>&gt;<span class="hljs-keyword">public</span>:<br>&gt;<span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height);<br>&gt;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span>;<br>&gt;<span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br><br>&gt;<span class="hljs-keyword">private</span>:<br>&gt;<span class="hljs-function"><span class="hljs-type">bool</span> <span class="hljs-title">inRange</span><span class="hljs-params">(<span class="hljs-type">size_t</span> value, <span class="hljs-type">size_t</span> upper)</span> <span class="hljs-type">const</span></span>;<br>&gt;<span class="hljs-type">size_t</span> mWidth = <span class="hljs-number">0</span>;<br>&gt;<span class="hljs-type">size_t</span> mHeight = <span class="hljs-number">0</span>;<br>&gt;SpreadsheetCell** mCells = <span class="hljs-literal">nullptr</span>;<br>&gt;&#125;;<br><br>&gt;<span class="hljs-comment">/* 注意：这里仍然使用的是 SpreadsheetCell 的普通指针。这一方法将贯穿整个第 9 章，目的是说明因果关系，以及金额是如何在类中处理动态内存分配问题。在产品中，应该使用标准的 C++ 容器，例如：std::vector 的嵌套可极大地简化 Spreadsheet 类的实现，但是目前还没学习该如何使用裸指针正确处理动态内存，这如果不讲，当遇到旧代码可能会手足无措，那么接下来还是至少能够看懂这些代码的，所以还要讲。*/</span><br>&gt;<span class="hljs-comment">// 但是，在现代 C++ 中，绝对不要使用裸指针！！！</span><br>&gt;<span class="hljs-comment">// 因为，裸指针不仅语法复杂，而且内存泄漏、指针悬空出现得十分隐蔽。</span><br></code></pre></td></tr></table></figure>
+
+<p>为什么不直接包含一个 Spreadsheet 二维数组，而是一个 Spreadsheet 的二阶指针？</p>
+<blockquote>
+<p>因为， Spreadsheet 对象的尺寸可能不同，如果给定二维数组，那么将失去调整宽度和高度的动态分配的灵活性。【在这里我们也知道，指针具有更高的灵活性，但是也继承了更多在内存则责任，安全性堪忧】，注意在 C++  中，不可能之编写 new SpreadsheetCell[mWidth] [mHeight],这与 Java 不同【这里为什么这样说，不能 new 出来一个二维数组，请看前面的第 7 章使用指针部分，哪里有关于这一点的详细说明】：</p>
+</blockquote>
+<blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs c++">Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height)<br>: <span class="hljs-built_in">mWidth</span>(width), <span class="hljs-built_in">mHeight</span>(height)<br>&#123;<br> mCells = <span class="hljs-keyword">new</span> SpreadsheetCell*[mWidth];<br> <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br> &#123;<br>     mCells[i] = <span class="hljs-keyword">new</span> Spreadsheet[mHeight];<br> &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<p>堆栈为名为 s1 的 Spreadsheet 对象分配的内存，如图 9-1 所示，宽度为 4，高度为 3；</p>
+<p><img src="https://s2.loli.net/2024/02/28/qzRuvh6VMH19dfY.png" srcset="/img/loading.gif" lazyload alt="image-20240228142230920"></p>
+<p>设置和获取方法的实现简单明了：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span><br><span class="hljs-function">&gt;</span>&#123;<br> <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">inRange</span>(x, mWidth) || !<span class="hljs-built_in">inRange</span>(y, mHeight))<br> &#123;<br>     <span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">out_of_range</span>(<span class="hljs-string">&quot;&quot;</span>);<br> &#125;<br><br> mCell[x][y] = cell;<br>&gt;&#125;<br><br>&gt;<span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function">&gt;</span>&#123;<br> <span class="hljs-keyword">if</span> (!<span class="hljs-built_in">inRange</span>(x, mWidth) || !<span class="hljs-built_in">inRange</span>(y, mHeight))<br> &#123;<br>     <span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">out_of_range</span>(<span class="hljs-string">&quot;&quot;</span>)<br> &#125;<br><br> <span class="hljs-keyword">return</span> mCell[x][y];<br>&gt;&#125;<br><br>&gt;<span class="hljs-comment">// 上述代码使用了辅助方法 inRange() 检测 x 和 y  是否有效。试图通过索引范围外的数组元素将导致程序故障</span><br>&gt;<span class="hljs-comment">// 这个示例也是用了第 1 章提及，并将在第 14 章详细讲述的异常</span><br></code></pre></td></tr></table></figure>
+
+<p>这时，我们看到实际上两个方法 setCellAt() 和 getCellAt() 中，有相当部分的代码是重复的，我们在第 6 章学过，要不惜一切地重用代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-comment">// 依照复用的原则，那么定义 verifyCoordinate() 方法而非辅助方法 inRange()；</span><br>&gt;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">verifyCoodination</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span> <span class="hljs-type">const</span></span>;<br><br>&gt;<span class="hljs-comment">// 实现该类检查指定坐标，如果坐标无效，则抛出异常：</span><br>&gt;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::verifyCoordinate</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function">&gt;</span>&#123;<br> <span class="hljs-keyword">if</span> (x &gt;= mWidth || y &gt;= mHeight)<br> &#123;<br>     <span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">out_of_range</span>(<span class="hljs-string">&quot;&quot;</span>);<br> &#125;<br>&gt;&#125;<br><br>&gt;<span class="hljs-comment">// 重写 setCellAt() 和 getCellAt() 方法：</span><br>&gt;<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span><br><span class="hljs-function">&gt;</span>&#123;<br> <span class="hljs-built_in">verifyCoordinate</span>(x, y);<br><br> mCell[x][y] = cell;<br>&gt;&#125;<br><br>&gt;<span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function">&gt;</span>&#123;<br> <span class="hljs-built_in">verifyCoordinate</span>(x, y);<br><br> <span class="hljs-keyword">return</span> mCell[x][y];<br>&gt;&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="2-2使用析构函数释放内存"><a href="#2-2使用析构函数释放内存" class="headerlink" title="2.2使用析构函数释放内存"></a>2.2使用析构函数释放内存</h4><blockquote>
+<p>如果不再需要动态分配的内存，就必须释放它们。如果为对象动态分配了内存，就在析构函数中释放内存。当销毁对象时，编译器确保调用析构函数。下面是带有析构函数的 Spreadsheet 类定义。  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height);<br>	~<span class="hljs-built_in">Spreadsheet</span>();<br>	<span class="hljs-comment">// Code omitted for brevity</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>析构函数与类(和构造函数)同名，名称前面有一个波浪号(~)。析构函数没有参数，并且只能有一个析构函数，为析构函数隐式地标记 noexcept，因为它们不应当抛出异常。</strong></p>
+<p><strong>注意：</strong></p>
+<p>​	<strong>可使用 noexpect 标记函数，指示不会抛出异常。例如：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">myNonThrowingFunction</span><span class="hljs-params">()</span> <span class="hljs-keyword">noexcept</span> </span>&#123; <span class="hljs-comment">/* ... */</span>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>析构函数隐式地使用 noexcept，因此不必专门添加这个关键字。</strong>**<strong>如果 noexcept 函数真的抛出了异常，程序将终止。</strong>有关 noexcept 的更多信息，以及为什么必须避免析构函数抛出异常的信息，详细参见第 14 章。</p>
+<p>下面为析构函数 ~Spreadsheet() 进行实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::~<span class="hljs-built_in">Spreadsheet</span>()<br>&#123;<br> <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth, i++)<br> &#123;<br>     <span class="hljs-keyword">delete</span> [] mCells[i];<br>     <span class="hljs-comment">// 释放一阶指针创建的二阶指针创建的数组资源</span><br> &#125;<br><br> <span class="hljs-keyword">delete</span> [] mCells;<br> <span class="hljs-comment">// 释放一阶指针创建的数组资源</span><br> mCells = <span class="hljs-literal">nullptr</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>析构函数释放在构造函数中分配的内存。当然，并没有规则要求在析构函数中释放内存。在析构函数中可以编写任何代码，但最好让析构函数只释放内存或清理其他资源。</p>
+</blockquote>
+<hr>
+<h4 id="2-3处理复制和赋值"><a href="#2-3处理复制和赋值" class="headerlink" title="2.3处理复制和赋值"></a>2.3处理复制和赋值</h4><blockquote>
+<p>回顾第 8 章，如果没有自行编写复制构造函数或赋值运算符，C++ 将自动生成。编译器生成的方法递归调用对象数据成员的复制构造函数或赋值构造函数。然而对于基本类型，如 int、double 和 指针，只是提供表层(或按位)复制或赋值；只是将数据成员从元对象中直接复制或复制到目标对象。当为对象动态分配内存时，这样做会引发问题。例如，在下面的代码中，当 s1 传递给函数 printSpreadsheet() 时，复制了电子表格 s1 以初始化 s：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Spreadsheet.h&quot;</span></span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printspreadsheet</span><span class="hljs-params">(Spreadsheet s)</span>		<span class="hljs-comment">// 复制步骤发生在这里，这是隐式匿名的</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-comment">// Code omitted for brevity.</span><br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-function">Spreadsheet <span class="hljs-title">s1</span><span class="hljs-params">(<span class="hljs-number">4</span>, <span class="hljs-number">3</span>)</span></span>;<br>	<span class="hljs-built_in">printSpreadsheet</span>(s1);<br><br>	<span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>Spreadsheet 包含一个指针变量: mCells。 Spreadsheet 的表层复制向目标对象提供了一个 mCells 指针的副本,但没有复制底层数据【只复制浅层量，即，二阶指针创建的一阶指针数组】。最终结果是 s 和 s1 都有一个指向同一数据的指针，如图 9.2 所示。  </p>
+<p><img src="https://s2.loli.net/2024/02/28/1AGY8lFnkiBr7JQ.png" srcset="/img/loading.gif" lazyload alt="image-20240228144529144"></p>
+<p>如果 s 修改了 mCells 所指的内容，这一改动也会在 s1 中表现出来。更糟糕的是，当函数 printSpreadsheet() 退出时，会调用 s 的析构函数【匿名函数自动调用析构函数，释放二阶指针所指空间】，释放 mCells 所指的内存。图 9-3 显示了这一状况 :</p>
+<p><img src="https://s2.loli.net/2024/02/28/LGFtNBimkceVr8M.png" srcset="/img/loading.gif" lazyload alt="image-20240228144729062"></p>
+<p>现在 s1 拥有的指针所指的内存不再有效，这称为悬空指针(dangling pointer)。令人难以置信的是，当使用赋值时，情况会变得更糟。假定编写以下代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">Spreadsheet <span class="hljs-title">s1</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">2</span>)</span>, <span class="hljs-title">s2</span><span class="hljs-params">(<span class="hljs-number">4</span>, <span class="hljs-number">3</span>)</span></span>;<br>s1 = s2;<br></code></pre></td></tr></table></figure>
+
+<p>在第一行后，当创建两个对象时，内存的布局如图 9-4 所示：</p>
+<p><img src="https://s2.loli.net/2024/02/28/THZzqK9hO2UtoA8.png" srcset="/img/loading.gif" lazyload alt="image-20240228150434487"></p>
+<p>当执行赋值语句后，内存布局如 9-5 所示：</p>
+<p><img src="https://s2.loli.net/2024/02/28/GbieDx7p61Sw3kd.png" srcset="/img/loading.gif" lazyload alt="image-20240228150527146"></p>
+<p>现在，不仅 s1 和 s2 中的 mCell 指向同一内存，而且 s1 前面所指的内存被遗弃。这称为内存泄漏。这就是在赋值运算中进行自定义的深层复制的原因了。</p>
+<p><strong>可以看出，依赖 C++ 默认的复制构造函数 或 赋值运算符 对于堆上的对象而言并不是健全的。</strong></p>
+<p>警告：</p>
+<p>​	无论什么时候，在类中动态分配内存后，应该编写自己的复制构造函数和赋值运算符，以提供深层次的内存复制。</p>
+<ol>
+<li><p><strong>Spreadsheet 类的复制构造函数</strong></p>
+<p>下面是 Spreadsheet 类中复制构造函数的声明：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> Spreadsheet&amp; src);<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>下面是复制构造函数的定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> Spreadsheet&amp; src)<br> : <span class="hljs-built_in">Spreadsheet</span>(src.mWidth, src.mHeight)<br>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> j = <span class="hljs-number">0</span>; j &lt; mHeight; j++)<br>        &#123;<br>            mCells[i][j] = src.mCells[i][j];<br>        &#125;<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>注意使用了委托构造函数。把这个复制构造函数的 ctor-initializer(构造函数初始化器)首先委托给非复制构造函数，以分配适当的内存量。复制构造函数此后复制实际值。总之，对 mCells 动态分配的二维数组进行了深层复制。</p>
+</li>
+<li><p><strong>Spreadsheet 类的赋值运算符</strong></p>
+<p>下面是包含赋值运算符的 Spreadsheet 类定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    Spreadsheet&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs);<br>    <span class="hljs-comment">// Code omitted for brevity.</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>下面是一个不成熟的实现：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet&amp; Spreadsheet::<span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs)<br>&#123;<br>    <span class="hljs-comment">// Check for self-assignment</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == &amp;rhs)<br>    &#123;<br>        <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>    &#125;<br>   <br>    <span class="hljs-comment">// Free the old memeory</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br>    &#123;<br>        <span class="hljs-keyword">delete</span> [] mCells[i];<br>    &#125;<br>    <span class="hljs-keyword">delete</span> [] mCells;<br>    mCells = <span class="hljs-literal">nullptr</span>;<br>   <br>    <span class="hljs-comment">// Allocate new memory</span><br>    mWidth = rhs.mWidth;<br>    mHeight = rhs.mHeight;<br>   <br>    mCells = <span class="hljs-keyword">new</span> SpreadsheetCell*[mWidth];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br>    &#123;<br>        mCells[i] = <span class="hljs-keyword">new</span> SpreadsheetCell[mHeight];<br>    &#125;<br>   <br>    <span class="hljs-comment">// Copy the data</span><br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br>    &#123;<br>        <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> j = <span class="hljs-number">0</span>; j &lt; mHeight; j++)<br>        &#123;<br>            mCells[i][j] = rhs.mCells[i][j];<br>        &#125;<br>    &#125;<br>   <br>    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p><strong>这个方法存有不少问题，有不少地方会出错。this 对象可能进入无效状态。例如，假设成功释放了内存，合理设置了 mWidth 和 mHeight, 但分配内存的循环抛出了异常。如果发生这种情况，将不再执行该方法的剩余部分，而是从该方法中退出。此时，Spreadsheet 实例受损，它的 mWidth 和 mHeight 数据成员声明了指定大小，但 mCells 数据成员不具有适当的内存量。基本上，该代码不能安全地处理异常！</strong></p>
+<p><strong>我们需要一种全有或全无的机制；要么全部成功，要么该对象保持不变。为实施这样一个能安全处理异常的赋值运算符，建议使用“复制和交换”惯用语法。这里将非成员函数 swap() 实现为 Spreadsheet 类的友元。如果不使用非成员函数 swap(), 那么可以给类添加 swap() 方法。但是，建议你练习将 swap() 实现为非成员函数，这样一来，各种标准库算法都可使用它。下面是包含 赋值运算符 和 swap 的函数的 Spreadsheet 类的定义</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    Spreadsheet&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs);<br>    <span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Spreadsheet&amp; first, Spreadsheet&amp; second)</span> <span class="hljs-type">const</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>要实现能安全处理异常的 “复制和交换” 惯用语法，要求 swap() 函数永不抛出异常，因此将其标记为 noexcept。swap() 函数的实现使用标准库中提供的 std::swap() 工具函数 (在头文件 <utility> 中定义)，交换每个数据成员:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Spreadsheet&amp; first, Spreadsheet&amp; second)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">using</span> std::swap;<br>   <br>    <span class="hljs-built_in">swap</span>(first.mWidth, second.mWidth);<br>    <span class="hljs-built_in">swap</span>(first.mHeight, second.mHeight);<br>    <span class="hljs-built_in">swap</span>(first.mCells, second.mCells);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在就有了能安全处理异常的 swap() 函数，它可用来实现赋值运算符：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet&amp; Spreadsheet::<span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs)<br>&#123;<br>    <span class="hljs-comment">// Check for self-assignment</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> = &amp;rhs)<br>    &#123;<br>        <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>    &#125;<br>   <br>    <span class="hljs-function">Spreadsheet <span class="hljs-title">temp</span><span class="hljs-params">(rhs)</span></span>;	<span class="hljs-comment">// Do all the work in a temporary instance</span><br>    <span class="hljs-built_in">swap</span>(*<span class="hljs-keyword">this</span>, temp);<br>    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>该实现使用“复制和交换”惯用语法。为提高效率，有时也为了正确性，赋值运算符的第一行检查自赋值。</p>
+<p> 接下来，对右边进行复制，称为 temp。然后用这个副本替代*this。这个模式可确保“稳健地”安全处理异常(strong exception safety)。这意味着如果发生任何异常，当前的 Spreadsheet 对象保持不变。</p>
+<p> 这通过三个阶段来实现：</p>
+<ul>
+<li>第一个阶段创建一个临时副本。这不修改当前 Spreadsheet 对象的状态，因此，如果在这个阶段发生异常，不会出现问题。</li>
+<li>第二个阶段使用 swap()函数，将创建的临时副本与当前对象交换。swap() 永远不会抛出异常。</li>
+<li>第三个阶段销毁临时对象(由于发生了交换，现在包含原始对象)以清理任何内存。</li>
+</ul>
+<p> 注意：</p>
+<p> ​	除复制外，C++ 还支持移动语义，移动语义需要移动构造函数和移动赋值运算符。在某些情况下，它们可以用来增强性能，稍后的章节“使用移动语义处理移动” 将对此进行详细讨论。</p>
+</li>
+<li><p><strong>禁止赋值和按值传递</strong><br>在类中动态分配内存时，如果只想禁止其他人复制对象或者为对象赋值，只需要显式地将 opemtok和复制构造函数标记为 delete。通过这种方法，当其他任何人按值传递对象时、从函数或方法返回对象时，或者为对象赋值时，编译器都会报错。下面的 Spreadsheet 类定义禁止赋值并按值传递：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width,<span class="hljs-type">size_t</span> height);<br>    <span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> Spreadsheet&amp; src) = <span class="hljs-keyword">delete</span>;<br>    ~<span class="hljs-built_in">Spreadsheet</span>();<br>   <br>    Spreadsheet&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs) = <span class="hljs-keyword">delete</span>;<br>    <span class="hljs-comment">// Code omitted for brevity</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>不需要提供 delete 复制构造函数和复制运算符的实现。链接器永远不会查看它们，因为编译器不允许代码调用它们。当代码复制 Spreadsheet 对象或者对 Spreadsheet 对象的赋值时，编译器将给出：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-string">&#x27;Spreadsheet &amp;Spreadsheet::operator =(const Spreadsheet &amp;)&#x27;</span> : attempting to reference a deleted function<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p>​	<strong>如果编译器不支持显式地删除成员函数，那么可以把复制构造函数和赋值运算符标记为 private，且不提供任何实现，从而禁用复制和赋值。</strong></p>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="2-4使用移动语义处理移动"><a href="#2-4使用移动语义处理移动" class="headerlink" title="2.4使用移动语义处理移动"></a>2.4使用移动语义处理移动</h4><p>对象的移动语义(move semantics)需要实现移动构造函数(move constructor)和移动赋值符(move assignment operator)。如果源对象是操作结束后被销毁的临时对象，编译器就会使用这两个方法。移动构造函数和移动赋值运算符将数据成员从源对象移动到新对象，然后使得源对象处于有效但不确定的状态。通常会将源代码的数据成员重置为空值。这样做实际上将内存和其他资源的所有权从一个对象移动到另一个对象上，这两个方法基本上只是对成员变量进行表层复制(shallow copy)，然后转换已分配内存和其他资源的所有权，从而阻止悬空指针和内存泄漏。</p>
+<p><strong>在实现移动语义前，需要学习右值(rvalue) 和 右值引用(rvalue reference)；</strong></p>
+<ol>
+<li><p><strong>右值引用</strong></p>
+<p>左值(lvalue)：已分配地址(可获取其指针)的名称量。此外，所有不是左值的量都是右值(rvalue)。</p>
+<p><strong>右值引用是对右值(rvlaue)的引用。特别地，这是一个当右值是临时对象时才适用的概念。右值引用的目的是在涉及临时对象时提供可选用的特定函数。由于知道临时对象会被销毁，通过右值引用，某些涉及复制大量值的操作可通过简单地复制指向这些值的指针来实现。</strong>  </p>
+<p><strong>函数可将 &amp;&amp; 作为参数说明的一部分(例如 type &amp;&amp; name), 以指定右值引用参数。</strong>通常，临时对象被当作 const type&amp; , 但当函数重载使用了右值引用时，可以解析临时对象，用于该函数重载。下面的示例说明了这一点。代码首先定义了两个handleMessage() 函数，一个接收左值引用，另一个接收右值引用:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// lvalue reference parameter</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(std::string&amp; message)</span></span><br><span class="hljs-function"></span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;handleMessage with lvalue reference: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;<br>&#125;<br><br><span class="hljs-comment">// rvalue reference parameter</span><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(std::string&amp;&amp; message)</span></span><br><span class="hljs-function"></span>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;handleMessage with rvalue reference: &quot;</span> &lt;&lt; message &lt;&lt; std::endl;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>可使用具有名称的变量作为参数调用 handleMessage() 函数：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++">std::string a = <span class="hljs-string">&quot;Hello&quot;</span>;<br>std::string b = <span class="hljs-string">&quot;World&quot;</span>;<br><span class="hljs-built_in">handleMessage</span>(a);	<span class="hljs-comment">// Calls handleMessage(string&amp; value)</span><br><span class="hljs-comment">// 由于 a 是一个命名变量，调用 handleMessageo函数时，该函数接收一个左值引用。handleMessage() 函数通过其引用参数所执行的任何更改来更改 a 的值</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：还可以用表达式作为参数来调用 handleMessage() 函数：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">handleMessage</span>(a + b);<br><span class="hljs-comment">// 此时无法使用接收左值引用作为参数的 handleMessage()函数，因为表达式 a+b 的结果是临时的，这不是一个左值。在此情况下，会调用右值引用版本。由于参数是一个临时值，handleMessage。函数调用结束后，会丢失通过引用参数所做的任何更改。</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>字面量也可作为 handleMessage() 调用的参数，此时同样会调用右值引用版本，因为字面量不能作为左值(但字面量可作为 const 引用形参的对应实参传递)。</strong>  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">handleMessage</span>(<span class="hljs-string">&quot;Hello World&quot;</span>);	<span class="hljs-comment">// Calls handleMessage(std::string&amp;&amp; value)</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>如果删除接收左值引用的 handleMessage。函数，使用有名称的变量调用 handleMessage() 函数 (例如handleMessage(b)), 会导致编译错误，因为右值引用参数 (string&amp;&amp; message) 永远不会与左值(b)绑定。如下所示，可使用 std::move()将左值转换为右值，强迫编译器调用 handleMessage() 函数的右值引用版本：</strong>  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-built_in">handleMessage</span>(std::<span class="hljs-built_in">move</span>(b));	<span class="hljs-comment">// Calls handleMessage(std::string&amp;&amp; value)</span><br></code></pre></td></tr></table></figure>
+
+<p>重申一下，有名称的变量是左值，因此在 handleMessage() 函数中，右值引用参数 message 本身是一个左值，原因是它具有名称！如果希望将这个左值引用参数，作为右值传递【注意，不是复制】给另一个函数，则需要使用 std::move()，将左值转换为右值。例如，假设要添加以下函数使用右值引用参数：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">helper</span><span class="hljs-params">(std::string&amp;&amp; message)</span></span><br><span class="hljs-function"></span>&#123;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果按照如下方法调用，则无法编译：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(std::string&amp;&amp; message)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">helper</span>(message);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>helper() 函数需要使用右值引用，而 handleMessage() 函数传递 message，message 具有名称，因此是左值，导致编译错误。正确的方式是使用 std::move():</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">handleMessage</span><span class="hljs-params">(std::string&amp;&amp; message)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-built_in">helper</span>(std::<span class="hljs-built_in">move</span>(message));<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>警告：</strong></p>
+<p>​	<strong>有名称的右值引用，如右值引用参数，本身就是左值，因为它具有名称！</strong></p>
+<p>右值引用并不局限于函数的参数。可声明右值引用类型的变量，并对其赋值，尽管这一用法并不常见。考虑下面的代码，在 C++ 中这是不合法的：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">int</span>&amp; i = <span class="hljs-number">2</span>;			<span class="hljs-comment">// Invalid:reference to a constant</span><br><span class="hljs-type">int</span> a = <span class="hljs-number">2</span>, b = <span class="hljs-number">3</span>;<br><span class="hljs-type">int</span>&amp; j = a + b;		<span class="hljs-comment">// Invalid:reference to a temporary</span><br></code></pre></td></tr></table></figure>
+
+<p>使用右值引用后，下面的代码完全合法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">int</span>&amp;&amp; i = <span class="hljs-number">2</span>;<br><span class="hljs-type">int</span> a = <span class="hljs-number">2</span>, b = <span class="hljs-number">3</span>;<br><span class="hljs-type">int</span>&amp;&amp; j = a + b;<br><br><span class="hljs-comment">// 但是，单独使用右值引用的情况是十分少见的</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>实现移动语义</strong></p>
+<p>移动语义是通过右值引用实现的。为了对类增加移动语义，需要实现移动构造函数和移动赋值运算符。移动构造函数和移动赋值运算符应使用 noexcept 限定符标记，这告诉编译器，它们不会抛出任何异常。这对于与标准库兼容非常重要，因为如果实现了移动语义，与标准库的完全兼容只会移动存储的对象，且确保不抛出异常。下面的 Spreadsheet 类定义包含一个移动构造函数和一个移动赋值运算符。也引入了两个辅助方法 cleanup。和 moveFrom()。前者在析构函数和移动赋值运算符中调用。后者用于把成员变量从源对象移动到目标对象，接着重置源对象。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Spreadsheet</span>(Spreadsheet&amp;&amp; src) <span class="hljs-keyword">noexcept</span>;	<span class="hljs-comment">// Move constructor</span><br>    Spreadsheet&amp; <span class="hljs-keyword">operator</span>=(Spreadsheet&amp;&amp; rhs) <span class="hljs-keyword">noexcept</span>;	<span class="hljs-comment">// Move assign</span><br>    <br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">cleanup</span><span class="hljs-params">()</span> <span class="hljs-keyword">noexcept</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">moveFrom</span><span class="hljs-params">(Spreadsheet&amp; src)</span> <span class="hljs-keyword">noexcept</span></span>;<br>    <span class="hljs-comment">// Remaining code omitted for brevity</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>实现代码如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::cleanup</span><span class="hljs-params">()</span> <span class="hljs-keyword">noexcept</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br>    &#123;<br>        <span class="hljs-keyword">delete</span> [] mCells[i];<br>    &#125;<br>    <span class="hljs-keyword">delete</span> [] mCells;<br>    mCells = <span class="hljs-literal">nullptr</span>;<br>    <br>    mWidth = mHeight = <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::moveForm</span><span class="hljs-params">(Spreadsheet&amp; src)</span> <span class="hljs-keyword">noexcept</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// Shallow copy(浅复制) of data</span><br>    <span class="hljs-comment">// 通过浅复制将指针总输入的源函数 src 拷贝到 *this 对象中</span><br>    mWidth = src.mWidth;<br>    mHeight = src.mHeight;<br>    mCells = <span class="hljs-literal">nullptr</span>;<br>    <br>    <span class="hljs-comment">// Reset the source object, because ownership has been moved!</span><br>	 src.mWidth = <span class="hljs-number">0</span>;<br>	 src.mHeight = <span class="hljs-number">0</span>;<br>	 src.mCells = <span class="hljs-literal">nullptr</span>;<br>&#125;<br><br><span class="hljs-comment">// Move constructor</span><br>Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(Spreadsheet&amp;&amp; src) noexcpet<br>&#123;<br>    <span class="hljs-built_in">moveForm</span>(src);<br>&#125;<br><br><span class="hljs-comment">// Move assignment operator</span><br>Spreadsheet&amp; Spreadsheet::<span class="hljs-keyword">operator</span>=(Spreadsheet&amp;&amp; src) <span class="hljs-keyword">noexcept</span><br>&#123;<br>    <span class="hljs-comment">// check for self-assignment</span><br>    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == &amp;rhs)<br>    &#123;<br>        <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>    &#125;<br>    <br>    <span class="hljs-comment">//  free the old memory</span><br>    <span class="hljs-built_in">cleanup</span>();<br>    <br>    <span class="hljs-built_in">moveFrom</span>(rhs);<br>    <br>    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>移动构造函数和移动赋值运算符都将 mCells 的内存所有权从源对象移动到新对象，这两个方法将源对象的 mCells 指针设置为空指针，以防源对象的析构函数释放这块内存，因为新的对象现在拥有了这块内存。</strong></p>
+<p><strong>很明显，只有你知道将销毁源对象时，移动语义才有用。</strong></p>
+<p>例如，就像普通的构造函数或复制赋值运算符一样，<strong>可显式将移动构造函数和&#x2F;或移动赋值运算符设置为默认或将其删除，如第 8 章所述。</strong></p>
+<p><strong>仅当类没有用户声明的复制构造函数、复制赋值运算符、移动赋值运算符或析构函数时，编译器才会为类自动生成默认的移动构造函数。仅当类没有用户声明的复制构造函数、移动构造函数、复制赋值运算符或析构函数时，才会为类生成默认的移动赋值运算符。</strong>  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;iostream&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;utility&gt;</span></span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span> &#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// 普通构造函数</span><br>    <span class="hljs-built_in">MyClass</span>(<span class="hljs-type">int</span> value) : <span class="hljs-built_in">data_</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">int</span>(value)) &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;普通构造函数被调用\n&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 移动构造函数</span><br>    <span class="hljs-built_in">MyClass</span>(MyClass&amp;&amp; other) <span class="hljs-keyword">noexcept</span> : <span class="hljs-built_in">data_</span>(other.data_) &#123;<br>        other.data_ = <span class="hljs-literal">nullptr</span>; <span class="hljs-comment">// 移动后将源对象的指针置为nullptr</span><br>        std::cout &lt;&lt; <span class="hljs-string">&quot;移动构造函数被调用\n&quot;</span>;<br>    &#125;<br><br>    <span class="hljs-comment">// 其他成员函数和数据成员的定义...</span><br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-type">int</span>* data_;<br><br>    <span class="hljs-comment">// 其他私有成员函数和数据成员的定义...</span><br>&#125;;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span> </span>&#123;<br>    <span class="hljs-comment">// 调用普通构造函数</span><br>    <span class="hljs-function">MyClass <span class="hljs-title">obj1</span><span class="hljs-params">(<span class="hljs-number">42</span>)</span></span>;<br><br>    <span class="hljs-comment">// 调用移动构造函数</span><br>    MyClass obj2 = std::<span class="hljs-built_in">move</span>(obj1);<br><br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><span class="hljs-comment">// 这里就知道什么时候时普通构造什么时候是复制构造函数了</span><br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p><strong>如果类中动态分配了内存，则通常应当实现析构函数、复制构造函数、移动构造函数、复制赋值运算符和移动赋值运算符，这称为 “5 规则”(Rule of Five)。</strong></p>
+<p><strong>移动对象数据成员：</strong></p>
+<p>​	<strong>moveFrom() 方法对三个数据成员直接赋值，因为这些成员都是基本类型。如果对象还将其他对象作为数据成员，则应当使用 std::move()移动这些对象。</strong>假设 Spreadsheet 类有一个名为 mName 的 std::string 数据成员。接着采用以下方式实现 moveFrom()方法：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::moveFrom</span><span class="hljs-params">(Spreadsheet&amp; src)</span> <span class="hljs-keyword">noexcept</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-comment">// Move object data members</span><br>    mName = std::<span class="hljs-built_in">move</span>(src.mName);<br>    <span class="hljs-comment">// 这里是说，如果有其他的类作为此类的成员，那么就调用它的移动构造函数进行转移</span><br>    <br>    <span class="hljs-comment">// Move primitive</span><br>    <span class="hljs-comment">// Shallow copy of data</span><br>    mWidth = src.mWidth;<br>    mHeight = src.mHeight;<br>    mCells = src.mCells;<br>    <br>    <span class="hljs-comment">// Reset the source object, because onwership has been move!</span><br>    src.mWidth = <span class="hljs-number">0</span>;<br>    src.mHeight = <span class="hljs-number">0</span>;<br>    src.mCells = <span class="hljs-literal">nullptr</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>用交换方式实现移动构造函数和移动赋值运算符：</p>
+<p>​	前面的移动构造函数和移动赋值运算符的实现都使用了 moveFrom() 辅助方法，该辅助方法通过执行浅表复制来移动所有数据成员。<strong>在此实现中，如果给 Spreadsheet 类添加新的数据成员，则必须修改 swap() 函数和 moveFrom() 方法。如果忘了更新其中的一个，则会引入 bug。为避免此类 bug, 可使用默认构造函数和 swap() 函数，编写移动构造函数和移动赋值运算符</strong>。</p>
+<p><strong>首先给 Spreadsheet 类添加默认构造函数。不应当让类的用户使用这个默认构造函数，故将其标记为 private</strong>：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-built_in">Spreadsheet</span>() = dafault;<br>    <span class="hljs-comment">// Remaining code omitted for brevity</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>接下来，可删除 cleanup() 和 moveFrom() 辅助方法，将 cleanup() 方法中的代码移入析构函数。此后，可按如下方式实现移动构造函数和移动赋值运算符:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(Spreadsheet&amp;&amp; src) <span class="hljs-keyword">noexcept</span><br>    : <span class="hljs-built_in">Spreadsheet</span>()<br>&#123;<br>    <span class="hljs-built_in">swap</span>(*<span class="hljs-keyword">this</span>, src);<br>&#125;<br><br>Spreadsheet&amp; Spreadsheet::<span class="hljs-keyword">operator</span>=(Spreadsheet&amp;&amp; rhs) <span class="hljs-keyword">noexcept</span><br>&#123;<br>    Spreadsheet <span class="hljs-built_in">temp</span>(std::<span class="hljs-built_in">move</span>(rhs));<br>    <span class="hljs-built_in">swap</span>(*<span class="hljs-keyword">this</span>, temp);<br>    <span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>移动构造函数首先委托给默认构造函数。此后，对默认构造的 *this 与给定的源对象进行交换。移动赋值运算符首先使用 std::move(rhs), 创建一个本地 Spreadsheet 实例，然后将这个本地 Spreadsheet 实例与 *this 交换。与前面使用 moveFrom() 的实现相比，使用默认构造函数和 swap() 函数实现移动构造函数和移动赋值运算符的效率稍微差一些。但这种做法也有优点，它需要的代码较少，将数据成员添加到类时，需要的代码较少，也不太可能引入 bug, 因为只需要更新 swap() 实现，加入新的数据成员即可。</p>
+</li>
+<li><p><strong>测试 Spreadsheet 移动运算</strong></p>
+<p>可使用以下代码来测试 Spreadsheet 移动构造函数和移动复制赋值运算符：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">Spreadsheet <span class="hljs-title">createObject</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-number">3</span>, <span class="hljs-number">2</span>);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">main</span><span class="hljs-params">()</span></span><br><span class="hljs-function"></span>&#123;<br>    vector&lt;Spreadsheet&gt; vec;<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">int</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">2</span>; i++)<br>    &#123;<br>        std::cout &lt;&lt; <span class="hljs-string">&quot;Iteration &quot;</span> &lt;&lt; i &lt;&lt; std::endl;<br>        vec.<span class="hljs-built_in">push_back</span>(<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-number">100</span>, <span class="hljs-number">100</span>));<br>        std::cout &lt;&lt; std::endl;<br>    &#125;<br>    <br>    <span class="hljs-function">Spreadsheet <span class="hljs-title">s</span><span class="hljs-params">(<span class="hljs-number">2</span>, <span class="hljs-number">3</span>)</span></span>;<br>    s = <span class="hljs-built_in">createObject</span>();<br>    <br>    <span class="hljs-function">Spreadsheet <span class="hljs-title">s2</span><span class="hljs-params">(<span class="hljs-number">5</span>, <span class="hljs-number">6</span>)</span></span>;<br>    s2 = s;<br>    <br>    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;<br>&#125;<br><br><span class="hljs-comment">// 输出：</span><br>Iteration <span class="hljs-number">0</span><br>Normal constructor<br>Move constructor<br><br>Iteration <span class="hljs-number">1</span><br>Normal constructor<br>Move constructor<br>Move constructor<br><br>Normal constructor<br>Normal constructor<br>Move assignment <span class="hljs-keyword">operator</span><br>Normal constructor<br>Copy assignment <span class="hljs-keyword">operator</span><br>Normal constructor<br>Copy constructor<br></code></pre></td></tr></table></figure>
+
+<p>第一章 引入了 vector。vector 的大小会动态增长以容纳新对象，为此，可分配较大的内存块，然后将对象复制到(或移动到)较大、新的 vector。如果编译器发下来移动构造函数，那么就移动而不深拷贝。</p>
+<p>上述的内容具体解释见课本，太复杂了，我这里不赘述。真是烦死了这个构造。</p>
+<p>我这里就强调一点：怎么看到底是移动还是普通——就是看它的右侧的源对象是否要被销毁，或者说是不是一个“字面量”。</p>
+</li>
+<li><p><strong>使用移动语义实现交换函数</strong></p>
+<p>考虑到交换两对象的 swap() 函数，这是另一个使用移动语义提供性能的示例。下面的 swapCopy() 实现没有使用移动语义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">swapCopy</span><span class="hljs-params">(T&amp; a, T&amp; b)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">T <span class="hljs-title">temp</span><span class="hljs-params">(a)</span></span>;<br>    a = b;<br>    b = temp;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这一实现是极其影响性能的，使用 std::move() 语义进行复写，可以极大提高性能：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">swapCopy</span><span class="hljs-params">(T&amp; a, T&amp; b)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-function">T <span class="hljs-title">temp</span><span class="hljs-params">(std::move(a))</span></span>;<br>    a = std::<span class="hljs-built_in">move</span>(b);<br>    b = std;:<span class="hljs-built_in">move</span>(temp);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这正是标准库的 std::swap() 的实现方法。</p>
+</li>
+</ol>
+<hr>
+<h4 id="2-5零规则"><a href="#2-5零规则" class="headerlink" title="2.5零规则"></a>2.5零规则</h4><p>上述的五大特殊成员函数：</p>
+<ol>
+<li>析构函数</li>
+<li>复制构造函数</li>
+<li>移动构造函数</li>
+<li>复制赋值运算符</li>
+<li>移动赋值运算符</li>
+</ol>
+<p>都不要用！！！！！！！！！！！！！！！！！！！！</p>
+<p>用标准库！！！！！！！！！！！！！！！！！！！！</p>
+<p>所以，之前就是在扯淡？比如，使用 vector&lt;vector<SpreadsheetCell>&gt; 替代 Spreadsheet**，该 vector 会自动处理内存，而且很高效。</p>
+<hr>
+<h3 id="9-3与方法有关的更多内容"><a href="#9-3与方法有关的更多内容" class="headerlink" title="9.3与方法有关的更多内容"></a>9.3与方法有关的更多内容</h3><blockquote>
+<p>C++ 为方法提供许多选择，本章将详细讲述。</p>
+</blockquote>
+<hr>
+<h4 id="3-1静态方法"><a href="#3-1静态方法" class="headerlink" title="3.1静态方法"></a>3.1静态方法</h4><blockquote>
+<p><strong>静态方法和普通方法的对比</strong>：</p>
+<ul>
+<li><strong>静态方法：</strong></li>
+<li>被声明为<code>static</code>的方法是属于类而不是类的实例的。它们可以通过类名调用，而不需要创建类的实例。</li>
+<li>静态方法不能直接访问非静态成员或成员函数，因为它们不与类的实例相关联，但可以访问类的 private 和 protected 静态数据成员。如果同一类型的其他对象对静态方法可见(例如传入了对象的指针或引用)，那么静态方法也可访问其他对象的 private 和 protected 非静态数据成员。</li>
+<li>静态方法内部不能使用<code>this</code>指针，因为它们没有实例上下文。</li>
+<li>静态方法可以被类的所有实例共享，也可以被类本身调用。</li>
+<li><strong>普通方法：</strong></li>
+<li>普通方法是类的实例的一部分，需要通过类的实例（对象）来调用。</li>
+<li>可以访问和修改实例的非静态成员，可以使用<code>this</code>指针来引用当前实例。</li>
+<li>普通方法与类的实例相关联，可以访问和修改实例的状态。</li>
+</ul>
+<p><strong>必要性和使用场景</strong>：</p>
+<ol>
+<li><strong>静态方法的必要性：</strong></li>
+</ol>
+<ul>
+<li><strong>共享资源或功能：</strong> 静态方法通常用于实现与类本身相关的功能，而不是与实例相关的功能。例如，计算类的总数或提供与类相关的全局设置。</li>
+<li><strong>工具函数：</strong> 静态方法可以用作类的工具函数，提供一些通用的操作，而不需要创建类的实例。</li>
+<li><strong>避免创建实例：</strong> 如果某个方法与类的状态无关，而只与类的行为有关，可以将其声明为静态方法，以避免不必要的实例创建。</li>
+</ul>
+<ol start="2">
+<li><strong>普通方法的必要性：</strong></li>
+</ol>
+<ul>
+<li><strong>操作实例状态：</strong> 如果方法需要访问或修改实例的状态，那么它应该是普通方法。普通方法可以使用<code>this</code>指针来引用当前实例。</li>
+<li><strong>对象特定的行为：</strong> 如果方法的行为与实例的状态密切相关，且需要在多个地方使用，那么它可能是一个普通方法。</li>
+<li><strong>面向对象编程：</strong> 普通方法是面向对象编程中的重要概念，它们强调了对象的封装性和行为。通过普通方法，类的实例可以表现出个体性和特定的行为。</li>
+</ul>
+<p> 示例：</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs c++">&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetCell</span><br>&gt;&#123;<br>   <span class="hljs-comment">// Omitted for brevity</span><br>&gt;<span class="hljs-keyword">private</span>:<br>   <span class="hljs-function"><span class="hljs-type">static</span> std::string <span class="hljs-title">doubleToString</span><span class="hljs-params">(<span class="hljs-type">double</span> inValue)</span></span>;<br>   <span class="hljs-function"><span class="hljs-type">static</span> doubel <span class="hljs-title">stringToDouble</span><span class="hljs-params">(std::string_view inString)</span></span>;<br>&gt;&#125;<br></code></pre></td></tr></table></figure>
+
+<p> 将这两个函数定义为 public，就可以在代码外使用它们，这时其实这种方法就有些类似于 命名空间 了。</p>
+ <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;string str = SpreadsheetCell::<span class="hljs-built_in">doubleToString</span>(<span class="hljs-number">5.0</span>);<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="3-2const-方法与-mutable"><a href="#3-2const-方法与-mutable" class="headerlink" title="3.2const 方法与 mutable"></a>3.2const 方法与 mutable</h4><p><strong>const</strong> **方法 ： **</p>
+<blockquote>
+<p>即，约定这些方法不改变任何数据成员，仅此而已。</p>
+<p>只要记住，不想改变传入的数据，就既使用 const type&amp; 又使用 const 定义方法，这样就好。</p>
+</blockquote>
+<p><strong>mutable 方法 ：</strong></p>
+<blockquote>
+<p>有些编码从逻辑上是一种 const 方法，但是实际上它内部要进行一种“统计”或者说一种另外的对于用户来说毫无影响的某种操作。这时，我们会发现无论我们改变什么都不会被编译器允许，因为方法被定义为了 const ，但是总不能因为这种改动而去除 const 关键字，这样是不优雅的，而是采用将这种改动的成员变量定义为 mutable，这样对这样的成员进行的修改，将在编译器对 const 方法处理时忽略掉。</p>
+<p>如下示例,对某种方法使用次数进行统计：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetCell</span><br>&gt;&#123;<br>&gt;<span class="hljs-comment">// Omitted for brevity</span><br>&gt;<span class="hljs-keyword">private</span>:<br>&gt;<span class="hljs-type">double</span> mValue = <span class="hljs-number">0</span>;<br>&gt;<span class="hljs-keyword">mutable</span> <span class="hljs-type">size_t</span> mNumAccess = <span class="hljs-number">0</span>;<br>&gt;&#125;;<br><br>&gt;<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">SpreadsheetCell::getValue</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function">&gt;</span>&#123;<br>&gt;mNumAccess++;<br>&gt;<span class="hljs-keyword">return</span> mNumAccess;<br>&gt;&#125;<br><br>&gt;<span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">SpreadsheetCell::getString</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function">&gt;</span>&#123;<br>&gt;mNumberAccess++;<br>&gt;<span class="hljs-keyword">return</span> <span class="hljs-built_in">doubleToString</span>(mValue);<br>&gt;&#125;<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h4 id="3-3方法重载"><a href="#3-3方法重载" class="headerlink" title="3.3方法重载"></a>3.3方法重载</h4><blockquote>
+<p>保持函数名不变，改动函数输入和输出类型，而使得编译器在面对不同的传入传出，做出不同的行为，这叫 重载解析(overload resolution)。但是，如果传入传出值不能完全确定出使用哪个重载函数，那么编译器就无从判断。</p>
+<p>1.<strong>基于 const 的重载</strong></p>
+<p>通常情况下，const 版本 和 非 const 版本 的实现是一样的，为避免代码重复，可使用 Scott Meyer 的 cosnt_cast() 模式。例如，，Spreadsheet 类中有 getCellAt() 方法，该方法返回 SpreadsheetCell 的非 const 引用。可添加 const 重载版本，它返回 SpreadsheetCell 的 const 引用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br> <span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br> <span class="hljs-function"><span class="hljs-type">const</span> SpreadsheetCell&amp; <span class="hljs-title">getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>const getCellAt() 正常写，下面说明如何实现 Scott Meyer 的 const_cast 模式：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">cosnt SpreadsheetCell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-built_in">verifyCoordinate</span>(x, y);<br> <span class="hljs-keyword">return</span> mCells[x][y];<br>&#125;<br><br><span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function"></span>&#123;<br> <span class="hljs-keyword">return</span> <span class="hljs-built_in">const_cast</span>&lt;SpreadsheetCell&amp;&gt;(std::<span class="hljs-built_in">as_const</span>(*<span class="hljs-keyword">this</span>).<span class="hljs-built_in">getCellAt</span>(x, y));<br> <span class="hljs-comment">// 以下代码也可以，上述代码需要 C++17 才能实现 as_const</span><br> <span class="hljs-keyword">return</span> <span class="hljs-built_in">const_cast</span>&lt;SpreadsheetCell&amp;&gt;(<span class="hljs-built_in">static_cast</span>&lt;<span class="hljs-type">const</span> Spreadsheet&amp;&gt;(*<span class="hljs-keyword">this</span>).<span class="hljs-built_in">getCellAt</span>(x, y));<br>&#125;<br><span class="hljs-comment">// 这种 const_cast 语法类似于静态类型转换，也就是 static_cast </span><br></code></pre></td></tr></table></figure>
+
+<p>这里貌似使用 const_cast() 模式的优势并不明显，但是想象一下随着 cosnt 方法实现的内容逐步增多，这样做能够节省很多代码空间。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">Spreadsheet <span class="hljs-title">sheet1</span><span class="hljs-params">(<span class="hljs-number">5</span>, <span class="hljs-number">6</span>)</span></span>;<br>SpreadsheetCell&amp; cell = sheet1.<span class="hljs-built_in">getCellAt</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);<br><br><span class="hljs-function"><span class="hljs-type">const</span> Spreadsheet <span class="hljs-title">sheet2</span><span class="hljs-params">(<span class="hljs-number">5</span>, <span class="hljs-number">6</span>)</span></span>;<br><span class="hljs-type">const</span> SpreadhsheetCell&amp; cell2 = sheet2.<span class="hljs-built_in">getCellAt</span>(<span class="hljs-number">1</span>, <span class="hljs-number">1</span>);<br></code></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><p><strong>显式删除重载</strong></p>
+<p>重载方法可以被显式地删除，可以用这种方法对具有某种特定参数的成员函数进行禁止调用。例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>可以用以下代码对 foo() 代码进行调用：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++">MyClass c;<br>c.<span class="hljs-built_in">foo</span>(<span class="hljs-number">123</span>);<br>c.<span class="hljs-built_in">foo</span>(<span class="hljs-number">1.23</span>);	<span class="hljs-comment">// 这里进行了隐式的类型转换</span><br></code></pre></td></tr></table></figure>
+
+<p>下面定义方法则可以禁止这种隐式类型转换：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyClass</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span></span>;<br>    <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">foo</span><span class="hljs-params">(<span class="hljs-type">int</span> i)</span> </span>= <span class="hljs-keyword">delete</span>;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>这样上述隐式转换将被报错。</p>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="3-4内联方法"><a href="#3-4内联方法" class="headerlink" title="3.4内联方法"></a>3.4内联方法</h4><blockquote>
+<p>C++ 提供这样一种能力：**函数或方法的调用不应再生成的代码中实现，就像调用独立的代码块那样，编译器应将方法体或函数体直接插入到调用方法或函数的位置。这个过程叫做内联(inline)**，具有这一行为的函数或方法被称为内联函数或内联方法。</p>
+<p>注意：</p>
+<p><strong>内联比使用 #define 宏安全！</strong></p>
+<p>可在方法或函数定义名称前使用 inline 关键字，将某个方法或函数定义为内联的。例如，要让 SpreadsheetCell 类的访问方法成为内联的，可以这样定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">double</span> <span class="hljs-title">SpreadsheetCell::getValue</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function">&gt;</span>&#123;<br>mNumAccess++;<br><span class="hljs-keyword">return</span> mValue;<br>&gt;&#125;<br><br>&gt;<span class="hljs-function"><span class="hljs-keyword">inline</span> std::string <span class="hljs-title">SpreadsheetCell::getString</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function">&gt;</span>&#123;<br>mNumAccess++;<br><span class="hljs-keyword">return</span> <span class="hljs-built_in">doubleToString</span>(mValue);<br>&gt;&#125;<br></code></pre></td></tr></table></figure>
+
+<p>这是提示编译器，用实际的方法体替换对 getValue() 和 getString() 的调用，而不是生成代码进行函数调用。注意， inline 关键字只是提示 编译器，如果编译器认为这样做会降低性能，那么就会忽略掉该关键字。</p>
+<p>注意，在所有调用了内联函数或内联方法的源文件中，内敛方法或内联函数的定义必须有效。考虑到这个问题如果没有看到函数定义，那么编译器就无法完成函数体替换。因此——如果编写了内联函数或内联方法，就应该将定义与原型一起放在头文件中。</p>
+<p>注意：</p>
+<p><strong>高级 C++ 编译器不要求将内联方法放在头文件中。</strong>例如，Microsoft Visual C++ 支持连接时代码生成(LTCG)，会自动将较小的函数内联，即使这些函数没有声明为内联函数或者没有在头文件中定义，同样也如此。<strong>可以利用这一点，不需要将定义放在头文件中，这样可以保证接口整洁，因为在接口文件中看不到任何实现细节。示例如下：</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-comment">// MathUtils.h</span><br>&gt;<span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span><br><br>&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">MathUtils</span> <br>&gt;&#123;<br>&gt;<span class="hljs-keyword">public</span>:<br>&gt;<span class="hljs-comment">// 内联函数的声明</span><br>&gt;<span class="hljs-function"><span class="hljs-type">int</span> <span class="hljs-title">square</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span></span>;<br>&gt;&#125;;<br><br>&gt;<span class="hljs-comment">// MathUtils.cpp</span><br>&gt;<span class="hljs-comment">// 内联函数的定义（放在头文件中）</span><br>&gt;<span class="hljs-function"><span class="hljs-keyword">inline</span> <span class="hljs-type">int</span> <span class="hljs-title">MathUtils::square</span><span class="hljs-params">(<span class="hljs-type">int</span> x)</span> </span><br><span class="hljs-function">&gt;</span>&#123;<br>&gt;<span class="hljs-keyword">return</span> x * x;<br>&gt;&#125;<br></code></pre></td></tr></table></figure>
+
+<p><strong>另一种定义内联的方法</strong>：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C++">&gt;<span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheetcell</span><br>&gt;&#123;<br>&gt;<span class="hljs-keyword">public</span>:<br><span class="hljs-comment">// Omitted for brevity</span><br><span class="hljs-function"><span class="hljs-type">double</span> <span class="hljs-title">getValue</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span><br><span class="hljs-function"></span>&#123;<br>    mNumAccesses++; <br>    <span class="hljs-keyword">return</span> mValue; <br>&#125;<br><span class="hljs-function">std::string <span class="hljs-title">getString</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	mNumAccesses++;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">doubleToString</span>(mValue);<br>&#125;<br><span class="hljs-comment">// Omitted for brevity</span><br>&gt;&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>​	如果使用调试器单步调试内联函数的调用，某些高级 C++ 调试器会跳到内联函数实际的源代码处，这就好似依旧是在进行函数调用的假象【内联不是调用，内联函数的使用可能会增加最终的编译文件大小。内联函数的主要优势在于提高程序的执行效率，因为它避免了函数调用的开销，直接将函数体的代码插入到调用点。】但实际上是内联的。</p>
+<p>但是，请记住，inline 关键字是一种对编译器的请求，而不是绝对的要求，所以，如果这种使用能够使得效率增高且不会过分代码膨胀，才会进行内联处理。</p>
+</blockquote>
+<hr>
+<h4 id="3-5默认参数"><a href="#3-5默认参数" class="headerlink" title="3.5默认参数"></a>3.5默认参数</h4><blockquote>
+<p>  在 C++ 中，默认参数(defaut arguments) 与方法重载类似，在原型中，可以为函数或方法的参数指定默认值。</p>
+<p>  注意，任何默认构造函数能做到的，使用方法重载都可以做到，然而这种默认构造方法确实是应当使用得心应手的机制。</p>
+</blockquote>
+<hr>
+<h3 id="9-4不同的数据成员类型【部分内容不太明白】"><a href="#9-4不同的数据成员类型【部分内容不太明白】" class="headerlink" title="9.4不同的数据成员类型【部分内容不太明白】"></a>9.4不同的数据成员类型【部分内容不太明白】</h3><blockquote>
+<p>  C++为数据成员提供了多种选择。除了在类中简单地声明<strong>数据成员</strong>外，还可创建<strong>静态数据成员(类的所有对象共享)<strong>、</strong>静态常量数据成员</strong>、<strong>引用数据成员</strong>、<strong>常量引用数据成员和其他成员</strong>。本节解释这些不同类型的数据成员。  </p>
+</blockquote>
+<hr>
+<h4 id="4-1静态数据成员"><a href="#4-1静态数据成员" class="headerlink" title="4.1静态数据成员"></a>4.1静态数据成员</h4><blockquote>
+<p>  使用机制基本和静态成员函数一样。</p>
+<p>  有时让类的所有对象都包含某个变量的副本是没必要的。数据成员可能只对类有意义，而每个对象都拥有其副本是不合适的，<strong>使用 static 关键字</strong>。  </p>
+<p>  下面是 Spreadsheet 类的定义，其中包含了新的静态数据成员 sCounter：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br>	<span class="hljs-comment">// Omitted for brevity </span><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-type">static</span> <span class="hljs-type">size_t</span> sCounter;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>  不仅要在<strong>类定义中列出 static 类成员，还需要在源文件中为其分配内存，通常是定义类方法的那个源文件</strong>。<strong>在此还可初始化静态成员，但注意与普通的变量和数据成员不同，默认情况下它们会初始化为 0</strong>。static 指针会初始化为 nullptr 下面是为 sCounter 分配空间并初始化为 0 的代码：  </p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">size_t</span> Spreadsheet::sCounter;<br></code></pre></td></tr></table></figure>
+
+<p>  静态数据成员默认情况下初始化为 0, 但如果需要，可将它们显式地初始化为 0, 所下所示:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">size_t</span> Spreadsheet::sCounter = <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
+
+<p>  这行代码在函数或方法外部，与声明全局变量非常类似，只是使用作用域解析 Spreadsheet::指出这是Spreadsheet 类的一部分。【这也就是和上面说的一样，和静态方法类似的原因】</p>
+<ol>
+<li><p><strong>内联方法</strong></p>
+<p>从 C++17 开始，就可以使用 inline 来声明静态数据成员，这样做的好处就是不用在源文件中为其分配空间，示例如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br>    <span class="hljs-comment">// Omitted for brevity</span><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-type">static</span> <span class="hljs-keyword">inline</span> <span class="hljs-type">size_t</span> sCounter = <span class="hljs-number">0</span>;<br>&#125;;<br><span class="hljs-comment">// 注意，有了 inline 关键字，那么就不要在源文件中再次定义</span><br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>在类方法内访问静态数据成员</strong></p>
+<p>在类方法内部，可以像使用普通数据成员一样使用静态数据成员。例如，为 Spreadsheet 类创建一个 mId 成员，并在 Spreadsheet 构造函数中用 sCounter 成员初始化它。下面是包含了 mId 成员的 Spreadsheet 类定义：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// Omitted for brevity</span><br>    <span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-type">static</span> <span class="hljs-type">size_t</span> sCounter;<br>    <span class="hljs-type">size_t</span> mId;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>下面是 Spreadsheet 构造函数的实现，在此赋予初始 ID：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height)<br>    : <span class="hljs-built_in">mId</span>(sCounter++), <span class="hljs-built_in">mWidth</span>(width), <span class="hljs-built_in">mHeight</span>(height)<br>&#123;<br>    mCells = <span class="hljs-keyword">new</span> SpreadsheetCell*[mWidth];<br>    <span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++)<br>    &#123;<br>        mCells[i] = <span class="hljs-keyword">new</span> SpreadsheetCell[mHeight];<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>可以看出，构造函数可以访问 sCounter ,这就像是一个普通成员，在复制构造函数中，也要指定新的 ID，由于Spreadsheet 复制构造函数委托给非复制构造函数(会自动创建新的 ID), 因此这可以自动进行处理。  </p>
+<p>在赋值运算符中不应该复制 ID。一旦给某个对象指定 ID, 就不应该再改变。建议把 mId 设置为 const 数据成员。</p>
+</li>
+<li><p><strong>在方法外访问静态数据成员</strong></p>
+<p><strong>访问控制限定符适用于静态数据成员：sCounter 是私有的，因此不能在类方法之外访问。如果 sCounter 是公有的，就可在类方法外访问</strong>，具体方法是用::作用域解析运算符指出这个变量是 Spreadsheet 类的一部分：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">int</span> c = Spreadsheet::sCounter;<br></code></pre></td></tr></table></figure>
+
+<p>然而，建议不要使用公有数据成员(9.42 节讨论的静态常量数据成员属于例外)。<strong>应该提供公有的 get&#x2F;set 方法来授予访问权限。如果要访问静态数据成员，应该实现静态的 get&#x2F;set 方法。</strong></p>
+</li>
+</ol>
+</blockquote>
+<hr>
+<h4 id="4-2静态常量数据成员"><a href="#4-2静态常量数据成员" class="headerlink" title="4.2静态常量数据成员"></a>4.2静态常量数据成员</h4><blockquote>
+<p>  <strong>类中的数据成员可声明为 const, 意味着在创建并初始化后，数据成员的值不能再改变。如果某个常量只适用于类，应该使用静态常量(static const 或 const static)数据成员，而不是全局常量。</strong>可在类定义中定义和初始化整型和枚举类型的静态常量数据成员，而不需要将其指定为内联变量。例如，你可能想指定电子表格的最大高度和宽度。如果用户想要创建的电子表格的高度或宽度大于最大值，就改用最大值。可将最大高度和宽度设置为 Spreadsheet <strong>类的 static const 成员</strong>：  </p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>   <span class="hljs-comment">// Omitted for brevity</span><br>   <span class="hljs-type">static</span> <span class="hljs-type">const</span> <span class="hljs-type">size__t</span> kMaxHeight = <span class="hljs-number">100</span>;<br>   <span class="hljs-type">static</span> <span class="hljs-type">const</span> <span class="hljs-type">size_t</span> kMaxWidth = <span class="hljs-number">100</span>;<br>   <span class="hljs-comment">// kMaxHeight 和 kMaxWidth 是公有的，因此可在程序的任何位置访问它们，就像它们是全局变量一样，只是语法略有不同。必须用作用域解析运算符::指出该变量是 Spreadsheet 类的一部分</span><br>   <span class="hljs-comment">// 同时使用 static 和 const 并且在类定义时初始化值，可以简化在源文件中的相关操作(内联)</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>  可在构造函数中使用这些新常量，如下面的代码片段所示：  </p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br>Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height)<br>	: <span class="hljs-built_in">mId</span>(sCounter++)<br>	, <span class="hljs-built_in">mWidth</span>(std::<span class="hljs-built_in">min</span>(width, kMaxWidth)) <span class="hljs-comment">// std::min() requires &lt;algorithm&gt;</span><br>	, <span class="hljs-built_in">mHeight</span>(std::<span class="hljs-built_in">min</span>(height, kMaxHeight)) <span class="hljs-comment">// 用于返回两者中较小值</span><br>  <span class="hljs-comment">// 并抛出异常，但不会调用相应类的析构函数</span><br>&#123;<br>	mCells = <span class="hljs-keyword">new</span> Spreadsheetcell*[mWidth];<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++) <br>  &#123;<br>		mCells[i] = <span class="hljs-keyword">new</span> Spreadsheetcell[mHeight];<br>	&#125;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  注意：当 高度或宽度超出最大值时，除了自动使用最大高度或宽度外，也可以抛出异常。然而，在构造函数中抛出异常时，不会调用析构函数，因此需要谨慎处理。第 14 章将对此进行详细解释。</p>
+<p>  注意：非静态数据成员也可声明为 const。例如，mId 数据成员就可声明为 const。因为不能给 const 数据成员赋值，所以需要在类内初始化器或 ctor-initializer 中初始化它们。这意味着根据使用情形，可能无法为具有非静态常量数据成员的类提供赋值运算符。如果属于这种情况，通常将赋值运算符标记为 deleted。</p>
+</blockquote>
+<hr>
+<h4 id="4-3引用数据成员"><a href="#4-3引用数据成员" class="headerlink" title="4.3引用数据成员"></a>4.3引用数据成员</h4><blockquote>
+<p>  Spreadsheets 和 SpreadsheetCells 很好，但这两个类本身并不能组成非常有用的应用程序。为了用代码控制整个电子表格程序，可将这两个类一起放入 SpreadsheetApplication 类。</p>
+<p>  这个类的实现在此并不重要。现在考虑这个架构存在的问题：电子表格如何与应用程序通信？应用程序存储了一组电子表格, 因此可与电子表格通信。与此类似,每个电子表格都应存储应用程序对象的引用。<strong>Spreadsheet类必须知道 SpreadsheetApplication 类，SpreadsheetApplication 类也必须知道 Spreadsheet 类</strong>【这种知道某种程度上类似于双链表的逻辑】。这是一个<strong>循环引用问题</strong>，无法用普通的#include 解决。解决方案是在其中一个头文件中使用前置声明。下面是新的使用了前置声明的 Spreadsheet 类定义，用来通知编译器关于 SpreadsheetApplication 类的信息。第 11 章解释前置声明的另一个优势：可缩短编译和链接时间。</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetApplication</span>; <span class="hljs-comment">// forward declaration</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size__t</span> height, SpreadsheetApplication&amp; theApp);<br>	<span class="hljs-comment">// Code omitted for brevity.</span><br><span class="hljs-keyword">private</span>:<br>   <span class="hljs-comment">// Code omitted for brevity.</span><br>   SpreadsheetApplication&amp; mTheApp;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>  这个定义将一个 SpreadsheetApplication 引用作为数据成员添加进来。在此情况下建议使用引用而不是指针，因为 Spreadsheet 总要引用一个 SpreadsheetApplication, 而指针则无法保证这一点。</p>
+<p>  注意存储对应用程序的引用，仅是为了演示把引用作为数据成员的用法。不建议以这种方式把 Spreadsheet和 SpreadsheetApplication 类组合在一起，而应改用 MVC(模型-视图-控制器)范型(见第 4 章)。</p>
+<p>  <strong>在构造函数中，每个 Spreadsheet 都得到了一个应用程序引用。</strong>如果不引用某些事物，引用将无法存在，因此在构造函数的 ctor-initializer 中必须给 mTheApp 指定一个值。</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height, SpreadsheetApplication&amp; theApp)<br>	: <span class="hljs-built_in">mid</span>(sCounter++)<br>	, <span class="hljs-built_in">mWidth</span>(std::<span class="hljs-built_in">min</span>(width, kMaxWidth))<br>	, <span class="hljs-built_in">mHeight</span>(std::<span class="hljs-built_in">min</span>(height, kMaxHeight))<br>	, <span class="hljs-built_in">mTheApp</span>(theApp)<br>&#123;<br>	<span class="hljs-comment">// Code omitted for brevity.</span><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  在复制构造函数中，必须初始化这个引用成员【指针不能保证这个对象的存在】。由于 Spreadsheet 复制构造函数委托给非复制构造函数(初始化引用成员)，因此这将自动处理。</p>
+<p>  <strong>记住，在初始化一个引用后，不能改变它引用的对象，因此不可能在赋值运算符中对引用赋值。这意味着根据使用情形，可能无法为具有引用数据成员的类提供赋值运算符。如果属于这种情况，通常将赋值运算符标记为 deleted。</strong></p>
+</blockquote>
+<hr>
+<h4 id="4-4常量引用数据成员"><a href="#4-4常量引用数据成员" class="headerlink" title="4.4常量引用数据成员"></a>4.4常量引用数据成员</h4><blockquote>
+<p>  就像普通引用可引用常量对象一样，引用成员也可引用常量对象。例如，为让 Spreadsheet 只包含应用程序对象的常量引用，只需要在类定义中将 mTheApp 声明为常量引用：  </p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height,<br>	<span class="hljs-type">const</span> SpreadsheetApplication&amp; theApp);<br>	<span class="hljs-comment">// Code omitted for brevity.</span><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-comment">// Code omitted for brevity,</span><br>	<span class="hljs-type">const</span> SpreadsheetApplication&amp; mTheApp;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>  常量引用和非常量引用之间存在一个重要差别。常量引用 SpreadsheetApplication 数据成员只能用于调用 SpreadsheetApplication 对象上的常量方法。如果试图通过常量引用调用非常量方法，编译器会报错。</p>
+<p>  还可创建静态引用成员或静态常量引用成员，但一般不需要这么做。</p>
+</blockquote>
+<hr>
+<h3 id="9-5嵌套类"><a href="#9-5嵌套类" class="headerlink" title="9.5嵌套类"></a>9.5嵌套类</h3><blockquote>
+<p>  类定义不仅可包含成员函数和数据成员，还可编写嵌套类和嵌套结构、声明 typedef 或者创建枚举类型。类中声明的一切内容都具有类作用域。如果声明的内容是公有的，那么可在类外使用 ClassName::作用域解析语法访问。</p>
+<p>  可在类的定义中提供另一个类定义。例如，假定 SpreadsheetCell 类实际上是 Spreadsheet 类的一部分，因此不妨将 SpreadsheetCell 重命名为 Cell。可将二者定义为:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-keyword">class</span> <span class="hljs-title class_">Cell</span><br>	&#123;<br>	<span class="hljs-keyword">public</span>:<br>		<span class="hljs-built_in">Cell</span>() = <span class="hljs-keyword">default</span>;<br>		<span class="hljs-built_in">Cell</span>(<span class="hljs-type">double</span> initialvalue);<br>		<span class="hljs-comment">// Omitted for brevity</span><br>	&#125;;<br>	<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height, <span class="hljs-type">const</span> SpreadsheetApplication&amp; theApp);<br>	<span class="hljs-comment">// Remainder of Spreadsheet declarations omitted for brevity</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>  现在 Cell 类定义位于 Spreadsheet 类内部，因此在 Spreadsheet 类外引用 Cell 必须用 Spreadsheet::作用域限定名称，即使在方法定义时也是如此。例如，Cell 的 double 构造函数应如下所示：  </p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::Cell::<span class="hljs-built_in">Cell</span>(<span class="hljs-type">double</span> initialvalue)<br>	: <span class="hljs-built_in">mValue</span>(initialvalue)<br>&#123;<br><br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  甚至在 Spreadsheet 类中方法的返回类型(不是参数)也必须使用这一语法:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">Spreadsheet::Cell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-built_in">verifyCoordinate</span>(x, y);<br>	<span class="hljs-keyword">return</span> mCells[x][y];<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  如果在 Spreadsheet 类中直接完整定义嵌套的 Cell 类，将使 Spreadsheet 类的定义略显臃肿。为缓解这一点,只需要在 Spreadsheet 中为 Cell 添加前置声明，然后独立地定义 Cell 类，如下所示：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">class</span> <span class="hljs-title">Spreadsheet</span></span><br><span class="hljs-function"><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function"><span class="hljs-keyword">public</span>:</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-keyword">class</span> Cell;</span></span><br><span class="hljs-params"><span class="hljs-function">	Spreadsheet(<span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height, <span class="hljs-type">const</span> SpreadsheetApplications theApp);</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-comment">// Remainder of Spreadsheet declarations omitted for brevity</span></span></span><br><span class="hljs-params"><span class="hljs-function">&#125;;</span></span><br><span class="hljs-params"><span class="hljs-function"></span></span><br><span class="hljs-params"><span class="hljs-function"><span class="hljs-keyword">class</span> Spreadsheet::Cell</span></span><br><span class="hljs-params"><span class="hljs-function">&#123;</span></span><br><span class="hljs-params"><span class="hljs-function"><span class="hljs-keyword">public</span>:</span></span><br><span class="hljs-params"><span class="hljs-function">	Cell() = <span class="hljs-keyword">default</span>;</span></span><br><span class="hljs-params"><span class="hljs-function">	Cell(<span class="hljs-type">double</span> initialvalue);</span></span><br><span class="hljs-params"><span class="hljs-function">	<span class="hljs-comment">// Omitted for brevity</span></span></span><br><span class="hljs-params"><span class="hljs-function">&#125;;</span></span><br><span class="hljs-params"><span class="hljs-function"></span></span><br><span class="hljs-params"><span class="hljs-function"><span class="hljs-comment">// 这样拆分定义有利于增强可读性</span></span></span><br></code></pre></td></tr></table></figure>
+
+<p>  普通的访问控制也适用于嵌套类定义。如果声明了一个 private 或 protected 嵌套类，这个类只能在外围类(outer class, 即包含它的类)中使用。</p>
+<p>  <strong>嵌套的类有权访问外围类中的所有 private 或 protected 成员；</strong></p>
+<p>  <strong>而外围类却只能访问嵌套类中的 public 成员。</strong>  </p>
+</blockquote>
+<hr>
+<h3 id="9-6类内的枚举类型"><a href="#9-6类内的枚举类型" class="headerlink" title="9.6类内的枚举类型"></a>9.6类内的枚举类型</h3><blockquote>
+<p>  如果想在类内定义很多常量，应该使用枚举类型而不是一组 #define.例如，可在 SpreadsheetCell 类中支持单元格颜色，如下所示：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetCell</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>  <span class="hljs-comment">// Omitted for brevity</span><br>  <span class="hljs-keyword">enum class</span> <span class="hljs-title class_">Color</span> &#123; Red = <span class="hljs-number">1</span>, Green, Blue, Yellow&#125;;<br>  <span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setColor</span><span class="hljs-params">(Color color)</span></span>;<br>  <span class="hljs-function">Color <span class="hljs-title">gerColor</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>  <span class="hljs-comment">// Omitted for brevity</span><br>  Color mColor = Color::Red;<br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>  setColor() 和 getColor() 方法的实现简单明了：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SpreadsheetCell::setColor</span><span class="hljs-params">(Color color)</span></span><br><span class="hljs-function"></span>&#123;<br>   mColor = color;<br>&#125;<br><br><span class="hljs-function">SpreadsheetCell::Color <span class="hljs-title">SpreadsheetCell::getColor</span><span class="hljs-params">()</span> <span class="hljs-type">const</span> </span><br><span class="hljs-function"></span>&#123;<br>   <span class="hljs-keyword">return</span> mColor;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  可通过下面的方法使用这些新方法：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">SpreadsheetCell <span class="hljs-title">myCell</span><span class="hljs-params">(<span class="hljs-number">5</span>)</span></span>;<br>myCell.<span class="hljs-built_in">setColor</span>(SpreadsheetCelll::Color::Blue);<br><span class="hljs-keyword">auto</span> color = myColor.<span class="hljs-built_in">getColor</span>();<br></code></pre></td></tr></table></figure>
+</blockquote>
+<hr>
+<h3 id="9-7运算符重载"><a href="#9-7运算符重载" class="headerlink" title="9.7运算符重载"></a>9.7运算符重载</h3><blockquote>
+<p>  需要在对象上执行操作，例如，相加、比较、将对象输入文件或从文件中读取。对电子表格而言，只有能执行算术运算(例如将整行单元格相加)才算真正有用。</p>
+</blockquote>
+<hr>
+<h4 id="7-1示例：为-SpreadsheetCell-实现加法"><a href="#7-1示例：为-SpreadsheetCell-实现加法" class="headerlink" title="7.1示例：为 SpreadsheetCell 实现加法"></a>7.1示例：为 SpreadsheetCell 实现加法</h4><ol>
+<li><p><strong>使用 add() 方法</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheeetCell</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// Omitted for brevity</span><br>    <span class="hljs-function">SpreadsheetCell <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">const</span> Spreadsheet&amp; cell)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-comment">// Omitted for brevity</span><br>&#125;;<br><br><span class="hljs-function">SpreadsheetCell <span class="hljs-title">SpreadsheetCell::add</span><span class="hljs-params">(<span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-built_in">getValue</span>() + cell.<span class="hljs-built_in">getValue</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">SpreadsheetCell <span class="hljs-title">myCell</span><span class="hljs-params">(<span class="hljs-number">4</span>)</span>, <span class="hljs-title">anotherCell</span><span class="hljs-params">(<span class="hljs-number">5</span>)</span></span>;<br>SpreadsheetCell aThirdCell = myCell.<span class="hljs-built_in">add</span>(anotherCell);<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>加法运算符的重载方法</strong><br>用加号相加两个单元格会比较方便，就像相加两个 int 和 double 值那样，如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">Spreadsheet <span class="hljs-title">myCell</span><span class="hljs-params">(<span class="hljs-number">4</span>)</span>, <span class="hljs-title">anotherCell</span><span class="hljs-params">(<span class="hljs-number">5</span>)</span></span>;<br>Spreadsheet aThirdCell = myCell + anotherCell;<br></code></pre></td></tr></table></figure>
+
+<p>C++ 允许编写自己的加号版本，以正确地处理类，称为 加运算符，为此可以编写一个名为 operator+ 的方法，如下所示：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetCell</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-comment">// Omitted for brevity</span><br>    <span class="hljs-function">SpreadsheetCell <span class="hljs-title">add</span><span class="hljs-params">(<span class="hljs-type">const</span> Spreadsheet&amp; cell)</span> <span class="hljs-type">const</span></span>;<br>    <span class="hljs-comment">// Omitted for brevity</span><br>&#125;;<br></code></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<p>​	在 operator+ 和加号之间可以使用空格，例如，可用 operator + 代替 operator+。这一点对所有运算符都成立。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// 该方法与 add() 方法的实现一致</span><br>SpreadsheetCell SpreadsheetCell::<span class="hljs-keyword">operator</span>+(<span class="hljs-type">const</span> SpreadsheetCell&amp; cell) <span class="hljs-type">const</span><br>&#123;<br>    <span class="hljs-keyword">return</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-built_in">getValue</span>() + cell.<span class="hljs-built_in">getValue</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>现在可以使用两个加号将两个单元格相加，就像之前那样。</p>
+<p>这种语法需要花点工夫去适应。不要过于担心这个奇怪的方法名称 opemto+ 这只是一个名称，就像 fbo或 add 一样。理解此处实际发生的事情有助于理解其余的语法。当 C++编译器分析一个程序，遇到运算符(例如， +、-、&#x3D;或 &lt;&lt;)时，就会试着查找名为 operate+、operator-、operator&#x3D; 或 operator&lt;&lt; , 且具有适当参数的函数或方法。  </p>
+<p>运算符重载是函数重载的一种形式，函数重载对函数的返回类型并没有要求。</p>
+<p><strong>隐式转换：</strong></p>
+<p>令人震惊的是，一旦编写像前面那样的 operator+，就不仅仅可以实现两个单元格的相加，还可以将单元格和 string_view、double 或 int 值相加。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function">SpreadsheetCell <span class="hljs-title">myCell</span><span class="hljs-params">(<span class="hljs-number">4</span>)</span>, aThirdCell</span>;<br>string str = <span class="hljs-string">&quot;hello&quot;</span>;<br>aThirdCell = myCell + <span class="hljs-built_in">string_view</span>(str);<br>aThirdCell = myCell + <span class="hljs-number">5.6</span>;<br>aThirdCell = myCell + <span class="hljs-number">4</span>;<br></code></pre></td></tr></table></figure>
+
+<p>上面的代码之所以可运行，是因为编译器会试着查找合适的 operator+, 而不是只查找指定类型的那个 operator+ 为找到 operator+，编译器还试图查找合适的类型转换，构造函数会对有问题的类型进行适当的转换。在上例中，当编译器看到 SpreadsheetCell 试图与 double 值相加时,发现了用 double 值作为参数的 SpreadsheetCell构造函数，就会构建一个临时的 SpreadsheetCell 对象，传递给 operator+。与此类似，当编译器看到试图将SpreadsheetCell 与 string_view 相加的行时，会调用把 string_view 作为参数的 SpreadsheetCell 构造函数，创建一个临时 SpreadsheetCell 对象，传递给 operator+.</p>
+<p>隐式转换会带来方便，但是同样可能带来隐患，例如，使得 operator+ 失去原本意义。可使用 explicit 关键字标记构造函数，禁止将 string_view 隐式转换为 SpreadsheetCell：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">SpreadsheetCell</span>() = <span class="hljs-keyword">default</span>;<br>    <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-type">double</span> initialValue);<br>    <span class="hljs-function"><span class="hljs-keyword">explicit</span> <span class="hljs-title">SpreadsheetCell</span><span class="hljs-params">(std::string_view initialValue)</span></span>;<br>    <span class="hljs-comment">// Remainder omitted for brevity</span><br>&#125;;<br><br><span class="hljs-comment">/* explicit 关键字只在类定义内使用，只适用于只有一个参数的构造函数，例如单参构造函数或为参数提供默认值的多参构造函数。*/</span><br></code></pre></td></tr></table></figure>
+
+<p>由于必须创建临时对象，隐式使用构造函数的效率不高。为避免与 double 值相加时隐式地使用构造函数，可编写第二个 operator+, 如下所示：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++">SpreadsheetCell SpreadsheetCell::<span class="hljs-keyword">operator</span>+(<span class="hljs-type">double</span> rhs) <span class="hljs-type">const</span><br>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-built_in">getValue</span>() + rhs);<br>&#125;<br></code></pre></td></tr></table></figure>
+</li>
+<li><p><strong>全局 operator+</strong></p>
+<p>隐式转换允许使用 operator^方法将 SpreadsheetCell 对象与 int 和 double 值相加。然而，这个运算符不具有互换性，如下所示：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++">aThirdCell = myCell + <span class="hljs-number">4</span>; <span class="hljs-comment">// Works fine</span><br>aThirdCell = myCell + <span class="hljs-number">5.6</span>; <span class="hljs-comment">// Works fine.</span><br>aThirdCell = <span class="hljs-number">4</span> + myCell; <span class="hljs-comment">// FAILS TO COMPILE!</span><br>aThirdCell = <span class="hljs-number">5.6</span> + myCell; <span class="hljs-comment">// FAILS TO COMPILE!</span><br><br><span class="hljs-comment">/*当 Spreadsheetcell 对象在运算符的左边时，隐式转换正常运行，但在右边时无法运行。加法是可互换的，因此这里存在错误。问题在于必须在 SpreadsheetCell 对象上调用 operator+方法，对象必须在 operato什的左边。这是 C++语言定义的方式，因此使用 operator+ 方法无法让上面的代码运行。*/</span><br></code></pre></td></tr></table></figure>
+
+<p>然而，如果用不局限于某个特定对象的全局 operator+ 函数替换类内的 opemto什方法，上面的代码就可以运行，函数如下所示：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++">SpreadsheetCell <span class="hljs-keyword">operator</span>+(<span class="hljs-type">const</span> SpreadsheetCell&amp; Ihs,<br>						  <span class="hljs-type">const</span> SpreadsheetCell&amp; rhs)<br>&#123;<br>	<span class="hljs-keyword">return</span> <span class="hljs-built_in">SpreadsheetCell</span>(Ihs.<span class="hljs-built_in">getValue</span>() + rhs.<span class="hljs-built_in">getValue</span>());<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>需要在头文件中声明运算符:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetCell</span><br>&#123;<br>	<span class="hljs-comment">// Omitted for brevity</span><br>&#125;;<br><br>SpreadsheetCell <span class="hljs-keyword">operator</span>+(<span class="hljs-type">const</span> SpreadsheetCell&amp; Ihs,<span class="hljs-type">const</span> SpreadsheetCell&amp; rhs);<br></code></pre></td></tr></table></figure>
+
+<p>这样，下面的 4 个加法运算都可按预期运行：  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++">aThirdCell = myCell + <span class="hljs-number">4</span>; <span class="hljs-comment">// Works fine.</span><br>aThirdCell = myCell + <span class="hljs-number">5.6</span>; <span class="hljs-comment">// Works fine.</span><br>aThirdCell = <span class="hljs-number">4</span> + myCell; <span class="hljs-comment">// Works fine.</span><br>aThirdCell = <span class="hljs-number">5.6</span> + myCell; <span class="hljs-comment">// Works fine.</span><br></code></pre></td></tr></table></figure>
+
+<p>那么，如果编写以下代码，会发生什么情况呢？  </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">aThirdCell = <span class="hljs-number">4.5</span> + <span class="hljs-number">5.5</span>;<br></code></pre></td></tr></table></figure>
+
+<p>这段代码可编译并运行，但并没有调用前面编写的 opeator+ 。这段代码将普通的 double 型数值 4.5 和 5.5相加，得到了下面所示的中间语句： </p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">aThirdCell = <span class="hljs-number">10</span>;<br></code></pre></td></tr></table></figure>
+
+<p>为了让赋值操作继续,运算符右边应该是 SpreadsheetCell 对象。编译器找到并非显式由用户定义的用 double 值作为参数的构造函数，然后用这个构造函数隐式地将 double 值转换为一个临时 SpreadsheetCell 对象，最后调用赋值运算符。</p>
+<p>注意：</p>
+<p>在 C++中，不能更改运算符的优先级。例如，*和&#x2F;始终在+和- 之前计算。对于用户定义的运算符，唯一能做的只是在确定运算的优先级后指定实现。C++也不允许发明新的运算符号，不允许更改运算符的实参个数。</p>
+</li>
+</ol>
+<hr>
+<h4 id="7-2重载算术运算符"><a href="#7-2重载算术运算符" class="headerlink" title="7.2重载算术运算符"></a>7.2重载算术运算符</h4><p>+、-、*、&#x2F; 略</p>
+<p>+&#x3D;、-&#x3D;、*&#x3D;、&#x2F;&#x3D;</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheetcell</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-comment">// Omitted for brevity</span><br>	SpreadsheetCell&amp; <span class="hljs-keyword">operator</span>+=(<span class="hljs-type">const</span> Spreadsheetcell&amp; rhs);<br>	SpreadsheetCell&amp; <span class="hljs-keyword">operator</span>-=(<span class="hljs-type">const</span> Spreadsheetcell&amp; rhs);<br>	SpreadsheetCell&amp; <span class="hljs-keyword">operator</span>*=(<span class="hljs-type">const</span> Spreadsheetcell&amp; rhs);<br>	SpreadsheetCell&amp; <span class="hljs-keyword">operator</span>/=(<span class="hljs-type">const</span> Spreadsheetcell&amp; rhs);<br>	<span class="hljs-comment">// Omitted for brevity</span><br>&#125;;<br><br>Spreadsheetcell&amp; Spreadsheetcell::<span class="hljs-keyword">operator</span>+=(<span class="hljs-type">const</span> Spreadsheetcell&amp; rhs)<br>&#123;<br>	<span class="hljs-built_in">set</span>(<span class="hljs-built_in">getValue</span>() + rhs.<span class="hljs-built_in">getValue</span>());<br>	<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>如果既有某个运算符的普通版本，又有简写版本，建议你基于简写版本实现普通版本，以避免代码重复。例如:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheetcell <span class="hljs-keyword">operator</span>+(<span class="hljs-type">const</span> SpreadsheetCell&amp; Ihs, <span class="hljs-type">const</span> Spreadsheetcell&amp; rhs)<br>&#123;<br>    <span class="hljs-function"><span class="hljs-keyword">auto</span> <span class="hljs-title">result</span><span class="hljs-params">(Ihs)</span></span>; <span class="hljs-comment">// Local copy</span><br>    result += rhs; <span class="hljs-comment">// Forward to op=() version</span><br>    <span class="hljs-keyword">return</span> result;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="7-3重载比较运算符"><a href="#7-3重载比较运算符" class="headerlink" title="7.3重载比较运算符"></a>7.3重载比较运算符</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">bool</span> <span class="hljs-built_in">operator</span>&lt;op&gt;(<span class="hljs-type">const</span> Spreadsheetcell&amp; Ihs, <span class="hljs-type">const</span> Spreadsheetcell&amp; rhs);<br></code></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong></p>
+<p><strong>前面重载的运算符使用 getValue()返回一个 double 值。大多数时候，最好不要对浮点数执行相等或不相等测试。应该使用 e 测试(epsilon test), 但这一内容超出了本书的讨论范围.</strong></p>
+<p>当类中的数据成员较多时，比较每个数据成员可能比较痛苦。然而，当实现了&#x3D;&#x3D; 和 &lt;之后，可以根据这两个运算符编写其他比较运算符。例如，下面的 operator&gt;&#x3D;定义使用了 operator&lt;:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">bool</span> <span class="hljs-keyword">operator</span>&gt;=(<span class="hljs-type">const</span> Spreadsheetcell&amp; Ihs, <span class="hljs-type">const</span> Spreadsheetcell&amp; rhs)<br>&#123;<br>	<span class="hljs-keyword">return</span> !(Ihs &lt; rhs);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<hr>
+<h4 id="7-4创建具有运算符重载的类型"><a href="#7-4创建具有运算符重载的类型" class="headerlink" title="7.4创建具有运算符重载的类型"></a>7.4创建具有运算符重载的类型</h4><p>这在之后再说，几乎所有的运算符均可以重载。这在 STL(标准库中) 极为有用。</p>
+<hr>
+<h3 id="9-8创建稳定的接口"><a href="#9-8创建稳定的接口" class="headerlink" title="9.8创建稳定的接口"></a>9.8创建稳定的接口</h3><blockquote>
+<p>  理解了在 C++中编写类的所有语法后，回顾第 5 章和第 6 章的设计原则会对此有所帮助。在 C++中，类是主要的抽象单元，应将抽象原则应用到类，尽可能分离接口和实现。确切地讲，应该将所有数据成员设置为private, 并提供相应的 getter 和 setter 方法。这就是 SpreadsheetCell 类的实现方式：将 mValue 设置为 private, set() ,getValue(), getString() 。用于设置或获取这些值。</p>
+<p>  <strong>使用接口类和实现类 ：</strong>  </p>
+<p>  即使提前进行估算并采用最佳设计原则，C++语言本质上对抽象原则也不友好。<strong>其语法要求将 public 接口和 private(或 protected)数据成员及方法放在一个类定义中，从而将类的某些内部实现细节向客户公开</strong>。<strong>这种做法的缺点在于，如果不得不在类中加入新的非公有方法或数据成员，所有的客户代码都必须重新编译，对于较大项目而言这是负担</strong>。  </p>
+<p>  <strong>有个好消息：可创建清晰的接口，并隐藏所有实现细节，从而得到稳定的接口。</strong></p>
+<p>  <strong>还有个坏消息：这样做有点繁杂。</strong></p>
+<p>  <strong>基本原则是为想编写的每个类都定义两个类：接口类和实现类。</strong>  </p>
+<ul>
+<li><p><strong>实现类与已编写的类相同(假定没有采用这种方法)，接口类给出了与实现类一样的 public 方法，但只有一个数据成员：指向实现类对象的一个指针</strong>。</p>
+</li>
+<li><p><strong>这称为 pimpl idiom(private implementation idiom, 私有实现习语)或 bridge 模式，接口类方法的实现只是调用实现类对象的等价方法</strong>。</p>
+</li>
+<li><p><strong>这样做的结果是无论实现如何改变，都不会影响 public 接口类，从而降低了重新编译的必要性。当实现改变(只有实现改变)时，使用接口类的客户不需要重新编译</strong>。</p>
+</li>
+<li><p><strong>注意只有在单个数据成员是实现类的指针时，这个习语才有效。如果它是 按值传递 的数据成员，在实现类的定义改变时，客户代码必须重新编译。</strong></p>
+</li>
+</ul>
+<p>  为将这种方法应用到 Spreadsheet 类，需要定义如下 public 接口类 Spreadsheet：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SpreadsheetCell.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;memory&gt;</span></span><br><br><span class="hljs-comment">// forward declarations</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">SpreadsheetApplication</span>;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> SpreadsheetApplication&amp; theApp,<br>			   <span class="hljs-type">size_t</span> width = kMaxWidth, <br>                <span class="hljs-type">size_t</span> height = kMaxHeight);<br>	<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> Spreadsheet&amp; src);<br>	~<span class="hljs-built_in">Spreadsheet</span>();<br><br>	Spreadsheet&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs);<br><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span>;<br>	<span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br><br>	<span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br>	<span class="hljs-type">static</span> <span class="hljs-type">const</span> <span class="hljs-type">size_t</span> kMaxHeight = <span class="hljs-number">100</span>;<br>	<span class="hljs-type">static</span> <span class="hljs-type">const</span> <span class="hljs-type">size_t</span> kMaxWidth = <span class="hljs-number">100</span>;<br><br>    <span class="hljs-comment">// 友元函数</span><br>	<span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Spreadsheet&amp; first, Spreadsheet&amp; second)</span> <span class="hljs-keyword">noexcept</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-comment">// 实现类，是 private 的嵌套类，用于限定访问权限</span><br>    <span class="hljs-comment">// 这里可能会有点疑惑，就是前面对嵌套类到底是干嘛的的疑问，明明我可以在外面进行直接定义，我干嘛在这里的内部定义？</span><br>    <span class="hljs-comment">// 可以说，嵌套类的左右就是去限定一种访问方式的，在外部是无法不通过 外层类而获取内层类的内容的。</span><br>    <span class="hljs-comment">// 同时，如果是作为 private 类进行存在，那么就无法通过外部类对其内部进行访问，实现了一种保护，以及底层的不可见</span><br>    <span class="hljs-comment">// 所以，嵌套类作为一种声明，不是一个数据成员，而下方指向这个数据成员的的智能指针才是真正的数据成员</span><br>	<span class="hljs-keyword">class</span> <span class="hljs-title class_">Impl</span>;<br><br>    <span class="hljs-comment">// 实现类的智能指针</span><br>	std::unique_ptr&lt;Impl&gt; mImpl;<br>&#125;;<br><br><span class="hljs-comment">/*实现类 Impl 是一个 private 嵌套类，因为只有 Spreadsheet 需要了解这个实现类。Spreadsheet 现在只包含一</span><br><span class="hljs-comment">个数据成员：指向 Impl 实例的指针。public 方法与旧式的 Spreadsheet 相同*/</span><br><br><span class="hljs-comment">/*-------------------------------------------------------------------------------------------------------*/</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Spreadsheet.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SpreadsheetImpl.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;utility&gt;</span></span><br><br>Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> SpreadsheetApplication &amp;theApp, <span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height)<br>&#123;<br>	mImpl = std::<span class="hljs-built_in">make_unique</span>&lt;Impl&gt;(theApp, width, height);<br>&#125;<br><br>Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> Spreadsheet&amp; src)<br>&#123;<br>	mImpl = std::<span class="hljs-built_in">make_unique</span>&lt;Impl&gt;(*src.mImpl);<br>&#125;<br><br>Spreadsheet::~<span class="hljs-built_in">Spreadsheet</span>() = <span class="hljs-keyword">default</span>;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span><br><span class="hljs-function"></span>&#123;<br>	mImpl-&gt;<span class="hljs-built_in">setCellAt</span>(x, y, cell);<br>&#125;<br><br><span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> mImpl-&gt;<span class="hljs-built_in">getCellAt</span>(x, y);<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">Spreadsheet::getId</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">return</span> mImpl-&gt;<span class="hljs-built_in">getId</span>();<br>&#125;<br><br>Spreadsheet&amp; Spreadsheet::<span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Spreadsheet&amp; rhs)<br>&#123;<br>	*mImpl = *rhs.mImpl;<br>	<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br><br><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Spreadsheet&amp; first, Spreadsheet&amp; second)</span> <span class="hljs-keyword">noexcept</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">using</span> std::swap;<br><br>	<span class="hljs-built_in">swap</span>(first.mImpl, second.mImpl);<br>&#125;<br><br><span class="hljs-comment">/*-------------------------------------------------------------------------------------------------------*/</span><br><span class="hljs-meta">#<span class="hljs-keyword">pragma</span> once</span><br><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;cstddef&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Spreadsheet.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SpreadsheetCell.h&quot;</span></span><br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Spreadsheet</span>::Impl<br>&#123;<br><span class="hljs-keyword">public</span>:<br>	<span class="hljs-built_in">Impl</span>(<span class="hljs-type">const</span> SpreadsheetApplication&amp; theApp,<br>		<span class="hljs-type">size_t</span> width, <br>         <span class="hljs-type">size_t</span> height);<br>	<span class="hljs-built_in">Impl</span>(<span class="hljs-type">const</span> Impl&amp; src);<br>	~<span class="hljs-built_in">Impl</span>();<br>	Impl&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Impl&amp; rhs);<br><br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span>;<br>	<span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span>;<br><br>	<span class="hljs-function"><span class="hljs-type">size_t</span> <span class="hljs-title">getId</span><span class="hljs-params">()</span> <span class="hljs-type">const</span></span>;<br><br><span class="hljs-keyword">private</span>:<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">verifyCoordinate</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span> <span class="hljs-type">const</span></span>;<br>	<span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Impl&amp; other)</span> <span class="hljs-keyword">noexcept</span></span>;<br><br>	<span class="hljs-type">size_t</span> mId = <span class="hljs-number">0</span>;<br>	<span class="hljs-type">size_t</span> mWidth = <span class="hljs-number">0</span>;<br>	<span class="hljs-type">size_t</span> mHeight = <span class="hljs-number">0</span>;<br>	SpreadsheetCell** mCells = <span class="hljs-literal">nullptr</span>;<br><br>	<span class="hljs-type">const</span> SpreadsheetApplication&amp; mTheApp;<br><br>	<span class="hljs-type">static</span> <span class="hljs-type">size_t</span> sCounter;<br>&#125;;<br><br><span class="hljs-comment">/*-------------------------------------------------------------------------------------------------------*/</span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;SpreadsheetImpl.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&quot;Spreadsheet.h&quot;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;stdexcept&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;utility&gt;</span></span><br><span class="hljs-meta">#<span class="hljs-keyword">include</span> <span class="hljs-string">&lt;algorithm&gt;</span></span><br><br><span class="hljs-type">size_t</span> Spreadsheet::Impl::sCounter;<br><br>Spreadsheet::Impl::<span class="hljs-built_in">Impl</span>(<span class="hljs-type">const</span> SpreadsheetApplication&amp; theApp,<br>					  <span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height)<br>	: <span class="hljs-built_in">mId</span>(sCounter++)<br>	, <span class="hljs-built_in">mWidth</span>(std::<span class="hljs-built_in">min</span>(width, Spreadsheet::kMaxWidth))<br>	, <span class="hljs-built_in">mHeight</span>(std::<span class="hljs-built_in">min</span>(height, Spreadsheet::kMaxHeight))<br>	, <span class="hljs-built_in">mTheApp</span>(theApp)<br>&#123;<br>	mCells = <span class="hljs-keyword">new</span> SpreadsheetCell*[mWidth];<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++) <br>    &#123;<br>		mCells[i] = <span class="hljs-keyword">new</span> SpreadsheetCell[mHeight];<br>	&#125;<br>&#125;<br><br>Spreadsheet::Impl::~<span class="hljs-built_in">Impl</span>()<br>&#123;<br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++) &#123;<br>		<span class="hljs-keyword">delete</span>[] mCells[i];<br>	&#125;<br>	<span class="hljs-keyword">delete</span>[] mCells;<br>	mCells = <span class="hljs-literal">nullptr</span>;<br>&#125;<br><br>Spreadsheet::Impl::<span class="hljs-built_in">Impl</span>(<span class="hljs-type">const</span> Impl&amp; src)<br>	: <span class="hljs-built_in">Impl</span>(src.mTheApp, src.mWidth, src.mHeight)<br>&#123;<br>	<span class="hljs-comment">// The ctor-initializer of this constructor delegates first to the</span><br>	<span class="hljs-comment">// non-copy constructor to allocate the proper amount of memory.</span><br><br>	<span class="hljs-comment">// The next step is to copy the data.</span><br>	<span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> i = <span class="hljs-number">0</span>; i &lt; mWidth; i++) <br>    &#123;<br>		<span class="hljs-keyword">for</span> (<span class="hljs-type">size_t</span> j = <span class="hljs-number">0</span>; j &lt; mHeight; j++) <br>        &#123;<br>			mCells[i][j] = src.mCells[i][j];<br>		&#125;<br>	&#125;<br>&#125;<br><br><span class="hljs-type">void</span> Spreadsheet::Impl::<span class="hljs-built_in">verifyCoordinate</span>(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y) <span class="hljs-type">const</span><br>&#123;<br>	<span class="hljs-keyword">if</span> (x &gt;= mWidth || y &gt;= mHeight) <br>    &#123;<br>		<span class="hljs-keyword">throw</span> std::<span class="hljs-built_in">out_of_range</span>(<span class="hljs-string">&quot;&quot;</span>);<br>	&#125;<br>&#125;<br><br><span class="hljs-type">void</span> Spreadsheet::Impl::<span class="hljs-built_in">setCellAt</span>(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)<br>&#123;<br>	<span class="hljs-built_in">verifyCoordinate</span>(x, y);<br>	mCells[x][y] = cell;<br>&#125;<br><br>SpreadsheetCell&amp; Spreadsheet::Impl::<span class="hljs-built_in">getCellAt</span>(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)<br>&#123;<br>	<span class="hljs-built_in">verifyCoordinate</span>(x, y);<br>	<span class="hljs-keyword">return</span> mCells[x][y];<br>&#125;<br><br><span class="hljs-type">void</span> Spreadsheet::Impl::<span class="hljs-built_in">swap</span>(Impl&amp; other) <span class="hljs-keyword">noexcept</span><br>&#123;<br>	<span class="hljs-keyword">using</span> std::swap;<br><br>	<span class="hljs-built_in">swap</span>(mWidth, other.mWidth);<br>	<span class="hljs-built_in">swap</span>(mHeight, other.mHeight);<br>	<span class="hljs-built_in">swap</span>(mCells, other.mCells);<br>&#125;<br><br>Spreadsheet::Impl&amp; Spreadsheet::Impl::<span class="hljs-keyword">operator</span>=(<span class="hljs-type">const</span> Impl&amp; rhs)<br>&#123;<br>	<span class="hljs-comment">// check for self-assignment</span><br>	<span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> == &amp;rhs) &#123;<br>		<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>	&#125;<br><br>	<span class="hljs-comment">// Copy-and-swap idiom</span><br>	<span class="hljs-function">Impl <span class="hljs-title">temp</span><span class="hljs-params">(rhs)</span></span>; <span class="hljs-comment">// Do all the work in a temporary instance</span><br>	<span class="hljs-built_in">swap</span>(temp); <span class="hljs-comment">// Commit the work with only non-throwing operations</span><br>	<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>&#125;<br><br><span class="hljs-type">size_t</span> Spreadsheet::Impl::<span class="hljs-built_in">getId</span>() <span class="hljs-type">const</span><br>&#123;<br>	<span class="hljs-keyword">return</span> mId;<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  <strong>嵌套的 Spreadsheet::Impl 类的接口与原来的 Spreadsheet 类的接口完全相同。</strong>但由于 Impl 是 Spreadsheet 的private 嵌套类，因此不能有以下全局友元函数 swap(), 该函数交换两个 Spreadsheet::Impl 对象：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-keyword">friend</span> <span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Spreadsheet::Impl&amp; first, Spreadsheet::Impl&amp; second)</span> <span class="hljs-keyword">noexcept</span></span>;<br></code></pre></td></tr></table></figure>
+
+<p>  相反，为 Spreadsheet::Impl 类定义 private swapo方法，如下所示:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">swap</span><span class="hljs-params">(Impl&amp; other)</span> <span class="hljs-keyword">noexcept</span></span>;<br></code></pre></td></tr></table></figure>
+
+<p>  实现方式十分简单，但需要记住，这是一个嵌套类，因此需要指定 Spreadsheet::Impl::swap(), 而非仅仅指定 Impl::swap()。其他成员同样如此。要了解细节，可查看前面介绍嵌套类的部分，下面是 swapo方法:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-type">void</span> Spreadsheet::Impl::<span class="hljs-built_in">swap</span>(Impl&amp; other) <span class="hljs-keyword">noexcept</span><br>&#123;<br>	<span class="hljs-keyword">using</span> std::swap;<br>	<span class="hljs-built_in">swap</span>(mWidth, other.mWidth);<br>	<span class="hljs-built_in">swap</span>(mHeight, other.mHeight);<br>	<span class="hljs-built_in">swap</span>(mCells, other.mCells);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  注意，Spreadsheet 类有一个指向实现类的 unique_ptr, Spreadsheet 类需要一个用户声明的析构函数。我们不需要对这个析构函数进行任何处理，可在文件中设置&#x3D; defalut 如下所示：</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::-<span class="hljs-built_in">Spreadsheet</span>() = <span class="hljs-keyword">default</span>;<br></code></pre></td></tr></table></figure>
+
+<p>  这说明不仅可在类定义中，也可在实现文件中给特殊成员函数设置&#x3D;defhult。</p>
+<p>  Spreadsheet 方法(例如setCell()和 getCellAt())的实现只是将请求传递给底层的 Impl 对象:</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">Spreadsheet::setCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y, <span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span><br><span class="hljs-function"></span>&#123;<br>	mImpl-&gt;<span class="hljs-built_in">setCellAt</span>(x, y, cell);<br>&#125;<br><span class="hljs-function">SpreadsheetCell&amp; <span class="hljs-title">Spreadsheet::getCellAt</span><span class="hljs-params">(<span class="hljs-type">size_t</span> x, <span class="hljs-type">size_t</span> y)</span></span><br><span class="hljs-function"><span class="hljs-params">(</span></span><br><span class="hljs-params"><span class="hljs-function">    <span class="hljs-keyword">return</span> mImpl-&gt;getCellAt(x, y);</span></span><br><span class="hljs-params"><span class="hljs-function">&#125;</span></span><br></code></pre></td></tr></table></figure>
+
+<p>  Spreadsheet 的构造函数必须创建一个新的 Impl 实例来完成这个任务  :</p>
+  <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs C++">Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> SpreadsheetApplication&amp; theApp,<br>					   <span class="hljs-type">size_t</span> width, <span class="hljs-type">size_t</span> height)<br>&#123;<br>    <span class="hljs-comment">// 利用智能指针分配空间</span><br>	mImpl = std::<span class="hljs-built_in">make_unique</span>&lt;Impl&gt;(theApp, width, height);<br>&#125;<br><br>Spreadsheet::<span class="hljs-built_in">Spreadsheet</span>(<span class="hljs-type">const</span> Spreadsheet&amp; src)<br>&#123;<br>    mImpl = std::<span class="hljs-built_in">make_unique</span>&lt;Impl&gt;(*src.mImpl);<br>&#125;<br></code></pre></td></tr></table></figure>
+
+<p>  解释一下上面的代码：</p>
+<ol>
+<li><code>const Spreadsheets src</code> 是函数参数,表示传入一个 <code>const</code> 引用类型的 <code>Spreadsheet</code> 对象作为数据源。</li>
+<li><code>mImpl</code> 是当前对象的一个数据成员,类型为 <code>std::unique_ptr&lt;Impl&gt;</code>。<code>std::unique_ptr</code> 是 C++11 引入的智能指针,用于自动管理动态分配的内存。</li>
+<li><code>std::make_unique&lt;Impl&gt;(*src.mImpl)</code> 利用 <code>std:;make_unique</code> 在堆上创建一个新的 <code>Impl</code> 实例,并使用 <code>src.mImpl</code> 所指向的对象的值来初始化这个新实例。</li>
+<li>将新创建的 <code>Impl</code> 实例的所有权转移给 <code>mImpl</code>。</li>
+</ol>
+<p>  剩下的代码就不讲了，没什么意思。</p>
+<p>  <strong>总结一下：在 Spreadsheet 中使用嵌套类，将 Impl private 类只能由 Spreadsheet 类获取，然后，再为 Spreadsheet 声明构造函数和析构函数，新的 Spreadsheet 的构造函数的目的是调用 Impl 的构造函数，然后，我们思考该如何对 Impl 进行构造和析构，其实本质上和 Spreadsheet 类之前的一模一样，我们可以将 Impl 类看作是代理，将 Spreadsheet 类的需求通过这样一根智能指针进行传递，从而在 客户和类之间形成一个过渡层。过渡层的传递方式就是，先用 Spreadsheet 中存一个 Impl 的指针用于初始化和访问权限获取，在之后利用的 Impl 本质上就是 Spreadsheet 的实体，而 Spreadsheet 被作为了一个接口类</strong></p>
+<p>  <strong>真正将接口和实现分离的技术功能强大。尽管开始时有点笨拙，但是一旦适应这种技术，就会觉得这么做很自然。然而，在多数工作环境中这并不是常规做法，因此这么做会遇到来自同事的一些阻力。支持这种方法最有力的论据不是将接口分离的美感，而是类的实现改变后大幅缩短构建时间。一个类不使用 pimpl idiom 时，对实现类的更改将触发一个长时间的构建过程。例如，给类定义增加数据成员时，将触发其他所有源文件(包括类定义)的重新构建；而使用 pimpl idiom, 可以修改实现类的定义，只要 public 接口类保持不变，就不会触发长时间的构建过程。</strong></p>
+<p>  <strong>为将实现与接口分离，另一种方法是使用抽象接口以及实现该接口的实现类；抽象接口是只有纯虚方法(pure virtual method)的接口。第 10 章将讨论抽象接口。</strong></p>
+</blockquote>
+<hr>
+<h3 id="9-9本章小结"><a href="#9-9本章小结" class="headerlink" title="9.9本章小结"></a>9.9本章小结</h3><blockquote>
+<p>  没啥说的，就是一句话，上面的<strong>零规则</strong>在那里放着，这些只要能看懂，大致会用就可以了。</p>
+<p>  其中，还有一些不是特别理解的，主要是常量引用相关的，但是之后会补上去。以及对 一些为安全而进行的函数书写方式，理解不深，比如 swap() 等。之后注意再复查一遍，仔细想象已经就可以理解了。</p>
+</blockquote>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/%E7%BC%96%E7%A8%8B/" class="print-no-link">#编程</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>C++ 复习教程第九章（精通类与对象）</div>
+      <div>http://example.com/2024/03/14/C++ 复习教程第九章（精通类与对象）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>yanhuigang</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2024年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E5%8F%AF%E9%87%8D%E7%94%A8%E4%BB%A3%E7%A0%81%EF%BC%89/" title="C++ 复习教程第六章（设计可重用代码）">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">C++ 复习教程第六章（设计可重用代码）</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%B8%80%E7%AB%A0%EF%BC%88%E9%AB%98%E7%BA%A7%E7%BC%96%E7%A8%8B%EF%BC%89/" title="C++ 复习教程第一章（C++ 和标准库速成）">
+                        <span class="hidden-mobile">C++ 复习教程第一章（C++ 和标准库速成）</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/4.3.1/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
