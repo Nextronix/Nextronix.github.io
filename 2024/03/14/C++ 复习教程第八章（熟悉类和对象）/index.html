@@ -23,15 +23,15 @@
 <meta property="og:site_name" content="yanhuigang&#39;s blog">
 <meta property="og:description" content="第8章 —— 熟悉类和对象 作为面向对象语言，C++ 提供了使用对象和定义对象的工具，称为类。 编写没有类的 C++ 程序就像去巴黎吃麦当劳一样。 类是 C++ 中最基本、最有用的特性。 本章讲述与类和对象的使用有关的基本概念，包括编写类定义、定义方法、在堆和堆栈中使用对象，以及编写构造函数、默认构造函数、编译器生成的构造函数、构造函数初始化器(称为 ctor-initialize())、复制构造">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://s2.loli.net/2024/02/25/Lvo4ErQOS3s5RFb.png">
-<meta property="og:image" content="https://s2.loli.net/2024/02/26/X2YDxTJpBOiyEwf.png">
-<meta property="og:image" content="https://s2.loli.net/2024/02/26/rVSMPiFjDExesdO.png">
+<meta property="og:image" content="d:/tem/Lvo4ErQOS3s5RFb.png">
+<meta property="og:image" content="d:/tem/X2YDxTJpBOiyEwf.png">
+<meta property="og:image" content="d:/tem/rVSMPiFjDExesdO.png">
 <meta property="article:published_time" content="2024-03-14T10:18:20.000Z">
-<meta property="article:modified_time" content="2024-03-15T12:22:52.815Z">
+<meta property="article:modified_time" content="2024-03-15T13:01:06.603Z">
 <meta property="article:author" content="yanhuigang">
 <meta property="article:tag" content="编程">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://s2.loli.net/2024/02/25/Lvo4ErQOS3s5RFb.png">
+<meta name="twitter:image" content="d:/tem/Lvo4ErQOS3s5RFb.png">
   
   
   
@@ -328,7 +328,7 @@
 <p><strong>下表给出了三种访问说明符的含义：</strong></p>
 <p><strong>私密性强到弱：	private &gt; protected &gt; public</strong></p>
 <p><strong>友元可以破坏这种私密性，使得 上述成员都可访问；</strong></p>
-<p><img src="https://s2.loli.net/2024/02/25/Lvo4ErQOS3s5RFb.png" srcset="/img/loading.gif" lazyload alt="image-20240225032900275"></p>
+<p><img src="D:/tem/Lvo4ErQOS3s5RFb.png" srcset="/img/loading.gif" lazyload alt="image-20240225032900275"></p>
 </blockquote>
 </li>
 <li><p>声明顺序：</p>
@@ -373,7 +373,7 @@
 
 <p>明显上述代码存在歧义，而这个歧义一般情况下，会编译成功，而且不会有任何警告或错误信息，但得到的结果绝对不是我们所期望看到的。</p>
 <p>未避免歧义，就可以使用 this 指针：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SpreadsheetCell::setValue</span><span class="hljs-params">(<span class="hljs-type">double</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">this</span>-&gt;value = value;<br>&#125;<br>   <br><span class="hljs-comment">// 然而，如果遵循第 3 章所讲述的命名规则，那么永远不会遇到这样的问题</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">SpreadsheetCell::setValue</span><span class="hljs-params">(<span class="hljs-type">double</span> value)</span></span><br><span class="hljs-function"></span>&#123;<br>    <span class="hljs-keyword">this</span>-&gt;value = value;<br>&#125;<br>      <br><span class="hljs-comment">// 然而，如果遵循第 3 章所讲述的命名规则，那么永远不会遇到这样的问题</span><br></code></pre></td></tr></table></figure>
 
 <p>如果方法的某个对象调用了某个函数(或方法)，而这个函数采用指向对象的指针作为参数，就可以使用 this 指针调用这个函数。例如，假定编写了一个独立的 printCell() 函数(不是方法)，如下所示：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-function"><span class="hljs-type">void</span> <span class="hljs-title">printCell</span><span class="hljs-params">(<span class="hljs-type">const</span> SpreadsheetCell&amp; cell)</span></span><br><span class="hljs-function"></span>&#123;<br>	std::cout &lt;&lt; cell.<span class="hljs-built_in">getCell</span>() &lt;&lt; std::endl;<br>&#125;<br></code></pre></td></tr></table></figure>
@@ -468,7 +468,7 @@
 </li>
 <li><p>在堆中使用构造函数</p>
 <p>当动态分配 SpreadsheetCell 对象时，可这样使用构造函数：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">auto</span> smartCellp = <span class="hljs-built_in">make_unique</span>&lt;SpreadsheetCell&gt;(<span class="hljs-number">4</span>);<br><span class="hljs-comment">// ... do something with the cell, no need to delete the smart pointer.</span><br>  <br><span class="hljs-comment">// Or with raw pointers, without smart pointers (not recommended)</span><br>SpreadsheetCell* myCellp = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-number">5</span>);<br>SpreadsheetCell* anotherCellp = <span class="hljs-literal">nullptr</span>;<br>anotherCellp = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-number">4</span>);<br><span class="hljs-comment">// ... do something with the cells</span><br><span class="hljs-keyword">delete</span> myCellp;<br>myCellp = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-keyword">delete</span> anotherCellp;<br>anotherCellp = <span class="hljs-literal">nullptr</span>;<br>  <br><span class="hljs-comment">// 注意可以声明一个指向 SpreadsheetCell 对象的指针，而不立即调用构造函数。堆栈中对象在声明时会调用构造函数</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-keyword">auto</span> smartCellp = <span class="hljs-built_in">make_unique</span>&lt;SpreadsheetCell&gt;(<span class="hljs-number">4</span>);<br><span class="hljs-comment">// ... do something with the cell, no need to delete the smart pointer.</span><br>    <br><span class="hljs-comment">// Or with raw pointers, without smart pointers (not recommended)</span><br>SpreadsheetCell* myCellp = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-number">5</span>);<br>SpreadsheetCell* anotherCellp = <span class="hljs-literal">nullptr</span>;<br>anotherCellp = <span class="hljs-keyword">new</span> <span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-number">4</span>);<br><span class="hljs-comment">// ... do something with the cells</span><br><span class="hljs-keyword">delete</span> myCellp;<br>myCellp = <span class="hljs-literal">nullptr</span>;<br><span class="hljs-keyword">delete</span> anotherCellp;<br>anotherCellp = <span class="hljs-literal">nullptr</span>;<br>    <br><span class="hljs-comment">// 注意可以声明一个指向 SpreadsheetCell 对象的指针，而不立即调用构造函数。堆栈中对象在声明时会调用构造函数</span><br></code></pre></td></tr></table></figure>
 
 <p>无论在堆栈中(在函数中)还是在类中(作为类的数据成员)声明指针，如果没有立即初始化指针，都应该像前面声明 anotherCellp 时一样，先将其初始化为 nullptr。如果不赋予 nullptr 值，指针就是未定义。意外地使用未定义的指针可能会导致无法预料的、难以诊断的内存问题。如果将指针初始化为 nullptr，在大多数操作环境下使用这个指针，都会引起内存访问错误，而不是难以预料的结果。</p>
 <p>同样，要记得使用 new 动态分配的对象使用 delete，或者使用智能指针。</p>
@@ -572,7 +572,7 @@
 <p>注意：</p>
 <p>​	ctor-initializer 允许在创建数据成员时，执行初始化。</p>
 <p>某些程序员喜欢在构造函数中提供初始值(即使这样做效率不高)。然而，某些数据类型必须在 ctor-initializer 中或使用类内初始器进行初始化。如下图所示：</p>
-<p><img src="https://s2.loli.net/2024/02/26/X2YDxTJpBOiyEwf.png" srcset="/img/loading.gif" lazyload alt="image-20240226103931273"></p>
+<p><img src="D:/tem/X2YDxTJpBOiyEwf.png" srcset="/img/loading.gif" lazyload alt="image-20240226103931273"></p>
 <p>关于 ctor-initializer 要特别要注意，数据成员的初始化顺序为：按照它们在类定义中出现的顺序，而不是 ctor-initializer 中顺序。考虑下面的两个不同顺序造成的编译正确和错误的差异：</p>
 <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><code class="hljs C++"><span class="hljs-comment">// 正确顺序：</span><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">Foo</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">Foo</span>(<span class="hljs-type">double</span> value);<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-type">double</span> mValue;<br>&#125;;<br><br>Foo::<span class="hljs-built_in">Foo</span>(<span class="hljs-type">double</span> value) : <span class="hljs-built_in">mValue</span>(value)<br>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;Foo::mValue = &quot;</span> &lt;&lt; mValue &lt;&lt; std::endl;<br>&#125;<br><br><span class="hljs-keyword">class</span> <span class="hljs-title class_">MyCalss</span><br>&#123;<br><span class="hljs-keyword">public</span>:<br>    <span class="hljs-built_in">MyClass</span>(<span class="hljs-type">double</span> value);<br><br><span class="hljs-keyword">private</span>:<br>    <span class="hljs-type">double</span> mValue;<br>    Foo mFoo;<br>&#125;;<br><br>MyClass::<span class="hljs-built_in">MyClass</span>(<span class="hljs-type">double</span> value) : <span class="hljs-built_in">mValue</span>(value), <span class="hljs-built_in">mFoo</span>(mValue)<br>&#123;<br>    std::cout &lt;&lt; <span class="hljs-string">&quot;MyClass::mValue = &quot;</span> &lt;&lt; mValue &lt;&lt; std::endl;<br>&#125;<br><span class="hljs-comment">// 首先，看 private 中的数据成员，这决定了初始化赋值的顺序：先 mValue, 再 mFoo;</span><br><span class="hljs-comment">// 其次，看 MyClass 的初始化器，将 mValue 初始化为 value， 然后将 mValue 传递给 mFoo 类型，进而调用其含参构造函数</span><br></code></pre></td></tr></table></figure>
 
@@ -630,7 +630,7 @@
 </li>
 <li><p><strong>总结编译器生成的构造函数</strong></p>
 <p><strong>编译器为每个类自动生成没有参数的构造函数和复制构造函数。然而，编译器自动生成的构造函数取决于你自己定义的构造函数，对应规则如下：</strong></p>
-<p><img src="https://s2.loli.net/2024/02/26/rVSMPiFjDExesdO.png" srcset="/img/loading.gif" lazyload alt="image-20240226134735142"></p>
+<p><img src="D:/tem/rVSMPiFjDExesdO.png" srcset="/img/loading.gif" lazyload alt="image-20240226134735142"></p>
 <p><strong>注意：默认构造函数和复制构造函数之间缺少对称性。</strong></p>
 <ul>
 <li><p><strong>只要没有显式定义复制构造函数，编译器就会自动生成一个。</strong></p>
@@ -756,7 +756,7 @@
 
 <p>复制构造函数的函数体内对数据成员赋值时，使用的是赋值运算符而不是复制构造符，因为他们已经初始化了，就像前面讲述的那样。</p>
 <p>如果编写如下代码复制构造函数，则使用复制构造函数初始化 mValue：</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++">SpreadsheetCell::<span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-type">const</span> SpreadsheetCell&amp; src)<br> : <span class="hljs-built_in">mValue</span>(src.mValue)<br>&#123;<br>   <br>&#125;<br></code></pre></td></tr></table></figure></li>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C++">SpreadsheetCell::<span class="hljs-built_in">SpreadsheetCell</span>(<span class="hljs-type">const</span> SpreadsheetCell&amp; src)<br> : <span class="hljs-built_in">mValue</span>(src.mValue)<br>&#123;<br>      <br>&#125;<br></code></pre></td></tr></table></figure></li>
 </ol>
 </blockquote>
 <hr>
@@ -833,9 +833,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E4%BA%94%E7%AB%A0%EF%BC%88%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E8%AE%BE%E8%AE%A1%EF%BC%89/" title="C++ 复习教程第五章（面向对象设计）">
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E5%8F%AF%E9%87%8D%E7%94%A8%E4%BB%A3%E7%A0%81%EF%BC%89/" title="C++ 复习教程第六章（设计可重用代码）">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">C++ 复习教程第五章（面向对象设计）</span>
+                        <span class="hidden-mobile">C++ 复习教程第六章（设计可重用代码）</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -843,8 +843,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%85%AD%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E5%8F%AF%E9%87%8D%E7%94%A8%E4%BB%A3%E7%A0%81%EF%BC%89/" title="C++ 复习教程第六章（设计可重用代码）">
-                        <span class="hidden-mobile">C++ 复习教程第六章（设计可重用代码）</span>
+                      <a href="/2024/03/14/C++%20%E5%A4%8D%E4%B9%A0%E6%95%99%E7%A8%8B%E7%AC%AC%E5%9B%9B%E7%AB%A0%EF%BC%88%E8%AE%BE%E8%AE%A1%E4%B8%93%E4%B8%9A%E7%9A%84%20C++%20%E7%A8%8B%E5%BA%8F%EF%BC%89/" title="C++ 复习教程第三章（设计专业的 C++ 程序）">
+                        <span class="hidden-mobile">C++ 复习教程第三章（设计专业的 C++ 程序）</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
